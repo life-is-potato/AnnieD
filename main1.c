@@ -80,12 +80,21 @@ if(screen==NULL)return -1;
 
 
 while(boucle){
+
+    //commentaires en français pour Skander <3
+
     starttime=SDL_GetTicks();
     players_get_inputs(&p1,&p2,&boucle);
+
+    //Execute la logique des joueurs et des ennemis, et met à jour la position de la camera
+
     player_step(&p1,cam,tm,size);
     player_step(&p2,cam,tm,size);
-    enemy_step(&urmom,cam);
+    enemy_step(&urmom,cam,tm,size);
     update_camera(p1.sprite,p2.sprite,&cam);
+    
+    //Dessine les arrière-plans, les ennemis, les joueurs, et les objets
+
     bg.pos.x=-(cam.x-SCREEN_W/2);
     bg.pos.y=-(cam.y-SCREEN_H/2);
     SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
@@ -97,6 +106,9 @@ while(boucle){
     player_draw(p2,screen,cam);
     enemy_draw(urmom,screen,cam);
     SDL_BlitSurface(mm.img.image, NULL, screen, &dummy.pos);
+
+    //Dessine la minimap
+
     update_miniplayer(&mm,&mp, &p1, screen);
     update_miniplayer(&mm,&mp2, &p2, screen);
     update_minienemy(&mm,&me,&urmom,screen);

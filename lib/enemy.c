@@ -48,8 +48,28 @@ void enemy_calculate_speed(enemy* p){
     if(abs(p->x_spd)>p->wlk_spd)p->x_spd = p->direction* p->wlk_spd;
 }
 
-int enemy_check_collision(enemy* p,camera cam){
-    if(p->y_spd+p->sprite.pos.y>GROUND){
+int enemy_check_collision(enemy* p,camera cam,int size, img* tiles){
+    int i=0;
+    SDL_Rect pl=p->sprite.pos;
+    pl.h=p->frame_height;
+    pl.w=p->frame_width;
+    for(i=1;i<=size;i++){
+    tiles[i].pos.w= tiles[i].image->w;
+    tiles[i].pos.h= tiles[i].image->h;
+    if (rect_meeting(p->x_spd+p->sprite.pos.x,p->sprite.pos.y,pl,tiles[i].pos)){
+        if(tiles[i].pos.x>pl.x)p->sprite.pos.x=tiles[i].pos.x-p->frame_width;
+        else p->sprite.pos.x=tiles[i].pos.x+tiles[i].pos.w;
+        p->x_spd=0;
+        p->sprite.pos.x+=p->x_spd;
+    }
+    if (rect_meeting(p->sprite.pos.x,p->y_spd+p->sprite.pos.y,pl,tiles[i].pos)){
+        if(tiles[i].pos.y>pl.y)p->sprite.pos.y=tiles[i].pos.y-p->frame_height;
+        else p->sprite.pos.y=tiles[i].pos.y+tiles[i].pos.h;
+        p->y_spd=0;
+        p->sprite.pos.y+=p->y_spd;
+    }
+}
+    /*if(p->y_spd+p->sprite.pos.y>GROUND){
         p->sprite.pos.y=GROUND;
         p->y_spd=0;
     }
@@ -66,7 +86,7 @@ int enemy_check_collision(enemy* p,camera cam){
         p->sprite.pos.x=0;
         p->x_spd=0;
         p->direction=-p->direction;
-    }
+    }*/
 }
 
 void enemy_pos_update(enemy* p){
@@ -74,9 +94,9 @@ void enemy_pos_update(enemy* p){
     p->sprite.pos.y+=p->y_spd;
 }
 
-void enemy_step(enemy* p, camera cam){
+void enemy_step(enemy* p, camera cam, img* tiles, int size){
     enemy_calculate_speed(p);
-    enemy_check_collision(p,cam);
+    enemy_check_collision(p,cam, size, tiles);
     enemy_pos_update(p);
     enemy_animate(p);
 }

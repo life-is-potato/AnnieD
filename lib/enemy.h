@@ -24,11 +24,11 @@ void enemy_calculate_direction(enemy* e);
 
 void enemy_calculate_speed(enemy* p);
 
-int enemy_check_collision(enemy* e, camera cam);
+int enemy_check_collision(enemy* p,camera cam,int size, img* tiles);
 
 void enemy_pos_update(enemy* p);
 
-void enemy_step(enemy* p, camera cam);
+void enemy_step(enemy* p, camera cam, img* tiles, int size);
 
 void enemy_animate(enemy* p);
 
