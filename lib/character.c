@@ -108,11 +108,12 @@ void player_create2(player *p,char* spritesheet){
 int player_jump(player* p){
     if(p->canjump>=1 && p->jump.pressed && p->jump.released)
     {
+        
         p->jump.pressed=0;
         p->jump.released=0;
         if(p->jump.released==0)p->jumping=1;
         p->canjump-=1;
-        p->y_spd=0;
+        //p->y_spd=0;
     }
 
     if(p->jumping){
@@ -120,7 +121,7 @@ int player_jump(player* p){
         if(p->jumping>=16 || p->jump.released) p->jumping=0;
         return(1);
     }
-    else return(0);
+    else {return(0);}
 }
 
 int player_dash(player* p){
@@ -133,7 +134,6 @@ int player_dash(player* p){
     else{
         p->x_spd=p->dashdirx*sqrt((p->dash_spd*p->dash_spd)/2);
         p->y_spd=p->dashdiry*sqrt((p->dash_spd*p->dash_spd)/2);
-
     }
     p->dashing-=1;
     if(p->dashing==0 && p->sprite.pos.y!=GROUND){p->candash=0;if(p->y_spd<0)p->y_spd=-4 ;}
@@ -154,7 +154,7 @@ void player_calculate_speed(player* p){
     if(player_dash(p));
     else{
     if(abs(p->x_spd)>0.1)p->x_spd*=0.8;
-    else p->x_spd=0;
+    else {p->x_spd=0;}
     p->direction=p->right.pressed - p->left.pressed;
     if (p->direction!=0) p->facing=p->direction;
     p->x_spd+=(p->direction * p->wlk_spd)/3;
@@ -188,12 +188,14 @@ for(i=1;i<=size;i++){
     tiles[i].pos.w= tiles[i].image->w;
     tiles[i].pos.h= tiles[i].image->h;
     if (rect_meeting(p->x_spd+p->sprite.pos.x,p->sprite.pos.y,pl,tiles[i].pos)){
+        if(p->dashing){p->dashing=0;p->candash=0;}
         if(tiles[i].pos.x>pl.x)p->sprite.pos.x=tiles[i].pos.x-p->frame_width;
         else p->sprite.pos.x=tiles[i].pos.x+tiles[i].pos.w;
         p->x_spd=0;
         p->sprite.pos.x+=p->x_spd;
     }
     if (rect_meeting(p->sprite.pos.x,p->y_spd+p->sprite.pos.y,pl,tiles[i].pos)){
+        if(p->dashing){p->dashing=0;p->candash=0;}
         if(tiles[i].pos.y>pl.y)p->sprite.pos.y=tiles[i].pos.y-p->frame_height;
         else p->sprite.pos.y=tiles[i].pos.y+tiles[i].pos.h;
         if(p->y_spd>0){
@@ -297,11 +299,18 @@ void player_animate(player* p){
 void player_draw(player p, SDL_Surface* screen, camera cam){
     p.sprite.pos.x-=cam.x-SCREEN_W/2;
     p.sprite.pos.y-=cam.y-SCREEN_H/2;
+    if(p.x_spd>0)SDL_BlitSurface(p.sprite.image,&p.framepos,screen,&p.sprite.pos);
+    else if(p.x_spd<0){
+        p.sprite.pos.x-=10;
+        SDL_BlitSurface(p.spritemirrored.image,&p.framepos,screen,&p.sprite.pos);
+    }
+    else{
     if(p.facing!=-1)SDL_BlitSurface(p.sprite.image,&p.framepos,screen,&p.sprite.pos);
     else {
         p.sprite.pos.x-=10;
         SDL_BlitSurface(p.spritemirrored.image,&p.framepos,screen,&p.sprite.pos);
         }
+    }
 }
 
 int player_collide(player p, img i){

@@ -91,7 +91,7 @@ while(boucle){
     player_step(&p1,cam,tm,size);
     player_step(&p2,cam,tm,size);
     enemy_step(&urmom,cam,tm,size);
-    update_camera(p1.sprite,p2.sprite,&cam);
+    update_camera(p1.sprite,p2.sprite,&cam); 
     
     //Dessine les arrière-plans, les ennemis, les joueurs, et les objets
 
