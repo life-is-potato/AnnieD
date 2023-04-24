@@ -15,10 +15,10 @@ int main(){
 SDL_Surface* screen;
 SDL_Event event;
 int boucle=1;
-char* spritesheet1="img/Potato_walking-export.png";
-char* spritesheet2="img/Potato_walking-export.png";
-char* minimappath="smol_bg.png";
-char* miniplayerpath="smol.png";
+static char* spritesheet1="img/Potato_walking-export.png";
+static char* spritesheet2="img/Potato_walking-export.png";
+static char* minimappath="smol_bg.png";
+static char* miniplayerpath="smol.png";
 camera cam;
 cam.x=0;
 cam.y=0;
