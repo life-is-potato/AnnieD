@@ -8,7 +8,7 @@
 #include "lib/text.h"
 #include "lib/functions.h"
 #include "lib/mini.h"
-#include "lot2/bg.h"
+#include "lib/bg.h"
 //#include "lib/enemy.h"
 #define MAX_FPS 60
 int main(){
@@ -17,8 +17,8 @@ SDL_Event event;
 int boucle=1;
 static char* spritesheet1="img/Potato_walking-export.png";
 static char* spritesheet2="img/Potato_walking-export.png";
-static char* minimappath="smol_bg.png";
-static char* miniplayerpath="smol.png";
+static char* minimappath="img/smol_bg.png";
+static char* miniplayerpath="img/smol.png";
 camera cam;
 cam.x=0;
 cam.y=0;
@@ -43,9 +43,9 @@ if(init()==-1){
 TTF_Init();
 txt frm,frm2,frm3;
 char xspd[20],yspd[20],frames[20];
-load_txt(&frm,100,100,0,0,0,"pixel_arial.ttf",20);
-load_txt(&frm2,100,150,0,0,0,"pixel_arial.ttf",20);
-load_txt(&frm3,100,200,0,0,0,"pixel_arial.ttf",20);
+load_txt(&frm,100,100,0,0,0,"fonts/pixel_arial.ttf",20);
+load_txt(&frm2,100,150,0,0,0,"fonts/pixel_arial.ttf",20);
+load_txt(&frm3,100,200,0,0,0,"fonts/pixel_arial.ttf",20);
 load_txt(&timertxt, 10, 10, 0, 255, 0, "fonts/pixel_arial.ttf", 50);
 screen=SDL_SetVideoMode(SCREEN_W,SCREEN_H,32,SDL_SWSURFACE|SDL_DOUBLEBUF);
 init_minimap(&mm, minimappath,screen);
@@ -68,13 +68,13 @@ enemy urmom;
 };*/
 static img tm[50];
 int size=0;
-parse_tiles("map.txt",tm,&size);
+parse_tiles("txt_files/map.txt",tm,&size);
 enemy_create(&urmom,spritesheet1);
-load_img(&bg,"lot2/background.jpg",0,0);
-load_img(&dummy,"lot2/background.jpg",0,0);
-load_img(&nothing,"void.png",-1000,-1000);
+load_img(&bg,"img/background.jpg",0,0);
+load_img(&dummy,"img/background.jpg",0,0);
+load_img(&nothing,"img/void.png",-1000,-1000);
 img car;
-load_img(&car,"lot2/object.png",100,100);
+load_img(&car,"img/object.png",100,100);
 int k=0;
 if(screen==NULL)return -1;
 

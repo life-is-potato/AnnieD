@@ -1,6 +1,3 @@
-*.o
 .vscode
-obj
-AnnieD
+build
 img/bandit_sprites
-prog
