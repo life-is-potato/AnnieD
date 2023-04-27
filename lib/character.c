@@ -437,7 +437,7 @@ void display_sprite(SDL_Surface *screen, img i, camera cam)
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
-void *parse_tiles(char *map, img *tab, int *size)
+void parse_tiles(char *map, img *tab, int *size)
 {
     int i = -1, j = 0;
     char n;

@@ -71,6 +71,6 @@ int player_collide(player p, img i);
 
 void display_sprite(SDL_Surface *screen, img i, camera cam);
 
-void *parse_tiles(char *map, img *tab, int *size);
+void parse_tiles(char *map, img *tab, int *size);
 
 void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size);
