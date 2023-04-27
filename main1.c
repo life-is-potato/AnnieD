@@ -11,6 +11,7 @@
 #include "lot2/bg.h"
 // #include "lib/enemy.h"
 #define MAX_FPS 60
+
 int main()
 {
     SDL_Surface *screen;
@@ -21,8 +22,6 @@ int main()
     static char *minimappath = "smol_bg.png";
     static char *miniplayerpath = "smol.png";
     camera cam;
-    cam.x = 0;
-    cam.y = 0;
     minimap mm;
     miniplayer mp, mp2, me;
     player p1, p2;
@@ -33,6 +32,15 @@ int main()
     float wait;
     float deltat;
     Uint32 time = 0;
+    save savefile={0,100,100,400,100};
+    FILE* f=fopen("save.bin","rb");
+    time = 0;
+    if(f!=NULL){
+        fread(&savefile, sizeof(save),1,f);
+        fclose(f);
+    }
+    cam.x = (savefile.x1+savefile.x2)/2-SCREEN_W/2;
+    cam.y = (savefile.y1+savefile.y2)/2-SCREEN_H/2;
 
     // Intializing SDL
     if (init() == -1)
@@ -42,7 +50,6 @@ int main()
 
     TTF_Init();
     txt frm, frm2, frm3;
-    char xspd[20], yspd[20], frames[20];
     load_txt(&frm, 100, 100, 0, 0, 0, "pixel_arial.ttf", 20);
     load_txt(&frm2, 100, 150, 0, 0, 0, "pixel_arial.ttf", 20);
     load_txt(&frm3, 100, 200, 0, 0, 0, "pixel_arial.ttf", 20);
@@ -52,8 +59,8 @@ int main()
     init_miniplayer(&mp, miniplayerpath);
     init_miniplayer(&mp2, miniplayerpath);
     init_miniplayer(&me, miniplayerpath);
-    player_create(&p1, spritesheet1);
-    player_create2(&p2, spritesheet2);
+    player_create(&p1, spritesheet1,savefile);
+    player_create2(&p2, spritesheet2,savefile);
     enemy urmom;
     /*char tab[9][9]={
         {1,1,1,1,1,1,1,1,1},
@@ -113,13 +120,24 @@ int main()
         update_miniplayer(&mm, &mp, &p1, screen);
         update_miniplayer(&mm, &mp2, &p2, screen);
         update_minienemy(&mm, &me, &urmom, screen);
-        update_time(0, &mm, &time, &timertxt, screen);
+        update_time(0, &mm, &time, &timertxt, screen, savefile);
         SDL_Flip(screen);
         endtime = SDL_GetTicks();
         deltat = (endtime - starttime) / (float)1000;
         wait = ((float)1 / (float)MAX_FPS) - deltat;
         if (wait > 0)
             SDL_Delay(1000 * wait);
+    }
+    savefile.time=SDL_GetTicks()+savefile.time;
+    savefile.x1=p1.sprite.pos.x;
+    savefile.x2=p2.sprite.pos.x;
+    savefile.y1=p1.sprite.pos.y;
+    savefile.y2=p2.sprite.pos.y;
+    printf("%d %d %d %d",savefile.x1,savefile.y1,savefile.time,time);
+    f=fopen("save.bin","wb");
+    if(f!=NULL){
+        fwrite(&savefile,sizeof(save),1,f);
+        fclose(f);
     }
     SDL_FreeSurface(screen);
     free_img(bg);
