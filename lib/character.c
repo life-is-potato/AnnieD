@@ -200,7 +200,7 @@ void player_calculate_speed(player *p)
     {
         p->jumping = 0;
         // p->canjump-=1;
-        p->dashing = 15;
+        p->dashing = 10;
         p->dashdirx = p->right.pressed - p->left.pressed;
         p->dashdiry = p->down.pressed - p->up.pressed;
         if (!p->dashdiry)
