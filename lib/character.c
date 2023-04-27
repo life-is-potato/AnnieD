@@ -83,10 +83,10 @@ void players_get_inputs(player *p1, player *p2, int *boucle)
     }
 }
 
-void player_create(player *p, char *spritesheet)
+void player_create(player *p, char *spritesheet,save savefile)
 {
-    load_img(&p->sprite, spritesheet, 100, 100);
-    load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", 200, 200);
+    load_img(&p->sprite, spritesheet, savefile.x1, savefile.y1);
+    load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", savefile.x1, savefile.y1);
     p->jump_spd = -7;
     p->canjump = 99999;
     p->key.jump = SDLK_w;
@@ -111,10 +111,10 @@ void player_create(player *p, char *spritesheet)
     p->frames = 0;
 }
 
-void player_create2(player *p, char *spritesheet)
+void player_create2(player *p, char *spritesheet, save savefile)
 {
-    load_img(&p->sprite, spritesheet, 400, 100);
-    load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", 400, 100);
+    load_img(&p->sprite, spritesheet, savefile.x2, savefile.y2);
+    load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", savefile.x2, savefile.y2);
     p->jump_spd = -7;
     p->canjump = 99999;
     p->key.jump = SDLK_j;
@@ -200,7 +200,7 @@ void player_calculate_speed(player *p)
     {
         p->jumping = 0;
         // p->canjump-=1;
-        p->dashing = 15;
+        p->dashing = 10;
         p->dashdirx = p->right.pressed - p->left.pressed;
         p->dashdiry = p->down.pressed - p->up.pressed;
         if (!p->dashdiry)
@@ -437,7 +437,7 @@ void display_sprite(SDL_Surface *screen, img i, camera cam)
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
-img *parse_tiles(char *map, img *tab, int *size)
+void parse_tiles(char *map, img *tab, int *size)
 {
     int i = -1, j = 0;
     char n;

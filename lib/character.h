@@ -4,6 +4,11 @@
 #include <SDL/SDL_ttf.h>
 #define GROUND 300
 
+typedef struct {
+    Uint32 time;
+    int x1,y1,x2,y2;
+}save;
+
 typedef struct
 {
     int x, y;
@@ -46,9 +51,9 @@ void players_get_inputs(player *p1, player *p2, int *boucle);
 
 void player_import_controls(player *p, char *url);
 
-void player_create(player *p, char *spritesheet);
+void player_create(player *p, char *spritesheet, save savefile);
 
-void player_create2(player *p, char *spritesheet);
+void player_create2(player *p, char *spritesheet, save savefile);
 
 void player_calculate_speed(player *p);
 
@@ -66,6 +71,6 @@ int player_collide(player p, img i);
 
 void display_sprite(SDL_Surface *screen, img i, camera cam);
 
-img *parse_tiles(char *map, img *tab, int *size);
+void parse_tiles(char *map, img *tab, int *size);
 
 void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size);
