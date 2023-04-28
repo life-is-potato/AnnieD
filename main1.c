@@ -77,11 +77,11 @@ int main()
     int size = 0;
     parse_tiles("map.txt", tm, &size);
     enemy_create(&urmom, spritesheet1);
-    load_img(&bg, "lot2/background.jpg", 0, 0);
-    load_img(&dummy, "lot2/background.jpg", 0, 0);
+    load_img(&bg, "img/background.jpg", 0, 0);
+    load_img(&dummy, "img/background.jpg", 0, 0);
     load_img(&nothing, "void.png", -1000, -1000);
     img car;
-    load_img(&car, "lot2/object.png", 100, 100);
+    load_img(&car, "img/object.png", 100, 100);
     int k = 0;
     if (screen == NULL)
         return -1;

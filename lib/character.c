@@ -2,6 +2,7 @@
 #include "character.h"
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 void update_camera(img img1, img img2, camera *cam)
 {
@@ -59,6 +60,7 @@ void players_get_inputs(player *p1, player *p2, int *boucle)
                 p1->left.pressed = 0;
             if (event.key.keysym.sym == p1->key.dash)
                 p1->dash.pressed = 0;
+                p1->dash.released=1;
             if (event.key.keysym.sym == p1->key.up)
                 p1->up.pressed = 0;
             if (event.key.keysym.sym == p1->key.down)
@@ -75,6 +77,7 @@ void players_get_inputs(player *p1, player *p2, int *boucle)
                 p2->left.pressed = 0;
             if (event.key.keysym.sym == p2->key.dash)
                 p2->dash.pressed = 0;
+                p2->dash.released=1;
             if (event.key.keysym.sym == p2->key.up)
                 p2->up.pressed = 0;
             if (event.key.keysym.sym == p2->key.down)
@@ -89,14 +92,15 @@ void player_create(player *p, char *spritesheet,save savefile)
     load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", savefile.x1, savefile.y1);
     p->jump_spd = -7;
     p->canjump = 99999;
-    p->key.jump = SDLK_w;
+    p->key.jump = SDLK_KP1;
     p->key.right = SDLK_RIGHT;
     p->key.left = SDLK_LEFT;
     p->key.up = SDLK_UP;
     p->key.down = SDLK_DOWN;
-    p->key.dash = SDLK_c;
+    p->key.dash = SDLK_KP2;
     p->facing = 1;
     p->jump.released = 1;
+    p->dash.released=1;
     p->dash_spd = 12;
     p->wlk_spd = 4;
     p->jumping = 0;
@@ -125,6 +129,7 @@ void player_create2(player *p, char *spritesheet, save savefile)
     p->key.dash = SDLK_k;
     p->facing = 1;
     p->jump.released = 1;
+    p->dash.released=1;
     p->dash_spd = 12;
     p->wlk_spd = 4;
     p->jumping = 0;
@@ -196,7 +201,7 @@ int player_dash(player *p)
 
 void player_calculate_speed(player *p)
 {
-    if (p->dash.pressed && p->candash && !p->dashing)
+    if (p->dash.pressed && p->dash.released && p->candash && !p->dashing)
     {
         p->jumping = 0;
         // p->canjump-=1;
@@ -205,6 +210,8 @@ void player_calculate_speed(player *p)
         p->dashdiry = p->down.pressed - p->up.pressed;
         if (!p->dashdiry)
             p->dashdirx = p->facing;
+        p->dash.pressed=0;
+        p->dash.released =0;
     }
     if (player_dash(p))
         ;
@@ -286,6 +293,9 @@ void player_check_collision(player *p, camera cam, img *tiles, int size)
                 p->canjump = 2;
                 p->candash = 1;
             }
+            else if(p->y_spd<0){
+                p->jumping=0;
+            }
             p->y_spd = 0;
             p->sprite.pos.y += p->y_spd;
         }
@@ -326,7 +336,7 @@ void player_step(player *p, camera cam, img *tiles, int size)
 
 void player_animate(player *p)
 {
-    if (p->dashing >= 12)
+    if (p->dashing >= 4)
     {
         p->framepos.x = 0;
         p->framepos.y = 96;
@@ -439,6 +449,7 @@ void display_sprite(SDL_Surface *screen, img i, camera cam)
 
 void parse_tiles(char *map, img *tab, int *size)
 {
+    srand(time);
     int i = -1, j = 0;
     char n;
     FILE *f = fopen(map, "r");
@@ -452,6 +463,10 @@ void parse_tiles(char *map, img *tab, int *size)
                 *size += 1;
                 load_img(&tab[*size], "wall.png", i * 53, j * 50);
             }
+            /*else if (n == '0' && random()%50==0){
+                *size += 1;
+                load_img(&tab[*size], "wall.png", i * 53, j * 50);    
+            }*/
             else if (n == 'q')
             {
                 i = -1;
