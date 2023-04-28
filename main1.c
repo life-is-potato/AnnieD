@@ -8,7 +8,7 @@
 #include "lib/text.h"
 #include "lib/functions.h"
 #include "lib/mini.h"
-#include "lot2/bg.h"
+#include "lib/bg.h"
 // #include "lib/enemy.h"
 #define MAX_FPS 60
 

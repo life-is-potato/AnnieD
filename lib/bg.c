@@ -3,11 +3,11 @@
 #include <SDL/SDL_mixer.h> //Pour manipuler audio
 #include <SDL/SDL_ttf.h> //Pour manipuler des textes
 #include "bg.h"
-#include "../lib/img.h"
-#include "../lib/functions.h"
+#include "img.h"
+#include "functions.h"
 void initBack(background * b)
 {
-    b->affichebackground=IMG_Load("background.jpg");
+    b->affichebackground=IMG_Load("../img/background.jpg");
     if(b->affichebackground == NULL)
     {
         printf("Unable to load background image %s \n",SDL_GetError());
@@ -28,7 +28,7 @@ void initialiser_audio(Mix_Music *music)
 	{
 		printf("%s",SDL_GetError());
 	}
-	music=Mix_LoadMUS("fond.mp3");
+	music=Mix_LoadMUS("../music/fond.mp3");
 	Mix_PlayMusic(music,-1);
 	Mix_VolumeMusic(MIX_MAX_VOLUME/3.5);
 	}
@@ -58,7 +58,7 @@ void scrolling (background * b, int direction )
 void init_animerBack (background* image,SDL_Surface * screen)
 {
 	image->img=NULL;
-    image->url="object.png";
+    image->url="../img/object.png";
     image->img=IMG_Load(image->url);  
     if(image->img == NULL)
     {
@@ -142,7 +142,7 @@ void meilleur_score(char filename[],scoreinfo tab[],SDL_Surface *screen)
 	}while (permut == 1);	
 	
 	TTF_Init(); //Initialiser SDL_ttf
-	txte.police = TTF_OpenFont("pixel_arial.ttf",46);
+	txte.police = TTF_OpenFont("../fonts/pixel_arial.ttf",46);
 	txte.color_txt.r=255;
 	txte.color_txt.g=0;
 	txte.color_txt.b=0;
