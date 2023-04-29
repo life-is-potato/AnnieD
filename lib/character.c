@@ -450,7 +450,7 @@ void parse_tiles(char *map, img *tab, int *size)
             if (n == '1')
             {
                 *size += 1;
-                load_img(&tab[*size], "wall.png", i * 53, j * 50);
+                load_img(&tab[*size], "../img/wall.png", i * 53, j * 50);
             }
             else if (n == 'q')
             {
