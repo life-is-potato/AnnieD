@@ -19,8 +19,8 @@ int main()
     int boucle = 1;
     static char *spritesheet1 = "img/Potato_walking-export.png";
     static char *spritesheet2 = "img/Potato_walking-export.png";
-    static char *minimappath = "smol_bg.png";
-    static char *miniplayerpath = "smol.png";
+    static char *minimappath = "img/smol_bg.png";
+    static char *miniplayerpath = "img/smol.png";
     camera cam;
     minimap mm;
     miniplayer mp, mp2, me;
