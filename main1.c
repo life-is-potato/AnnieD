@@ -62,17 +62,6 @@ int main()
     player_create(&p1, spritesheet1,savefile);
     player_create2(&p2, spritesheet2,savefile);
     enemy urmom;
-    /*char tab[9][9]={
-        {1,1,1,1,1,1,1,1,1},
-        {1,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,0,1},
-        {1,1,1,1,1,1,1,1,1}
-    };*/
     static img tm[50];
     int size = 0;
     parse_tiles("map.txt", tm, &size);

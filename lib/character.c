@@ -430,16 +430,6 @@ void player_draw(player p, SDL_Surface *screen, camera cam)
     }
 }
 
-int player_collide(player p, img i)
-{
-    SDL_Rect rect1;
-    rect1.x = p.sprite.pos.x;
-    rect1.y = p.sprite.pos.y;
-    rect1.w = p.frame_width;
-    rect1.h = p.frame_height;
-    return (place_meeting(i.pos, rect1));
-}
-
 void display_sprite(SDL_Surface *screen, img i, camera cam)
 {
     i.pos.x -= cam.x - SCREEN_W / 2;
@@ -475,15 +465,6 @@ void parse_tiles(char *map, img *tab, int *size)
         }
         fclose(f);
     }
-    /*for(i=0;i<x;i++){
-        for(j=0;j<y;j++){
-            if(map[i][j]==1){
-                load_img(&tm[n],"wall.png",i*53,j*50);
-                n++;
-            }
-        }
-    }
-    */
 }
 
 void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size)
