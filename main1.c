@@ -62,7 +62,7 @@ int main()
     player_create(&p1, spritesheet1,savefile);
     player_create2(&p2, spritesheet2,savefile);
     enemy urmom;
-    static img tm[50];
+    img tm[500];
     int size = 0;
     parse_tiles("map.txt", tm, &size);
     enemy_create(&urmom, spritesheet1);

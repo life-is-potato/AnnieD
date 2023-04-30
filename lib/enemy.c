@@ -68,7 +68,7 @@ int enemy_check_collision(enemy *p, camera cam, int size, img *tiles)
     SDL_Rect pl = p->sprite.pos;
     pl.h = p->frame_height;
     pl.w = p->frame_width;
-    for (i = 1; i <= size; i++)
+    for (i = 0; i < size; i++)
     {
         tiles[i].pos.w = tiles[i].image->w;
         tiles[i].pos.h = tiles[i].image->h;

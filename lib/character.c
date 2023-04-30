@@ -259,7 +259,7 @@ void player_check_collision(player *p, camera cam, img *tiles, int size)
     SDL_Rect pl = p->sprite.pos;
     pl.h = p->frame_height;
     pl.w = p->frame_width;
-    for (i = 1; i <= size; i++)
+    for (i = 0; i < size; i++)
     {
         tiles[i].pos.w = tiles[i].image->w;
         tiles[i].pos.h = tiles[i].image->h;
@@ -450,8 +450,8 @@ void parse_tiles(char *map, img *tab, int *size)
             i++;
             if (n == '1')
             {
-                *size += 1;
                 load_img(&tab[*size], "wall.png", i * 53, j * 50);
+                *size += 1;
             }
             /*else if (n == '0' && random()%50==0){
                 *size += 1;
@@ -469,7 +469,7 @@ void parse_tiles(char *map, img *tab, int *size)
 
 void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size)
 {
-    for (int i = 0; i <= size; i++)
+    for (int i = 0; i < size; i++)
     {
         display_sprite(screen, tm[i], cam);
     }
