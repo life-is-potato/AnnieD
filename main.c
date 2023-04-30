@@ -5,8 +5,7 @@
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_ttf.h>
 #include <math.h>
-#include "lib/functions.h"
-#include "lib/character.h"
+#include "lib/game.h"
 
 int main()
 {
@@ -215,10 +214,12 @@ int main()
 
         else if (state == 2)
         {
-            while (SDL_PollEvent(&event))
-            {
-                // Level One
-            }
+            Mix_FadeOutMusic(1000);
+            //SDL_FreeSurface(screen);
+            state=gameloop(screen);
+            Mix_FreeMusic(maintheme);
+            maintheme = Mix_LoadMUS("music/main_theme.mp3");
+            Mix_PlayMusic(maintheme, -1);
         }
         // refesh screen
 

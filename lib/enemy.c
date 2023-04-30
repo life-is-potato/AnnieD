@@ -7,7 +7,7 @@
 void enemy_create(enemy *p, char *spritesheet)
 {
     srand(time(NULL));
-    load_img(&p->sprite, spritesheet, 400, 100);
+    load_img(&p->sprite, spritesheet, 100, 100);
     load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", 100, 100);
     p->direction = 1;
     p->facing = 1;

@@ -129,6 +129,8 @@ void player_create2(player *p, char *spritesheet, save savefile)
     p->key.dash = SDLK_k;
     p->facing = 1;
     p->jump.released = 1;
+    p->x_spd=0;
+    p->y_spd=0;
     p->dash.released=1;
     p->dash_spd = 12;
     p->wlk_spd = 4;

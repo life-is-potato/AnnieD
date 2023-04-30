@@ -12,10 +12,10 @@ all: AnnieD
 build/obj/%.o: lib/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
 
-build/obj/main1.o: main1.c
+build/obj/main.o: main.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
 
-AnnieD: build/obj/main1.o $(patsubst lib/%.c, build/obj/%.o, $(wildcard lib/*.c))
+AnnieD: build/obj/main.o $(patsubst lib/%.c, build/obj/%.o, $(wildcard lib/*.c))
 	$(CC) $(CFLAGS) $^ -o AnnieD $(LDFLAGS)
 
 # Clean object files
