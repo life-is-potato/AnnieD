@@ -58,7 +58,6 @@ int gameloop(SDL_Surface* screen)
     load_img(&nothing, "void.png", -1000, -1000);
     img car;
     load_img(&car, "img/object.png", 100, 100);
-    screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
     int k = 0;
     if (screen == NULL)
         return -1;
