@@ -50,9 +50,9 @@ int main()
 
     TTF_Init();
     txt frm, frm2, frm3;
-    load_txt(&frm, 100, 100, 0, 0, 0, "pixel_arial.ttf", 20);
-    load_txt(&frm2, 100, 150, 0, 0, 0, "pixel_arial.ttf", 20);
-    load_txt(&frm3, 100, 200, 0, 0, 0, "pixel_arial.ttf", 20);
+    load_txt(&frm, 100, 100, 0, 0, 0, "fonts/pixel_arial.ttf", 20);
+    load_txt(&frm2, 100, 150, 0, 0, 0, "fonts/pixel_arial.ttf", 20);
+    load_txt(&frm3, 100, 200, 0, 0, 0, "fonts/pixel_arial.ttf", 20);
     load_txt(&timertxt, 10, 10, 0, 255, 0, "fonts/pixel_arial.ttf", 50);
     screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
     init_minimap(&mm, minimappath, screen);
