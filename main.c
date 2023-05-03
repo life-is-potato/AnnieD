@@ -42,7 +42,7 @@ int main()
         return -1;
     }
 
-    screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode(1200, 800, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
     if (screen == NULL)
         return -1;
 
@@ -214,12 +214,14 @@ int main()
 
         else if (state == 2)
         {
+            screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
             Mix_FadeOutMusic(1000);
             //SDL_FreeSurface(screen);
             state=gameloop(screen);
             Mix_FreeMusic(maintheme);
             maintheme = Mix_LoadMUS("music/main_theme.mp3");
             Mix_PlayMusic(maintheme, -1);
+            screen = SDL_SetVideoMode(1200, 800, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
         }
         // refesh screen
 

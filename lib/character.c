@@ -6,8 +6,14 @@
 
 void update_camera(img img1, img img2, camera *cam)
 {
+    if((img1.pos.x>cam->x-SCREEN_W/2 && img1.pos.x<cam->x+SCREEN_W/2 && img1.pos.y>cam->y-SCREEN_H/2 && img1.pos.y<cam->y+SCREEN_H/2) && (img2.pos.x>cam->x-SCREEN_W/2 && img2.pos.x<cam->x+SCREEN_W/2 && img2.pos.y>cam->y-SCREEN_H/2 && img2.pos.y<cam->y+SCREEN_H/2)){
     cam->x += ((img1.pos.x + img2.pos.x + 50) / 2 - cam->x) / 20;
     cam->y += ((img1.pos.y + img2.pos.y) / 2 - cam->y) / 20;
+    }
+    else{
+        cam->x += (img1.pos.x + 25 - cam->x) / 20;
+        cam->y += (img1.pos.y + 24 - cam->y) / 20;
+    }
     // cam->x=img.pos.x;
     // cam->y=img.pos.y;
 }
