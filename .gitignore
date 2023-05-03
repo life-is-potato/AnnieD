@@ -1,6 +1,5 @@
-*.o
 .vscode
-obj
+build
 AnnieD
 img/bandit_sprites
-prog
+save.bin
