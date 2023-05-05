@@ -15,8 +15,8 @@ typedef struct
 } miniplayer;
 void init_minimap(minimap *mm, char *path, SDL_Surface *screen);
 void init_miniplayer(miniplayer *mp, char *path);
-void update_miniplayer(minimap *mm, miniplayer *mp, player *player, SDL_Surface *screen);
+void update_miniplayer(minimap *mm, miniplayer *mp, player *player, SDL_Surface *screen, camera cam);
 void update_time(int pause, minimap *mm, Uint32 *start_time, txt *timertxt, SDL_Surface *screen, save savefile);
-void update_minienemy(minimap *mm, miniplayer *mp, enemy *player, SDL_Surface *screen);
+void update_minienemy(minimap *mm, miniplayer *mp, enemy *player, SDL_Surface *screen, camera cam);
 void minimap_maker(minimap *mm, SDL_Surface *screen, img *Tiles, int TilesNum, int pause);
 #endif

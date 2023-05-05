@@ -1,5 +1,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include "functions.h"
 #include "img.h"
 #include "mini.h"
 #include "text.h"
@@ -20,23 +21,23 @@ void init_miniplayer(miniplayer *mp, char *path)
         printf("Unable to load image %s \n", SDL_GetError());
 }
 
-void update_miniplayer(minimap *mm, miniplayer *mp, player *player, SDL_Surface *screen)
+void update_miniplayer(minimap *mm, miniplayer *mp, player *player, SDL_Surface *screen, camera cam)
 {
     float scale_factor = (float)mm->img.image->w / (float)screen->w;
     // mp->img.pos.x = player->sprite.pos.x * scale_factor + mm->img.pos.x;
     // mp->img.pos.y = player->sprite.pos.y * scale_factor + mm->img.pos.y;
-    mp->img.pos.x = player->sprite.pos.x * scale_factor;
-    mp->img.pos.y = player->sprite.pos.y * scale_factor;
+    mp->img.pos.x = (player->sprite.pos.x -(cam.x - SCREEN_W/2)) * scale_factor;
+    mp->img.pos.y = (player->sprite.pos.y -(cam.y - SCREEN_H/2)) * scale_factor;
     SDL_BlitSurface(mp->img.image, NULL, screen, &mp->img.pos);
 }
 
-void update_minienemy(minimap *mm, miniplayer *mp, enemy *player, SDL_Surface *screen)
+void update_minienemy(minimap *mm, miniplayer *mp, enemy *player, SDL_Surface *screen, camera cam)
 {
     float scale_factor = (float)mm->img.image->w / (float)screen->w;
     // mp->img.pos.x = player->sprite.pos.x * scale_factor + mm->img.pos.x;
     // mp->img.pos.y = player->sprite.pos.y * scale_factor + mm->img.pos.y;
-    mp->img.pos.x = player->sprite.pos.x * scale_factor;
-    mp->img.pos.y = player->sprite.pos.y * scale_factor;
+    mp->img.pos.x = (player->sprite.pos.x-(cam.x - SCREEN_W/2)) * scale_factor;
+    mp->img.pos.y = (player->sprite.pos.y-(cam.y - SCREEN_H/2)) * scale_factor;
     SDL_BlitSurface(mp->img.image, NULL, screen, &mp->img.pos);
 }
 

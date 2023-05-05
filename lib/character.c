@@ -1,24 +1,51 @@
+
+/**
+ * @file character.c
+ * @author Ahmed Amine Saidi
+ * @brief Source file for characters, camera and tiles for the game.
+ * @version 0.1
+ * @date 2023-05-05
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include "functions.h"
 #include "character.h"
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
 
-void update_camera(img img1, img img2, camera *cam)
+/**
+ * @brief updates the camera to a location exactly in the middle between img1 and img2
+ * 
+ * @param img1 
+ * @param img2 
+ * @param cam 
+ * @param mode 
+ */
+
+void update_camera(img img1, img img2, camera *cam, int* mode)
 {
-    if((img1.pos.x>cam->x-SCREEN_W/2 && img1.pos.x<cam->x+SCREEN_W/2 && img1.pos.y>cam->y-SCREEN_H/2 && img1.pos.y<cam->y+SCREEN_H/2) && (img2.pos.x>cam->x-SCREEN_W/2 && img2.pos.x<cam->x+SCREEN_W/2 && img2.pos.y>cam->y-SCREEN_H/2 && img2.pos.y<cam->y+SCREEN_H/2))
-    {
+    
     cam->x += ((img1.pos.x + img2.pos.x + 50) / 2 - cam->x) / 20;
     cam->y += ((img1.pos.y + img2.pos.y) / 2 - cam->y) / 20;
-    }
+    if((img1.pos.x>cam->x-SCREEN_W/2 && img1.pos.x<cam->x+SCREEN_W/2 && img1.pos.y>cam->y-SCREEN_H/2 && img1.pos.y<cam->y+SCREEN_H/2) && (img2.pos.x>cam->x-SCREEN_W/2 && img2.pos.x<cam->x+SCREEN_W/2 && img2.pos.y>cam->y-SCREEN_H/2 && img2.pos.y<cam->y+SCREEN_H/2));
     else
     {
-        cam->x += (img1.pos.x + 25 - cam->x) / 20;
-        cam->y += (img1.pos.y + 24 - cam->y) / 20;
+        *mode=1;
     }
     // cam->x=img.pos.x;
     // cam->y=img.pos.y;
 }
+
+/**
+ * @brief gets inputs for p1 and p2
+ * 
+ * @param p1 
+ * @param p2 
+ * @param boucle 
+ */
 
 void players_get_inputs(player *p1, player *p2, int *boucle)
 {
@@ -94,6 +121,14 @@ void players_get_inputs(player *p1, player *p2, int *boucle)
     }
 }
 
+/**
+ * @brief initializes player 1
+ * 
+ * @param p 
+ * @param spritesheet 
+ * @param savefile 
+ */
+
 void player_create(player *p, char *spritesheet,save savefile)
 {
     load_img(&p->sprite, spritesheet, savefile.x1, savefile.y1);
@@ -122,6 +157,14 @@ void player_create(player *p, char *spritesheet,save savefile)
     p->framestart = 0;
     p->frames = 0;
 }
+
+/**
+ * @brief initializes player 2
+ * 
+ * @param p 
+ * @param spritesheet 
+ * @param savefile 
+ */
 
 void player_create2(player *p, char *spritesheet, save savefile)
 {
@@ -154,6 +197,13 @@ void player_create2(player *p, char *spritesheet, save savefile)
     p->frames = 0;
 }
 
+/**
+ * @brief controls jumping for the player, is called in player_calculate_speed
+ * 
+ * @param p 
+ * @return int 
+ */
+
 int player_jump(player *p)
 {
     if (p->canjump >= 1 && p->jump.pressed && p->jump.released)
@@ -180,6 +230,13 @@ int player_jump(player *p)
         return (0);
     }
 }
+
+/**
+ * @brief controls dashing for the player, is called in player_calculate_speed
+ * 
+ * @param p 
+ * @return int 
+ */
 
 int player_dash(player *p)
 {
@@ -208,6 +265,12 @@ int player_dash(player *p)
     else
         return (0);
 }
+
+/**
+ * @brief calculates speed and such for the player
+ * 
+ * @param p 
+ */
 
 void player_calculate_speed(player *p)
 {
@@ -248,6 +311,16 @@ void player_calculate_speed(player *p)
     }
 }
 
+/**
+ * @brief checks if there's a collision between rect1 and rect2 if rect 1 was at coordinates (x,y)
+ * 
+ * @param x 
+ * @param y 
+ * @param rect1 
+ * @param rect2 
+ * @return int 
+ */
+
 int rect_meeting(int x, int y, SDL_Rect rect1, SDL_Rect rect2)
 {
     SDL_Rect translated_rect1;
@@ -262,6 +335,15 @@ int rect_meeting(int x, int y, SDL_Rect rect1, SDL_Rect rect2)
 
     return collide;
 }
+
+/**
+ * @brief checks if there's a collision between the player and the array of tiles
+ * 
+ * @param p 
+ * @param cam 
+ * @param tiles 
+ * @param size 
+ */
 
 void player_check_collision(player *p, camera cam, img *tiles, int size)
 {
@@ -330,11 +412,26 @@ void player_check_collision(player *p, camera cam, img *tiles, int size)
     }*/
 }
 
+/**
+ * @brief updates the player's position by adding his speed
+ * 
+ * @param p 
+ */
+
 void player_pos_update(player *p)
 {
     p->sprite.pos.x += p->x_spd;
     p->sprite.pos.y += p->y_spd;
 }
+
+/**
+ * @brief runs the logic for the player by calling calculate speed, check collision, and animate
+ * 
+ * @param p 
+ * @param cam 
+ * @param tiles 
+ * @param size 
+ */
 
 void player_step(player *p, camera cam, img *tiles, int size)
 {
@@ -343,6 +440,12 @@ void player_step(player *p, camera cam, img *tiles, int size)
     player_pos_update(p);
     player_animate(p);
 }
+
+/**
+ * @brief sets the player's current animation
+ * 
+ * @param p 
+ */
 
 void player_animate(player *p)
 {
@@ -417,6 +520,14 @@ void player_animate(player *p)
     }
 }
 
+/**
+ * @brief draws the player on the screen
+ * 
+ * @param p 
+ * @param screen 
+ * @param cam 
+ */
+
 void player_draw(player p, SDL_Surface *screen, camera cam)
 {
     p.sprite.pos.x -= cam.x - SCREEN_W / 2;
@@ -440,12 +551,28 @@ void player_draw(player p, SDL_Surface *screen, camera cam)
     }
 }
 
+/**
+ * @brief displays a sprite on the screen by taking the camera into account
+ * 
+ * @param screen 
+ * @param i 
+ * @param cam 
+ */
+
 void display_sprite(SDL_Surface *screen, img i, camera cam)
 {
     i.pos.x -= cam.x - SCREEN_W / 2;
     i.pos.y -= cam.y - SCREEN_H / 2;
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
+
+/**
+ * @brief reads the map, a .txt file containing the layout for the map, and generates an array of tiles
+ * 
+ * @param map 
+ * @param tab 
+ * @param size 
+ */
 
 void parse_tiles(char *map, img *tab, int *size)
 {
@@ -476,6 +603,15 @@ void parse_tiles(char *map, img *tab, int *size)
         fclose(f);
     }
 }
+
+/**
+ * @brief displays the array of tiles
+ * 
+ * @param screen 
+ * @param tm 
+ * @param cam 
+ * @param size 
+ */
 
 void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size)
 {

@@ -8,12 +8,13 @@ int gameloop(SDL_Surface* screen)
     char *spritesheet2 = "img/Potato_walking-export.png";
     char *minimappath = "smol_bg.png";
     char *miniplayerpath = "smol.png";
-    camera cam;
+    camera cam, cam2;
     minimap mm;
     miniplayer mp, mp2, me;
     player p1, p2;
     img bg, dummy, nothing;
     txt timertxt;
+    int mode=0;
     int starttime;
     int endtime = 0;
     float wait;
@@ -74,7 +75,7 @@ int gameloop(SDL_Surface* screen)
         player_step(&p1, cam, tm, size);
         player_step(&p2, cam, tm, size);
         enemy_step(&urmom, cam, tm, size);
-        update_camera(p1.sprite, p2.sprite, &cam);
+        update_camera(p1.sprite, p2.sprite, &cam,&mode);
 
         // Dessine les arrière-plans, les ennemis, les joueurs, et les objets
 
@@ -92,9 +93,9 @@ int gameloop(SDL_Surface* screen)
 
         // Dessine la minimap
 
-        update_miniplayer(&mm, &mp, &p1, screen);
-        update_miniplayer(&mm, &mp2, &p2, screen);
-        update_minienemy(&mm, &me, &urmom, screen);
+        update_miniplayer(&mm, &mp, &p1, screen,cam);
+        update_miniplayer(&mm, &mp2, &p2, screen,cam);
+        update_minienemy(&mm, &me, &urmom, screen,cam);
         update_time(0, &mm, &time, &timertxt, screen, savefile);
         SDL_Flip(screen);
         endtime = SDL_GetTicks();

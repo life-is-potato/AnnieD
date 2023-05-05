@@ -1,3 +1,14 @@
+/**
+ * @file character.h
+ * @author Ahmed Amine Saidi
+ * @brief  prototypes for functions in character.c
+ * @version 0.1
+ * @date 2023-05-05
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_mixer.h>
@@ -45,7 +56,7 @@ typedef struct
 
 int rect_meeting(int x, int y, SDL_Rect rect1, SDL_Rect rect2);
 
-void update_camera(img img1, img img2, camera *cam);
+void update_camera(img img1, img img2, camera *cam, int* mode);
 
 void players_get_inputs(player *p1, player *p2, int *boucle);
 
