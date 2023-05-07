@@ -45,7 +45,7 @@ typedef struct
 
 int rect_meeting(int x, int y, SDL_Rect rect1, SDL_Rect rect2);
 
-void update_camera(img img1, img img2, camera *cam);
+void update_camera(img img1, img img2, camera *cam, int* mode);
 
 void players_get_inputs(player *p1, player *p2, int *boucle);
 
@@ -65,10 +65,10 @@ void player_step(player *p, camera cam, img *tiles, int size);
 
 void player_animate(player *p);
 
-void player_draw(player p, SDL_Surface *screen, camera cam);
+void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode);
 
-void display_sprite(SDL_Surface *screen, img i, camera cam);
+void display_sprite(SDL_Surface *screen, img i, camera cam, int mode, int p);
 
 void parse_tiles(char *map, img *tab, int *size);
 
-void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size);
+void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size, int mode, int p);

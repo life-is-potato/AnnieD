@@ -4,18 +4,17 @@
 #include <math.h>
 #include <time.h>
 
-void update_camera(img img1, img img2, camera *cam)
+void update_camera(img img1, img img2, camera *cam, int* mode)
 {
     if((img1.pos.x>cam->x-SCREEN_W/2 && img1.pos.x<cam->x+SCREEN_W/2 && img1.pos.y>cam->y-SCREEN_H/2 && img1.pos.y<cam->y+SCREEN_H/2) && (img2.pos.x>cam->x-SCREEN_W/2 && img2.pos.x<cam->x+SCREEN_W/2 && img2.pos.y>cam->y-SCREEN_H/2 && img2.pos.y<cam->y+SCREEN_H/2))
     {
+        *mode=1;
+    }
+    else{
+        *mode=2;
+    }
     cam->x += ((img1.pos.x + img2.pos.x + 50) / 2 - cam->x) / 20;
     cam->y += ((img1.pos.y + img2.pos.y) / 2 - cam->y) / 20;
-    }
-    else
-    {
-        cam->x += (img1.pos.x + 25 - cam->x) / 20;
-        cam->y += (img1.pos.y + 24 - cam->y) / 20;
-    }
     // cam->x=img.pos.x;
     // cam->y=img.pos.y;
 }
@@ -417,9 +416,9 @@ void player_animate(player *p)
     }
 }
 
-void player_draw(player p, SDL_Surface *screen, camera cam)
+void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode)
 {
-    p.sprite.pos.x -= cam.x - SCREEN_W / 2;
+    p.sprite.pos.x -= cam.x - (SCREEN_W+ ((float)a/2)*SCREEN_W) / 2/mode;
     p.sprite.pos.y -= cam.y - SCREEN_H / 2;
     if (p.x_spd > 0)
         SDL_BlitSurface(p.sprite.image, &p.framepos, screen, &p.sprite.pos);
@@ -440,10 +439,10 @@ void player_draw(player p, SDL_Surface *screen, camera cam)
     }
 }
 
-void display_sprite(SDL_Surface *screen, img i, camera cam)
+void display_sprite(SDL_Surface *screen, img i, camera cam, int mode, int p)
 {
-    i.pos.x -= cam.x - SCREEN_W / 2;
-    i.pos.y -= cam.y - SCREEN_H / 2;
+    i.pos.x -= cam.x - (SCREEN_W +((float)p/2)*SCREEN_W)/ 2 / mode;
+    i.pos.y -= cam.y - SCREEN_H / 2 ;
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
@@ -477,10 +476,10 @@ void parse_tiles(char *map, img *tab, int *size)
     }
 }
 
-void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size)
+void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size, int mode,int p)
 {
     for (int i = 0; i < size; i++)
     {
-        display_sprite(screen, tm[i], cam);
+        display_sprite(screen, tm[i], cam, mode,p);
     }
 }

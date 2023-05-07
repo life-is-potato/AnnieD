@@ -33,4 +33,4 @@ void enemy_step(enemy *p, camera cam, img *tiles, int size);
 
 void enemy_animate(enemy *p);
 
-void enemy_draw(enemy p, SDL_Surface *screen, camera cam);
+void enemy_draw(enemy p, SDL_Surface *screen, camera cam,int a, int mode);

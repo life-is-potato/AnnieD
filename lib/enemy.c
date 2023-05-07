@@ -167,9 +167,9 @@ void enemy_animate(enemy *p)
     }
 }
 
-void enemy_draw(enemy p, SDL_Surface *screen, camera cam)
+void enemy_draw(enemy p, SDL_Surface *screen, camera cam, int a, int mode)
 {
-    p.sprite.pos.x -= cam.x - SCREEN_W / 2;
+    p.sprite.pos.x -= cam.x - (SCREEN_W+ ((float)a/2)*SCREEN_W) / 2/mode;
     p.sprite.pos.y -= cam.y - SCREEN_H / 2;
     if (p.facing != -1)
         SDL_BlitSurface(p.sprite.image, &p.framepos, screen, &p.sprite.pos);
