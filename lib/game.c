@@ -8,6 +8,16 @@ int gameloop(SDL_Surface* screen)
     char *spritesheet2 = "img/Potato_walking-export.png";
     char *minimappath = "smol_bg.png";
     char *miniplayerpath = "smol.png";
+    SDL_Rect scr1;
+    scr1.x=0;
+    scr1.y=0;
+    scr1.w=SCREEN_W/2;
+    scr1.h=SCREEN_H;
+    SDL_Rect scr2;
+    scr2.x=SCREEN_W/2;
+    scr2.y=0;
+    scr2.w=SCREEN_W/2;
+    scr2.h=SCREEN_H;
     camera cam, cam1, cam2;
     minimap mm;
     miniplayer mp, mp2, me;
@@ -39,7 +49,7 @@ int gameloop(SDL_Surface* screen)
     cam.x = (savefile.x1+savefile.x2)/2;
     cam.y = (savefile.y1+savefile.y2)/2;
 
-    printf("\n%d %d\n", cam.x, cam.y);
+    printf("\n%d %d\n", scr1.w, cam.y);
 
     load_txt(&timertxt, 10, 10, 0, 255, 0, "fonts/pixel_arial.ttf", 50);
     init_minimap(&mm, minimappath, screen);
@@ -61,6 +71,10 @@ int gameloop(SDL_Surface* screen)
     img car;
     load_img(&car, "img/object.png", 100, 100);
     int k = 0;
+    cam1.x= cam.x;
+    cam1.y= cam.y;
+    cam2.x= cam.x;
+    cam2.y= cam.y;
     if (screen == NULL)
         return -1;
 
@@ -107,6 +121,7 @@ int gameloop(SDL_Surface* screen)
             //update_camera(p1.sprite,p2.sprite,&cam,&mode);
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             //SDL_BlitSurface(mm.img.image, NULL, screen, &dummy.pos);
+            SDL_SetClipRect(screen,&scr2);
             display_sprite(screen,bg,cam2,mode,1);
             display_sprite(screen, car, cam2, mode,1);
             display_tiles(screen, tm, cam2, size, mode,1);
@@ -114,6 +129,7 @@ int gameloop(SDL_Surface* screen)
             player_draw(p2, screen, cam2,1,mode); 
             enemy_draw(urmom, screen, cam2,1,mode);
             //
+            SDL_SetClipRect(screen,&scr1);
             display_sprite(screen,bg,cam1,mode,-1);
             animerBack(&car, &k);
             display_sprite(screen, car, cam1, mode,-1);
@@ -124,10 +140,11 @@ int gameloop(SDL_Surface* screen)
             SDL_BlitSurface(mm.img.image, NULL, screen, &dummy.pos);
         }
         // Dessine la minimap
-
+        SDL_SetClipRect(screen,&dummy.pos);
         update_miniplayer(&mm, &mp, &p1, screen,cam);
         update_miniplayer(&mm, &mp2, &p2, screen,cam);
         update_minienemy(&mm, &me, &urmom, screen,cam);
+        SDL_SetClipRect(screen,NULL);
         update_time(0, &mm, &time, &timertxt, screen, savefile);
         SDL_Flip(screen);
         endtime = SDL_GetTicks();

@@ -446,6 +446,12 @@ void display_sprite(SDL_Surface *screen, img i, camera cam, int mode, int p)
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
+void display_sprite_rect(SDL_Surface *screen, img i, camera cam, int mode, int p,SDL_Rect rect){
+    i.pos.x -= cam.x - (rect.w)/ 2 +rect.x;
+    i.pos.y -= cam.y - (rect.h) / 2 +rect.y ;
+    SDL_BlitSurface(i.image, NULL, screen, &i.pos);
+}
+
 void parse_tiles(char *map, img *tab, int *size)
 {
     srand(time);
