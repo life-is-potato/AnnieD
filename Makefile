@@ -9,7 +9,7 @@ $(shell mkdir -p build/obj)
 
 all: AnnieD
 
-build/obj/%.o: lib/%.c
+build/obj/%.o: lib/%.c lib/lot5/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
 
 build/obj/main.o: main.c
