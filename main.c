@@ -6,6 +6,7 @@
 #include <SDL/SDL_ttf.h>
 #include <math.h>
 #include "lib/game.h"
+#include "lib/lot5/lot5.h"
 
 int main()
 {
@@ -222,6 +223,11 @@ int main()
             maintheme = Mix_LoadMUS("music/main_theme.mp3");
             Mix_PlayMusic(maintheme, -1);
             screen = SDL_SetVideoMode(1200, 800, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
+        }
+
+
+        else if(state==4){ 
+            jouerEnigme(screen, &state);
         }
         // refesh screen
 

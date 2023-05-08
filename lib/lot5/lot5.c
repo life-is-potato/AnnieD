@@ -6,9 +6,7 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_mixer.h>  
 #include <SDL/SDL_ttf.h>
-#include "functions.h"
-
-
+#include "lot5.h"
 
 void generate_afficher (int *alea)
 {
@@ -168,42 +166,31 @@ void displayText(text t,SDL_Surface *screen,char cc[30])
     SDL_BlitSurface(t.surfaceTexte, NULL, screen,&t.position);
 }
 
-void jouerEnigme(SDL_Surface *screen, int *state)
+int jouerEnigme(SDL_Surface *screen, int *state)
 {
 	enigme  e;
 	Mix_Music *music ; 
-        e.num_enigme=-1;
+    e.num_enigme=-1;
 	int s,r=0;
 	int running=0;
 	int alea;
 	int boucle=1;
 	char image[30]="";
-	SDL_Event event;
-	
+	SDL_Event event;	
 	int t=0;
 	time_t start,end;
     	start=clock();
     	char cc[20];
     	text tt;
-	 
 
-	if(Mix_OpenAudio(44100,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024)==-1)
-	{
-		printf("%s",Mix_GetError()); 
-	}
-	
 	music = Mix_LoadMUS("sound.mp3");
 	Mix_PlayMusic(music,-1); 
-	
-	init_enigme(&e,"enigme.txt");
+	init_enigme(&e,"lib/lot5/enigme.txt");
 	initexte(&tt);
 	
 	while(boucle)
 	{
-		
-		
              	afficherEnigme(e,screen);
-         
              	sprintf(cc, ":0%d", t);
              	SDL_BlitSurface (e.timer[t],NULL,screen,&e.pos_timer);
         	displayText(tt,screen,cc);

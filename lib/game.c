@@ -8,6 +8,13 @@ int gameloop(SDL_Surface* screen)
     char *spritesheet2 = "img/Potato_walking-export.png";
     char *minimappath = "smol_bg.png";
     char *miniplayerpath = "smol.png";
+
+    SDL_Rect scr;
+    scr.x=0;
+    scr.y=0;
+    scr.h=SCREEN_H;
+    scr.w=SCREEN_W;
+
     SDL_Rect scr1;
     scr1.x=0;
     scr1.y=0;
@@ -95,10 +102,14 @@ int gameloop(SDL_Surface* screen)
         if(mode==1){
             /*bg.pos.x = -(cam.x - SCREEN_W / 2);
             bg.pos.y = -(cam.y - SCREEN_H / 2);*/
-            cam1.x= cam.x;
-            cam1.y= cam.y;
-            cam2.x= cam.x;
-            cam2.y= cam.y;
+            /*if(p1.sprite.pos.x<p2.sprite.pos.x){
+            update_camera(p1.sprite, p1.sprite, &cam1,NULL);
+            update_camera(p2.sprite, p2.sprite, &cam2,NULL);
+            }
+            else{
+                update_camera(p1.sprite, p1.sprite, &cam2,NULL);
+                update_camera(p2.sprite, p2.sprite, &cam1,NULL);
+            }*/
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             display_sprite(screen,bg,cam,mode,0);
             animerBack(&car, &k);
@@ -144,7 +155,7 @@ int gameloop(SDL_Surface* screen)
         update_miniplayer(&mm, &mp, &p1, screen,cam);
         update_miniplayer(&mm, &mp2, &p2, screen,cam);
         update_minienemy(&mm, &me, &urmom, screen,cam);
-        SDL_SetClipRect(screen,NULL);
+        SDL_SetClipRect(screen,&scr);
         update_time(0, &mm, &time, &timertxt, screen, savefile);
         SDL_Flip(screen);
         endtime = SDL_GetTicks();
