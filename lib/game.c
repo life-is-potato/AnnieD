@@ -14,6 +14,7 @@ int gameloop(SDL_Surface* screen)
     scr.y=0;
     scr.h=SCREEN_H;
     scr.w=SCREEN_W;
+    Uint32 starttime2= SDL_GetTicks();
 
     SDL_Rect scr1;
     scr1.x=0;
@@ -156,7 +157,7 @@ int gameloop(SDL_Surface* screen)
         update_miniplayer(&mm, &mp2, &p2, screen,cam);
         update_minienemy(&mm, &me, &urmom, screen,cam);
         SDL_SetClipRect(screen,&scr);
-        update_time(0, &mm, &time, &timertxt, screen, savefile);
+        update_time(0, &mm, &time, &timertxt, screen, savefile,starttime2);
         SDL_Flip(screen);
         endtime = SDL_GetTicks();
         deltat = (endtime - starttime) / (float)1000;
@@ -164,7 +165,9 @@ int gameloop(SDL_Surface* screen)
         if (wait > 0)
             SDL_Delay(1000 * wait);
     }
-    savefile.time=SDL_GetTicks()+savefile.time;
+    printf("\n%d\n",(SDL_GetTicks()-starttime2)/1000);
+    savefile.time=SDL_GetTicks() - starttime2 + savefile.time;
+    printf("\n%d\n",savefile.time/1000);
     savefile.x1=p1.sprite.pos.x;
     savefile.x2=p2.sprite.pos.x;
     savefile.y1=p1.sprite.pos.y;
