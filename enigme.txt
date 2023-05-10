@@ -1,0 +1,12 @@
+img/enigme1-1.jpg 1 
+img/enigme2-1.jpg 4 
+img/enigme3-1.jpg 2
+img/enigme1-2.jpg 4
+img/enigme2-2.jpg 3
+img/enigme3-2.jpg 3
+img/enigme1-3.jpg 3
+img/enigme2-3.jpg 1
+img/enigme3-3.jpg 1
+img/enigme1-4.jpg 1
+img/enigme2-4.jpg 2
+img/enigme3-4.jpg 4
