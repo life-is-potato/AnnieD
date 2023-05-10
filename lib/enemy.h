@@ -16,20 +16,21 @@ typedef struct
     int frames;
     int facing;
     int random;
+    int chasing;
     SDL_Rect framepos;
 } enemy;
 
 void enemy_create(enemy *p, char *spritesheet);
 
-void enemy_calculate_direction(enemy *e);
+int enemy_calculate_direction(enemy *e,player p, player p2);
 
-void enemy_calculate_speed(enemy *p);
+void enemy_calculate_speed(enemy *p,player p1,player p2);
 
 int enemy_check_collision(enemy *p, camera cam, int size, img *tiles);
 
 void enemy_pos_update(enemy *p);
 
-void enemy_step(enemy *p, camera cam, img *tiles, int size);
+void enemy_step(enemy *p, camera cam, player p1, player p2, img *tiles, int size);
 
 void enemy_animate(enemy *p);
 

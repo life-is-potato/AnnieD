@@ -20,10 +20,51 @@ void enemy_create(enemy *p, char *spritesheet)
     p->framepos.w = p->frame_width;
     p->framestart = 0;
     p->frames = 0;
+    p->chasing=0;
 }
 
-void enemy_calculate_direction(enemy *e)
-{
+int enemy_calculate_direction(enemy *e,player p, player p2)
+{   
+    if(p.sprite.pos.x<(e->facing)*600+e->sprite.pos.x && p.sprite.pos.x>e->sprite.pos.x && p.sprite.pos.y<e->sprite.pos.y+200 && p.sprite.pos.y>e->sprite.pos.y-200 
+    &&p2.sprite.pos.x<(e->facing)*600+e->sprite.pos.x && p2.sprite.pos.x>e->sprite.pos.x && p2.sprite.pos.y<e->sprite.pos.y+200 && p2.sprite.pos.y>e->sprite.pos.y-200){
+        float p1_distance=sqrt((p.sprite.pos.x-e->sprite.pos.x)*(p.sprite.pos.x-e->sprite.pos.x)+(p.sprite.pos.y-e->sprite.pos.y)*(p.sprite.pos.y-e->sprite.pos.y));
+        float p2_distance=sqrt((p2.sprite.pos.x-e->sprite.pos.x)*(p2.sprite.pos.x-e->sprite.pos.x)+(p2.sprite.pos.y-e->sprite.pos.y)*(p2.sprite.pos.y-e->sprite.pos.y));
+        if (p1_distance<p2_distance)e->chasing=1;
+        else e->chasing=2;
+    }
+    else if(p.sprite.pos.x<=(e->facing)*600+e->sprite.pos.x && p.sprite.pos.x>=e->sprite.pos.x && p.sprite.pos.y<=e->sprite.pos.y+200 && p.sprite.pos.y>=e->sprite.pos.y-200){
+        e->chasing=1;    
+    }
+    else if(p2.sprite.pos.x<=(e->facing)*600+e->sprite.pos.x && p2.sprite.pos.x>=e->sprite.pos.x && p2.sprite.pos.y<=e->sprite.pos.y+200 && p2.sprite.pos.y>=e->sprite.pos.y-200){
+        e->chasing=2;    
+    }
+    if(e->chasing==1){
+        if(p.sprite.pos.x>200+e->sprite.pos.x || p.sprite.pos.x<e->sprite.pos.x-200 || p.sprite.pos.y>e->sprite.pos.y+200 || p.sprite.pos.y<e->sprite.pos.y-200){
+        e->chasing=0;    
+        }
+        if(p.sprite.pos.x>e->sprite.pos.x){
+            e->facing=1;
+            e->direction=1;
+        }
+        else {
+            e->facing=-1;
+            e->direction=-1;
+        }
+    }
+    else if(e->chasing==2){
+        if(p2.sprite.pos.x>200+e->sprite.pos.x || p2.sprite.pos.x<e->sprite.pos.x-200 || p2.sprite.pos.y>e->sprite.pos.y+300 || p2.sprite.pos.y<e->sprite.pos.y-300){
+        e->chasing=0;    
+        }
+        if(p2.sprite.pos.x>e->sprite.pos.x){
+            e->facing=1;
+            e->direction=1;
+        }
+        else {
+            e->facing=-1;
+            e->direction=-1;
+        }
+    }
+    else{
     e->random = rand();
     if (e->direction != 0)
     {
@@ -43,11 +84,13 @@ void enemy_calculate_direction(enemy *e)
         else if (e->random % 150 == 1)
             e->direction = -1;
     }
+    }
+    return(0);
 }
 
-void enemy_calculate_speed(enemy *p)
+void enemy_calculate_speed(enemy *p,player p1,player p2)
 {
-    enemy_calculate_direction(p);
+    enemy_calculate_direction(p,p1,p2);
     if (abs(p->x_spd) > 0.1)
         p->x_spd *= 0.8;
     else
@@ -117,9 +160,9 @@ void enemy_pos_update(enemy *p)
     p->sprite.pos.y += p->y_spd;
 }
 
-void enemy_step(enemy *p, camera cam, img *tiles, int size)
+void enemy_step(enemy *p, camera cam, player p1, player p2, img *tiles, int size)
 {
-    enemy_calculate_speed(p);
+    enemy_calculate_speed(p,p1,p2);
     enemy_check_collision(p, cam, size, tiles);
     enemy_pos_update(p);
     enemy_animate(p);

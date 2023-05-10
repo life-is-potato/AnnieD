@@ -98,7 +98,7 @@ int gameloop(SDL_Surface *screen)
 
         player_step(&p1, cam, tm, size);
         player_step(&p2, cam, tm, size);
-        enemy_step(&urmom, cam, tm, size);
+        enemy_step(&urmom, cam, p1,p2, tm, size);
         update_camera(p1.sprite, p2.sprite, &cam, &mode);
         // Dessine les arrière-plans, les ennemis, les joueurs, et les objets
         if (mode == 1)
