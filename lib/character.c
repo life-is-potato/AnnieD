@@ -266,7 +266,6 @@ int player_meeting(player p, img i){
     SDL_Rect pl = p.sprite.pos;
     pl.h = p.frame_height;
     pl.w = p.frame_width;
-    printf("%d\n",i.pos.w);
     if (rect_meeting(p.x_spd + p.sprite.pos.x, p.sprite.pos.y + p.y_spd, pl, i.pos)) return 1;
     return 0;
 }

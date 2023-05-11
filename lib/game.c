@@ -32,7 +32,6 @@ int gameloop(SDL_Surface *screen)
     img bg, dummy, nothing, enigmeobj;
     txt timertxt;
     int mode = 1;
-    printf("%d", mode);
     int starttime;
     int endtime = 0;
     float wait;
@@ -65,7 +64,7 @@ int gameloop(SDL_Surface *screen)
     init_miniplayer(&me, miniplayerpath);
     player_create(&p1, spritesheet1, savefile);
     p1.x_spd = 0;
-    printf("%f\n", p1.x_spd);
+    //printf("%f\n", p1.x_spd);
     player_create2(&p2, spritesheet2, savefile);
     enemy urmom;
     img tm[1000];
@@ -103,6 +102,8 @@ int gameloop(SDL_Surface *screen)
         {
             SDL_Delay(100);
             if(enigme_play(screen))savefile.e1 = 0;
+            else if(player_meeting(p1, enigmeobj)) {p1.sprite.pos.x-=3*p1.x_spd;p1.x_spd=0;p1.facing=-p1.facing;p1.direction=-p1.direction;p1.right.pressed=0;p1.left.pressed=0;}
+            else{p2.sprite.pos.x-=3*p2.x_spd;p2.x_spd=0;p2.facing=-p2.facing;p2.direction=-p2.direction;p2.right.pressed=0;p2.left.pressed=0;}
         }
         update_camera(p1.sprite, p2.sprite, &cam, &mode);
         // Dessine les arrière-plans, les ennemis, les joueurs, et les objets
@@ -198,5 +199,5 @@ int gameloop(SDL_Surface *screen)
     free_img(dummy);
     free_img(nothing);
     free_txt(timertxt);
-    return (1);
+    return (4);
 }

@@ -5,6 +5,7 @@
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_ttf.h>
 #include <math.h>
+#include "lib/xo_header.h"
 #include "lib/game.h"
 #include "lib/enigme.h"
 
@@ -227,7 +228,7 @@ int main()
 
         else if (state == 4)
         {
-            state = enigme_play(screen);
+            state = xo(screen);
         }
         // refesh screen
 
