@@ -189,5 +189,6 @@ int enigme_play(SDL_Surface *screen)
 			}
 		}
 	}
-    return (1);
+    if (r==e.reponsevrai)return (1);
+	else return(0);
 }

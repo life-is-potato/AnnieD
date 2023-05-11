@@ -117,6 +117,7 @@ int enemy_check_collision(enemy *p, camera cam, int size, img *tiles)
         tiles[i].pos.h = tiles[i].image->h;
         if (rect_meeting(p->x_spd + p->sprite.pos.x, p->sprite.pos.y, pl, tiles[i].pos))
         {
+            p->direction=-p->direction;
             if (tiles[i].pos.x > pl.x)
                 p->sprite.pos.x = tiles[i].pos.x - p->frame_width;
             else

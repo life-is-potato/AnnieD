@@ -7,6 +7,7 @@
 typedef struct {
     Uint32 time;
     int x1,y1,x2,y2;
+    int e1;
 }save;
 
 typedef struct
@@ -44,6 +45,8 @@ typedef struct
 } player;
 
 int rect_meeting(int x, int y, SDL_Rect rect1, SDL_Rect rect2);
+
+int player_meeting(player p, img i);
 
 void update_camera(img img1, img img2, camera *cam, int* mode);
 
