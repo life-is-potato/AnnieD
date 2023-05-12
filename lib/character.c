@@ -99,12 +99,24 @@ void player_create(player *p, char *spritesheet,save savefile)
     load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", savefile.x1, savefile.y1);
     p->jump_spd = -7;
     p->canjump = 99999;
-    p->key.jump = SDLK_KP1;
-    p->key.right = SDLK_RIGHT;
-    p->key.left = SDLK_LEFT;
-    p->key.up = SDLK_UP;
-    p->key.down = SDLK_DOWN;
-    p->key.dash = SDLK_KP2;
+    FILE* f=fopen("keys1.txt","r");
+    if(f!=NULL){
+        fscanf(f,"%d ",&p->key.jump);
+        fscanf(f,"%d ",&p->key.right);
+        fscanf(f,"%d ",&p->key.left);
+        fscanf(f,"%d ",&p->key.dash);
+        fscanf(f,"%d ",&p->key.down);
+        fscanf(f,"%d ",&p->key.up);
+        fclose(f);
+    }
+    else{
+        p->key.jump = SDLK_KP1;
+        p->key.right = SDLK_RIGHT;
+        p->key.left = SDLK_LEFT;
+        p->key.up = SDLK_UP;
+        p->key.down = SDLK_DOWN;
+        p->key.dash = SDLK_KP2;
+    }
     p->facing = 1;
     p->jump.released = 1;
     p->dash.released=1;
@@ -128,12 +140,24 @@ void player_create2(player *p, char *spritesheet, save savefile)
     load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", savefile.x2, savefile.y2);
     p->jump_spd = -7;
     p->canjump = 99999;
-    p->key.jump = SDLK_j;
+    FILE* f=fopen("keys2.txt","r");
+    if(f!=NULL){
+        fscanf(f,"%d ",&p->key.jump);
+        fscanf(f,"%d ",&p->key.right);
+        fscanf(f,"%d ",&p->key.left);
+        fscanf(f,"%d ",&p->key.dash);
+        fscanf(f,"%d ",&p->key.down);
+        fscanf(f,"%d ",&p->key.up);
+        fclose(f);
+    }
+    else{
+        p->key.jump = SDLK_j;
     p->key.right = SDLK_d;
     p->key.left = SDLK_q;
     p->key.up = SDLK_z;
     p->key.down = SDLK_s;
     p->key.dash = SDLK_k;
+    }
     p->facing = 1;
     p->jump.released = 1;
     p->x_spd=0;
