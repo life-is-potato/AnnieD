@@ -27,7 +27,7 @@ int gameloop(SDL_Surface *screen)
     scr2.h = SCREEN_H;
     camera cam, cam1, cam2;
     minimap mm;
-    miniplayer mp, mp2, me;
+    miniplayer mp, mp2, me, minitile;
     player p1, p2;
     img bg, dummy, nothing, enigmeobj;
     txt timertxt;
@@ -62,6 +62,7 @@ int gameloop(SDL_Surface *screen)
     init_miniplayer(&mp, miniplayerpath);
     init_miniplayer(&mp2, miniplayerpath);
     init_miniplayer(&me, miniplayerpath);
+    init_miniplayer(&minitile, "img/wall_smol.png");
     player_create(&p1, spritesheet1, savefile);
     p1.x_spd = 0;
     //printf("%f\n", p1.x_spd);
@@ -102,7 +103,7 @@ int gameloop(SDL_Surface *screen)
         {
             SDL_Delay(100);
             if(enigme_play(screen))savefile.e1 = 0;
-            else if(player_meeting(p1, enigmeobj)) {p1.sprite.pos.x-=3*p1.x_spd;p1.x_spd=0;p1.facing=-p1.facing;p1.direction=-p1.direction;p1.right.pressed=0;p1.left.pressed=0;}
+            if(player_meeting(p1, enigmeobj)) {p1.sprite.pos.x-=3*p1.x_spd;p1.x_spd=0;p1.facing=-p1.facing;p1.direction=-p1.direction;p1.right.pressed=0;p1.left.pressed=0;}
             else{p2.sprite.pos.x-=3*p2.x_spd;p2.x_spd=0;p2.facing=-p2.facing;p2.direction=-p2.direction;p2.right.pressed=0;p2.left.pressed=0;}
         }
         update_camera(p1.sprite, p2.sprite, &cam, &mode);
@@ -170,6 +171,7 @@ int gameloop(SDL_Surface *screen)
         update_miniplayer(&mm, &mp, &p1, screen, cam);
         update_miniplayer(&mm, &mp2, &p2, screen, cam);
         update_minienemy(&mm, &me, &urmom, screen, cam);
+        update_tiles(&mm,&minitile,size,tm,screen,cam);
         SDL_SetClipRect(screen, &scr);
         update_time(0, &mm, &time, &timertxt, screen, savefile, starttime2);
         SDL_Flip(screen);

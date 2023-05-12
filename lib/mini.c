@@ -41,6 +41,19 @@ void update_minienemy(minimap *mm, miniplayer *mp, enemy *player, SDL_Surface *s
     SDL_BlitSurface(mp->img.image, NULL, screen, &mp->img.pos);
 }
 
+
+void update_tiles(minimap *mm, miniplayer* tile, int size, img* tm, SDL_Surface *screen, camera cam)
+{
+    float scale_factor = (float)mm->img.image->w / (float)screen->w;
+    // mp->img.pos.x = player->sprite.pos.x * scale_factor + mm->img.pos.x;
+    // mp->img.pos.y = player->sprite.pos.y * scale_factor + mm->img.pos.y;
+    for(int i=0;i<size;i++){
+    tile->img.pos.x = (tm[i].pos.x -(cam.x - SCREEN_W/2)) * scale_factor;
+    tile->img.pos.y = (tm[i].pos.y -(cam.y - SCREEN_H/2)) * scale_factor;
+    SDL_BlitSurface(tile->img.image, NULL, screen, &tile->img.pos);
+    }
+}
+
 /*void update_minienemy(minimap *mm, player *enemy, int NumEn, int pause, SDL_Surface *screen){
     float scale_factor = (float) mm->img.image->w / (float) screen->w;
     if(!pause){
