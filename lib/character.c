@@ -500,6 +500,14 @@ void parse_tiles(char *map, img *tab, int *size)
                 load_img(&tab[*size], "img/wall_middle.png", i * 53, j * 50);
                 *size += 1;
             }
+            else if( n =='2'){
+                load_img(&tab[*size], "img/wall_left.png", i * 53, j * 50);
+                *size += 1;
+            }
+            else if( n =='3'){
+                load_img(&tab[*size], "img/wall_right.png", i * 53, j * 50);
+                *size += 1;
+            }
             /*else if (n == '0' && random()%50==0){
                 *size += 1;
                 load_img(&tab[*size], "wall.png", i * 53, j * 50);    
