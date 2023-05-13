@@ -111,16 +111,6 @@ int gameloop(SDL_Surface *screen)
         // Dessine les arrière-plans, les ennemis, les joueurs, et les objets
         if (mode == 1)
         {
-            /*bg.pos.x = -(cam.x - SCREEN_W / 2);
-            bg.pos.y = -(cam.y - SCREEN_H / 2);*/
-            /*if(p1.sprite.pos.x<p2.sprite.pos.x){
-            update_camera(p1.sprite, p1.sprite, &cam1,NULL);
-            update_camera(p2.sprite, p2.sprite, &cam2,NULL);
-            }
-            else{
-                update_camera(p1.sprite, p1.sprite, &cam2,NULL);
-                update_camera(p2.sprite, p2.sprite, &cam1,NULL);
-            }*/
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             display_sprite(screen, bg, cam, mode, 0);
             animerBack(&car, &k);
@@ -145,14 +135,12 @@ int gameloop(SDL_Surface *screen)
                 update_camera(p1.sprite, p1.sprite, &cam2, &mode);
                 update_camera(p2.sprite, p2.sprite, &cam1, &mode);
             }
-            // update_camera(p1.sprite,p2.sprite,&cam,&mode);
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
-            // SDL_BlitSurface(mm.img.image, NULL, screen, &dummy.pos);
             SDL_SetClipRect(screen, &scr2);
             display_sprite(screen, bg, cam2, mode, 1);
             display_sprite(screen, car, cam2, mode, 1);
             display_tiles(screen, tm, cam2, size, mode, 1);
-            display_dec(screen, dec, cam, size2, mode, 1);
+            display_dec(screen, dec, cam2, size2, mode, 1);
             if(savefile.e1)display_sprite(screen, enigmeobj, cam2, mode, 1);
             player_draw(p1, screen, cam2, 1, mode);
             player_draw(p2, screen, cam2, 1, mode);
@@ -163,7 +151,7 @@ int gameloop(SDL_Surface *screen)
             animerBack(&car, &k);
             display_sprite(screen, car, cam1, mode, -1);
             display_tiles(screen, tm, cam1, size, mode, -1);
-            display_dec(screen, dec, cam, size2, mode, -1);
+            display_dec(screen, dec, cam1, size2, mode, -1);
             if(savefile.e1)display_sprite(screen, enigmeobj, cam1, mode, -1);
             player_draw(p1, screen, cam1, -1, mode);
             player_draw(p2, screen, cam1, -1, mode);
