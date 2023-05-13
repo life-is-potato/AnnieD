@@ -4,14 +4,17 @@
 #include <math.h>
 #include <time.h>
 
-void update_camera(img img1, img img2, camera *cam, int* mode)
+void update_camera(img img1, img img2, camera *cam, int *mode)
 {
-    if((img1.pos.x>cam->x-SCREEN_W/2 && img1.pos.x<cam->x+SCREEN_W/2 && img1.pos.y>cam->y-SCREEN_H/2 && img1.pos.y<cam->y+SCREEN_H/2) && (img2.pos.x>cam->x-SCREEN_W/2 && img2.pos.x<cam->x+SCREEN_W/2 && img2.pos.y>cam->y-SCREEN_H/2 && img2.pos.y<cam->y+SCREEN_H/2))
+    if ((img1.pos.x > cam->x - SCREEN_W / 2 && img1.pos.x < cam->x + SCREEN_W / 2 && img1.pos.y > cam->y - SCREEN_H / 2 && img1.pos.y < cam->y + SCREEN_H / 2) && (img2.pos.x > cam->x - SCREEN_W / 2 && img2.pos.x < cam->x + SCREEN_W / 2 && img2.pos.y > cam->y - SCREEN_H / 2 && img2.pos.y < cam->y + SCREEN_H / 2))
     {
-        if (mode!=NULL)*mode=1;
+        if (mode != NULL)
+            *mode = 1;
     }
-    else{
-        if (mode!=NULL)*mode=2;
+    else
+    {
+        if (mode != NULL)
+            *mode = 2;
     }
     cam->x += ((img1.pos.x + img2.pos.x + 50) / 2 - cam->x) / 20;
     cam->y += ((img1.pos.y + img2.pos.y) / 2 - cam->y) / 20;
@@ -67,7 +70,7 @@ void players_get_inputs(player *p1, player *p2, int *boucle)
                 p1->left.pressed = 0;
             if (event.key.keysym.sym == p1->key.dash)
                 p1->dash.pressed = 0;
-                p1->dash.released=1;
+            p1->dash.released = 1;
             if (event.key.keysym.sym == p1->key.up)
                 p1->up.pressed = 0;
             if (event.key.keysym.sym == p1->key.down)
@@ -84,7 +87,7 @@ void players_get_inputs(player *p1, player *p2, int *boucle)
                 p2->left.pressed = 0;
             if (event.key.keysym.sym == p2->key.dash)
                 p2->dash.pressed = 0;
-                p2->dash.released=1;
+            p2->dash.released = 1;
             if (event.key.keysym.sym == p2->key.up)
                 p2->up.pressed = 0;
             if (event.key.keysym.sym == p2->key.down)
@@ -93,23 +96,25 @@ void players_get_inputs(player *p1, player *p2, int *boucle)
     }
 }
 
-void player_create(player *p, char *spritesheet,save savefile)
+void player_create(player *p, char *spritesheet, save savefile)
 {
     load_img(&p->sprite, spritesheet, savefile.x1, savefile.y1);
     load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", savefile.x1, savefile.y1);
     p->jump_spd = -7;
     p->canjump = 99999;
-    FILE* f=fopen("keys1.txt","r");
-    if(f!=NULL){
-        fscanf(f,"%d ",&p->key.jump);
-        fscanf(f,"%d ",&p->key.right);
-        fscanf(f,"%d ",&p->key.left);
-        fscanf(f,"%d ",&p->key.dash);
-        fscanf(f,"%d ",&p->key.down);
-        fscanf(f,"%d ",&p->key.up);
+    FILE *f = fopen("keys1.txt", "r");
+    if (f != NULL)
+    {
+        fscanf(f, "%d ", &p->key.jump);
+        fscanf(f, "%d ", &p->key.right);
+        fscanf(f, "%d ", &p->key.left);
+        fscanf(f, "%d ", &p->key.dash);
+        fscanf(f, "%d ", &p->key.down);
+        fscanf(f, "%d ", &p->key.up);
         fclose(f);
     }
-    else{
+    else
+    {
         p->key.jump = SDLK_KP1;
         p->key.right = SDLK_RIGHT;
         p->key.left = SDLK_LEFT;
@@ -119,7 +124,7 @@ void player_create(player *p, char *spritesheet,save savefile)
     }
     p->facing = 1;
     p->jump.released = 1;
-    p->dash.released=1;
+    p->dash.released = 1;
     p->dash_spd = 12;
     p->wlk_spd = 4;
     p->jumping = 0;
@@ -140,29 +145,31 @@ void player_create2(player *p, char *spritesheet, save savefile)
     load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", savefile.x2, savefile.y2);
     p->jump_spd = -7;
     p->canjump = 99999;
-    FILE* f=fopen("keys2.txt","r");
-    if(f!=NULL){
-        fscanf(f,"%d ",&p->key.jump);
-        fscanf(f,"%d ",&p->key.right);
-        fscanf(f,"%d ",&p->key.left);
-        fscanf(f,"%d ",&p->key.dash);
-        fscanf(f,"%d ",&p->key.down);
-        fscanf(f,"%d ",&p->key.up);
+    FILE *f = fopen("keys2.txt", "r");
+    if (f != NULL)
+    {
+        fscanf(f, "%d ", &p->key.jump);
+        fscanf(f, "%d ", &p->key.right);
+        fscanf(f, "%d ", &p->key.left);
+        fscanf(f, "%d ", &p->key.dash);
+        fscanf(f, "%d ", &p->key.down);
+        fscanf(f, "%d ", &p->key.up);
         fclose(f);
     }
-    else{
+    else
+    {
         p->key.jump = SDLK_j;
-    p->key.right = SDLK_d;
-    p->key.left = SDLK_q;
-    p->key.up = SDLK_z;
-    p->key.down = SDLK_s;
-    p->key.dash = SDLK_k;
+        p->key.right = SDLK_d;
+        p->key.left = SDLK_q;
+        p->key.up = SDLK_z;
+        p->key.down = SDLK_s;
+        p->key.dash = SDLK_k;
     }
     p->facing = 1;
     p->jump.released = 1;
-    p->x_spd=0;
-    p->y_spd=0;
-    p->dash.released=1;
+    p->x_spd = 0;
+    p->y_spd = 0;
+    p->dash.released = 1;
     p->dash_spd = 12;
     p->wlk_spd = 4;
     p->jumping = 0;
@@ -243,8 +250,8 @@ void player_calculate_speed(player *p)
         p->dashdiry = p->down.pressed - p->up.pressed;
         if (!p->dashdiry)
             p->dashdirx = p->facing;
-        p->dash.pressed=0;
-        p->dash.released =0;
+        p->dash.pressed = 0;
+        p->dash.released = 0;
     }
     if (player_dash(p))
         ;
@@ -286,11 +293,13 @@ int rect_meeting(int x, int y, SDL_Rect rect1, SDL_Rect rect2)
     return collide;
 }
 
-int player_meeting(player p, img i){
+int player_meeting(player p, img i)
+{
     SDL_Rect pl = p.sprite.pos;
     pl.h = p.frame_height;
     pl.w = p.frame_width;
-    if (rect_meeting(p.x_spd + p.sprite.pos.x, p.sprite.pos.y + p.y_spd, pl, i.pos)) return 1;
+    if (rect_meeting(p.x_spd + p.sprite.pos.x, p.sprite.pos.y + p.y_spd, pl, i.pos))
+        return 1;
     return 0;
 }
 
@@ -334,8 +343,9 @@ void player_check_collision(player *p, camera cam, img *tiles, int size)
                 p->canjump = 2;
                 p->candash = 1;
             }
-            else if(p->y_spd<0){
-                p->jumping=0;
+            else if (p->y_spd < 0)
+            {
+                p->jumping = 0;
             }
             p->y_spd = 0;
             p->sprite.pos.y += p->y_spd;
@@ -450,7 +460,7 @@ void player_animate(player *p)
 
 void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode)
 {
-    p.sprite.pos.x -= cam.x - (SCREEN_W+ ((float)a/2)*SCREEN_W) / 2/mode;
+    p.sprite.pos.x -= cam.x - (SCREEN_W + ((float)a / 2) * SCREEN_W) / 2 / mode;
     p.sprite.pos.y -= cam.y - SCREEN_H / 2;
     if (p.x_spd > 0)
         SDL_BlitSurface(p.sprite.image, &p.framepos, screen, &p.sprite.pos);
@@ -473,18 +483,19 @@ void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode)
 
 void display_sprite(SDL_Surface *screen, img i, camera cam, int mode, int p)
 {
-    i.pos.x -= cam.x - (SCREEN_W +((float)p/2)*SCREEN_W)/ 2 / mode;
-    i.pos.y -= cam.y - SCREEN_H / 2 ;
+    i.pos.x -= cam.x - (SCREEN_W + ((float)p / 2) * SCREEN_W) / 2 / mode;
+    i.pos.y -= cam.y - SCREEN_H / 2;
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
-void display_sprite_rect(SDL_Surface *screen, img i, camera cam, int mode, int p,SDL_Rect rect){
-    i.pos.x -= cam.x - (rect.w)/ 2 +rect.x;
-    i.pos.y -= cam.y - (rect.h) / 2 +rect.y ;
+void display_sprite_rect(SDL_Surface *screen, img i, camera cam, int mode, int p, SDL_Rect rect)
+{
+    i.pos.x -= cam.x - (rect.w) / 2 + rect.x;
+    i.pos.y -= cam.y - (rect.h) / 2 + rect.y;
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
-void parse_tiles(char *map, img *tab, int *size, img* decorations, int* size2)
+void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2)
 {
     srand(time);
     int i = -1, j = 0;
@@ -495,7 +506,74 @@ void parse_tiles(char *map, img *tab, int *size, img* decorations, int* size2)
         for (; fscanf(f, "%c ", &n) == 1;)
         {
             i++;
-            if (n == '1')
+            switch (n)
+            {
+            case '1':
+                load_img(&tab[*size], "img/wall_middle.png", i * 52, j * 50);
+                *size += 1;
+                break;
+            case '2':
+                load_img(&tab[*size], "img/wall_left.png", i * 52, j * 50);
+                *size += 1;
+                break;
+            case '3':
+                load_img(&tab[*size], "img/wall_right.png", i * 52, j * 50);
+                *size += 1;
+                break;
+            case '4':
+                load_img(&decorations[*size2], "img/liquid_tube_bottom.png", i * 52, j * 50);
+                *size2 += 1;
+                break;
+            case '5':
+                load_img(&decorations[*size2], "img/liquid_tube_top.png", i * 52, j * 50);
+                *size2 += 1;
+                break;
+            case 'a':
+                load_img(&decorations[*size2], "img/pipe_bottom_left.png", i * 52, j * 50);
+                *size2 += 1;
+                break;
+            case 'b':
+                load_img(&decorations[*size2], "img/pipe_bottom_right.png", i * 52, j * 50);
+                *size2 += 1;
+                break;
+            case 'c':
+                load_img(&decorations[*size2], "img/pipe_top_left.png", i * 52, j * 50);
+                *size2 += 1;
+                break;
+            case 'd':
+                load_img(&decorations[*size2], "img/pipe_top_right.png", i * 52, j * 50);
+                *size2 += 1;
+                break;
+            case 'e':
+                load_img(&decorations[*size2], "img/pipe_head_top.png", i * 52, j * 50);
+                *size2 += 1;
+                break;   
+            case 'f':
+                load_img(&decorations[*size2], "img/pipe_head_down.png", i * 52, j * 50);
+                *size2 += 1;
+                break;    
+            case 'g':
+                load_img(&decorations[*size2], "img/pipe_head_left.png", i * 52, j * 50);
+                *size2 += 1;
+                break; 
+            case 'h':
+                load_img(&decorations[*size2], "img/pipe_head_right.png", i * 52, j * 50);
+                *size2 += 1;
+                break; 
+            case 'i':
+                load_img(&decorations[*size2], "img/pipe_horizontal.png", i * 52, j * 50);
+                *size2 += 1;
+                break; 
+            case 'j':
+                load_img(&decorations[*size2], "img/pipe_vertical.png", i * 52, j * 50);
+                *size2 += 1;
+                break; 
+            case 'q':
+                i = -1;
+                j++;
+                break;
+            }
+            /*if (n == '1')
             {
                 load_img(&tab[*size], "img/wall_middle.png", i * 52, j * 50);
                 *size += 1;
@@ -515,33 +593,33 @@ void parse_tiles(char *map, img *tab, int *size, img* decorations, int* size2)
             else if( n =='5'){
                 load_img(&decorations[*size2], "img/liquid_tube_top.png", i * 52, j * 50);
                 *size2 += 1;
-            }
+            }*/
             /*else if (n == '0' && random()%50==0){
                 *size += 1;
-                load_img(&tab[*size], "wall.png", i * 53, j * 50);    
-            }*/
+                load_img(&tab[*size], "wall.png", i * 53, j * 50);
+            }
             else if (n == 'q')
             {
                 i = -1;
                 j++;
-            }
+            }*/
         }
         fclose(f);
     }
 }
 
-void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size, int mode,int p)
+void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size, int mode, int p)
 {
     for (int i = 0; i < size; i++)
     {
-        display_sprite(screen, tm[i], cam, mode,p);
+        display_sprite(screen, tm[i], cam, mode, p);
     }
 }
 
-void display_dec(SDL_Surface *screen, img *tm, camera cam, int size, int mode,int p)
+void display_dec(SDL_Surface *screen, img *tm, camera cam, int size, int mode, int p)
 {
     for (int i = 0; i < size; i++)
     {
-        display_sprite(screen, tm[i], cam, mode,p);
+        display_sprite(screen, tm[i], cam, mode, p);
     }
 }
