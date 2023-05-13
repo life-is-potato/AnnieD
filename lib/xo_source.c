@@ -58,6 +58,7 @@ int handle_events(SDL_Surface* screen, SDL_Surface* x_img, SDL_Surface* o_img, S
         {
             if (event.type == SDL_QUIT)
             {
+                SDL_Quit();
                 quit = 1;
             }
             else if (event.type == SDL_MOUSEBUTTONDOWN)
