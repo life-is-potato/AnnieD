@@ -484,7 +484,7 @@ void display_sprite_rect(SDL_Surface *screen, img i, camera cam, int mode, int p
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
-void parse_tiles(char *map, img *tab, int *size)
+void parse_tiles(char *map, img *tab, int *size, img* decorations, int* size2)
 {
     srand(time);
     int i = -1, j = 0;
@@ -497,16 +497,24 @@ void parse_tiles(char *map, img *tab, int *size)
             i++;
             if (n == '1')
             {
-                load_img(&tab[*size], "img/wall_middle.png", i * 53, j * 50);
+                load_img(&tab[*size], "img/wall_middle.png", i * 52, j * 50);
                 *size += 1;
             }
             else if( n =='2'){
-                load_img(&tab[*size], "img/wall_left.png", i * 53, j * 50);
+                load_img(&tab[*size], "img/wall_left.png", i * 52, j * 50);
                 *size += 1;
             }
             else if( n =='3'){
-                load_img(&tab[*size], "img/wall_right.png", i * 53, j * 50);
+                load_img(&tab[*size], "img/wall_right.png", i * 52, j * 50);
                 *size += 1;
+            }
+            else if( n =='4'){
+                load_img(&decorations[*size2], "img/liquid_tube_bottom.png", i * 52, j * 50);
+                *size2 += 1;
+            }
+            else if( n =='5'){
+                load_img(&decorations[*size2], "img/liquid_tube_top.png", i * 52, j * 50);
+                *size2 += 1;
             }
             /*else if (n == '0' && random()%50==0){
                 *size += 1;
@@ -523,6 +531,14 @@ void parse_tiles(char *map, img *tab, int *size)
 }
 
 void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size, int mode,int p)
+{
+    for (int i = 0; i < size; i++)
+    {
+        display_sprite(screen, tm[i], cam, mode,p);
+    }
+}
+
+void display_dec(SDL_Surface *screen, img *tm, camera cam, int size, int mode,int p)
 {
     for (int i = 0; i < size; i++)
     {
