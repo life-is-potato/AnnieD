@@ -69,8 +69,9 @@ int gameloop(SDL_Surface *screen)
     player_create2(&p2, spritesheet2, savefile);
     enemy urmom;
     img tm[1000];
-    int size = 0;
-    parse_tiles("map.txt", tm, &size);
+    img dec[1000];
+    int size = 0, size2=0;
+    parse_tiles("map.txt", tm, &size, dec, &size2);
     enemy_create(&urmom, spritesheet1);
     load_img(&bg, "img/background.jpg", 0, 0);
     load_img(&dummy, "img/background.jpg", 0, 0);
@@ -125,6 +126,7 @@ int gameloop(SDL_Surface *screen)
             animerBack(&car, &k);
             display_sprite(screen, car, cam, mode, 0);
             display_tiles(screen, tm, cam, size, mode, 0);
+            display_dec(screen, dec, cam, size2, mode, 0);
             if(savefile.e1)display_sprite(screen, enigmeobj, cam, mode, 0);
             player_draw(p1, screen, cam, 0, mode);
             player_draw(p2, screen, cam, 0, mode);
@@ -150,6 +152,7 @@ int gameloop(SDL_Surface *screen)
             display_sprite(screen, bg, cam2, mode, 1);
             display_sprite(screen, car, cam2, mode, 1);
             display_tiles(screen, tm, cam2, size, mode, 1);
+            display_dec(screen, dec, cam, size2, mode, 1);
             if(savefile.e1)display_sprite(screen, enigmeobj, cam2, mode, 1);
             player_draw(p1, screen, cam2, 1, mode);
             player_draw(p2, screen, cam2, 1, mode);
@@ -160,6 +163,7 @@ int gameloop(SDL_Surface *screen)
             animerBack(&car, &k);
             display_sprite(screen, car, cam1, mode, -1);
             display_tiles(screen, tm, cam1, size, mode, -1);
+            display_dec(screen, dec, cam, size2, mode, -1);
             if(savefile.e1)display_sprite(screen, enigmeobj, cam1, mode, -1);
             player_draw(p1, screen, cam1, -1, mode);
             player_draw(p2, screen, cam1, -1, mode);
