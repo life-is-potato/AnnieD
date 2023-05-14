@@ -100,6 +100,7 @@ void player_create(player *p, char *spritesheet, save savefile)
 {
     load_img(&p->sprite, spritesheet, savefile.x1, savefile.y1);
     load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", savefile.x1, savefile.y1);
+    p->lives=savefile.lives;
     p->jump_spd = -7;
     p->canjump = 99999;
     FILE *f = fopen("keys1.txt", "r");
@@ -622,4 +623,11 @@ void display_dec(SDL_Surface *screen, img *tm, camera cam, int size, int mode, i
     {
         display_sprite(screen, tm[i], cam, mode, p);
     }
+}
+
+void display_sprite_parallax(SDL_Surface *screen, img i, camera cam, int mode, int p)
+{
+    i.pos.x -= cam.x/2 - (SCREEN_W + ((float)p / 2) * SCREEN_W) / 2 / mode;
+    i.pos.y -= cam.y - SCREEN_H / 2;
+    SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }

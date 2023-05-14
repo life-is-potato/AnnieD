@@ -8,6 +8,7 @@ typedef struct {
     Uint32 time;
     int x1,y1,x2,y2;
     int e1;
+    int lives;
 }save;
 
 typedef struct
@@ -41,6 +42,7 @@ typedef struct
     int framestart;
     int frames;
     int facing;
+    int lives;
     SDL_Rect framepos;
 } player;
 
@@ -77,3 +79,5 @@ void parse_tiles(char *map, img *tab, int *size, img* decorations, int* size2);
 void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size, int mode, int p);
 
 void display_dec(SDL_Surface *screen, img *tm, camera cam, int size, int mode,int p);
+
+void display_sprite_parallax(SDL_Surface *screen, img i, camera cam, int mode, int p);

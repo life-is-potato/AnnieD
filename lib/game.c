@@ -44,6 +44,7 @@ int gameloop(SDL_Surface *screen)
     savefile.y1 = 400;
     savefile.y2 = 400;
     savefile.e1 = 1;
+    savefile.lives=3;
     FILE *f = fopen("save.bin", "rb");
     time = 0;
     if (f != NULL)
@@ -59,10 +60,15 @@ int gameloop(SDL_Surface *screen)
 
     load_txt(&timertxt, 10, 10, 0, 255, 0, "fonts/pixel_arial.ttf", 50);
     init_minimap(&mm, minimappath, screen);
+    SDL_SetAlpha(mm.img.image,SDL_SRCALPHA,128);
     init_miniplayer(&mp, miniplayerpath);
+    SDL_SetAlpha(mp.img.image,SDL_SRCALPHA,128);
     init_miniplayer(&mp2, miniplayerpath);
+    SDL_SetAlpha(mp2.img.image,SDL_SRCALPHA,128);
     init_miniplayer(&me, miniplayerpath);
+    SDL_SetAlpha(me.img.image,SDL_SRCALPHA,128);
     init_miniplayer(&minitile, "img/wall_smol.png");
+    SDL_SetAlpha(minitile.img.image,SDL_SRCALPHA,128);
     player_create(&p1, spritesheet1, savefile);
     p1.x_spd = 0;
     //printf("%f\n", p1.x_spd);
@@ -73,8 +79,8 @@ int gameloop(SDL_Surface *screen)
     int size = 0, size2=0;
     parse_tiles("map.txt", tm, &size, dec, &size2);
     enemy_create(&urmom, spritesheet1);
-    load_img(&bg, "img/background.jpg", 0, 0);
-    load_img(&dummy, "img/background.jpg", 0, 0);
+    load_img(&bg, "img/bgexp.png", 0, 0);
+    //load_img(&dummy, "img/bgexp.png",-300, 0);
     load_img(&nothing, "void.png", -1000, -1000);
     load_img(&enigmeobj, "img/enigme_objet.png", 290, 240);
     enigmeobj.pos.w=25;
@@ -113,8 +119,8 @@ int gameloop(SDL_Surface *screen)
         {
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             display_sprite(screen, bg, cam, mode, 0);
-            animerBack(&car, &k);
-            display_sprite(screen, car, cam, mode, 0);
+            //animerBack(&car, &k);
+            //display_sprite(screen, car, cam, mode, 0);
             display_tiles(screen, tm, cam, size, mode, 0);
             display_dec(screen, dec, cam, size2, mode, 0);
             if(savefile.e1)display_sprite(screen, enigmeobj, cam, mode, 0);
@@ -138,7 +144,7 @@ int gameloop(SDL_Surface *screen)
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             SDL_SetClipRect(screen, &scr2);
             display_sprite(screen, bg, cam2, mode, 1);
-            display_sprite(screen, car, cam2, mode, 1);
+            //display_sprite(screen, car, cam2, mode, 1);
             display_tiles(screen, tm, cam2, size, mode, 1);
             display_dec(screen, dec, cam2, size2, mode, 1);
             if(savefile.e1)display_sprite(screen, enigmeobj, cam2, mode, 1);
@@ -148,8 +154,8 @@ int gameloop(SDL_Surface *screen)
             //
             SDL_SetClipRect(screen, &scr1);
             display_sprite(screen, bg, cam1, mode, -1);
-            animerBack(&car, &k);
-            display_sprite(screen, car, cam1, mode, -1);
+            //animerBack(&car, &k);
+            //display_sprite(screen, car, cam1, mode, -1);
             display_tiles(screen, tm, cam1, size, mode, -1);
             display_dec(screen, dec, cam1, size2, mode, -1);
             if(savefile.e1)display_sprite(screen, enigmeobj, cam1, mode, -1);
