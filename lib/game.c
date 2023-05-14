@@ -60,7 +60,6 @@ int gameloop(SDL_Surface *screen)
 
     load_txt(&timertxt, 10, 10, 0, 255, 0, "fonts/pixel_arial.ttf", 50);
     init_minimap(&mm, minimappath, screen);
-    SDL_SetAlpha(mm.img.image,SDL_SRCALPHA,128);
     init_miniplayer(&mp, miniplayerpath);
     SDL_SetAlpha(mp.img.image,SDL_SRCALPHA,128);
     init_miniplayer(&mp2, miniplayerpath);
