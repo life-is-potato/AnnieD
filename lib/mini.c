@@ -10,8 +10,10 @@ void init_minimap(minimap *mm, char *path, SDL_Surface *screen)
     mm->img.image = IMG_Load(path);
     if (mm->img.image == NULL)
         printf("Unable to load image %s \n", SDL_GetError());
-    mm->img.pos.x = screen->w - mm->img.image->w;
-    mm->img.pos.y = screen->w - mm->img.image->w;
+    mm->img.pos.w=mm->img.image->w;
+    mm->img.pos.h=mm->img.image->h;
+    mm->img.pos.x = SCREEN_W - mm->img.image->w;
+    mm->img.pos.y = 0;
     SDL_SetAlpha(mm->img.image,SDL_SRCALPHA,128);
 }
 
@@ -27,8 +29,8 @@ void update_miniplayer(minimap *mm, miniplayer *mp, player *player, SDL_Surface 
     float scale_factor = (float)mm->img.image->w / (float)screen->w;
     // mp->img.pos.x = player->sprite.pos.x * scale_factor + mm->img.pos.x;
     // mp->img.pos.y = player->sprite.pos.y * scale_factor + mm->img.pos.y;
-    mp->img.pos.x = (player->sprite.pos.x -(cam.x - SCREEN_W/2)) * scale_factor;
-    mp->img.pos.y = (player->sprite.pos.y -(cam.y - SCREEN_H/2)) * scale_factor;
+    mp->img.pos.x = mm->img.pos.x+(player->sprite.pos.x -(cam.x - SCREEN_W/2)) * scale_factor;
+    mp->img.pos.y = mm->img.pos.y+(player->sprite.pos.y -(cam.y - SCREEN_H/2)) * scale_factor;
     SDL_BlitSurface(mp->img.image, NULL, screen, &mp->img.pos);
 }
 
@@ -37,8 +39,8 @@ void update_minienemy(minimap *mm, miniplayer *mp, enemy *player, SDL_Surface *s
     float scale_factor = (float)mm->img.image->w / (float)screen->w;
     // mp->img.pos.x = player->sprite.pos.x * scale_factor + mm->img.pos.x;
     // mp->img.pos.y = player->sprite.pos.y * scale_factor + mm->img.pos.y;
-    mp->img.pos.x = (player->sprite.pos.x-(cam.x - SCREEN_W/2)) * scale_factor;
-    mp->img.pos.y = (player->sprite.pos.y-(cam.y - SCREEN_H/2)) * scale_factor;
+    mp->img.pos.x = mm->img.pos.x+(player->sprite.pos.x-(cam.x - SCREEN_W/2)) * scale_factor;
+    mp->img.pos.y = mm->img.pos.y+(player->sprite.pos.y-(cam.y - SCREEN_H/2)) * scale_factor;
     SDL_BlitSurface(mp->img.image, NULL, screen, &mp->img.pos);
 }
 
@@ -49,8 +51,8 @@ void update_tiles(minimap *mm, miniplayer* tile, int size, img* tm, SDL_Surface 
     // mp->img.pos.x = player->sprite.pos.x * scale_factor + mm->img.pos.x;
     // mp->img.pos.y = player->sprite.pos.y * scale_factor + mm->img.pos.y;
     for(int i=0;i<size;i++){
-    tile->img.pos.x = (tm[i].pos.x -(cam.x - SCREEN_W/2)) * scale_factor;
-    tile->img.pos.y = (tm[i].pos.y -(cam.y - SCREEN_H/2)) * scale_factor;
+    tile->img.pos.x = mm->img.pos.x+(tm[i].pos.x -(cam.x - SCREEN_W/2)) * scale_factor;
+    tile->img.pos.y = mm->img.pos.y+(tm[i].pos.y -(cam.y - SCREEN_H/2)) * scale_factor;
     SDL_BlitSurface(tile->img.image, NULL, screen, &tile->img.pos);
     }
 }

@@ -29,7 +29,7 @@ int gameloop(SDL_Surface *screen)
     minimap mm;
     miniplayer mp, mp2, me, minitile;
     player p1, p2;
-    img bg, dummy, nothing, enigmeobj;
+    img bg, dummy, nothing, enigmeobj, life;
     txt timertxt;
     int mode = 1;
     int starttime;
@@ -57,7 +57,6 @@ int gameloop(SDL_Surface *screen)
 
     cam.x = (savefile.x1 + savefile.x2) / 2;
     cam.y = (savefile.y1 + savefile.y2) / 2;
-
     load_txt(&timertxt, 10, 10, 0, 255, 0, "fonts/pixel_arial.ttf", 50);
     init_minimap(&mm, minimappath, screen);
     init_miniplayer(&mp, miniplayerpath);
@@ -81,6 +80,7 @@ int gameloop(SDL_Surface *screen)
     load_img(&bg, "img/bgexp.png", 0, 0);
     //load_img(&dummy, "img/bgexp.png",-300, 0);
     load_img(&nothing, "void.png", -1000, -1000);
+    load_img(&life,"img/lives.png", 150,20);
     load_img(&enigmeobj, "img/enigme_objet.png", 290, 240);
     enigmeobj.pos.w=25;
     img car;
@@ -126,7 +126,7 @@ int gameloop(SDL_Surface *screen)
             player_draw(p1, screen, cam, 0, mode);
             player_draw(p2, screen, cam, 0, mode);
             enemy_draw(urmom, screen, cam, 0, mode);
-            SDL_BlitSurface(mm.img.image, NULL, screen, &dummy.pos);
+            //SDL_BlitSurface(mm.img.image, NULL, screen, &dummy.pos);
         }
         else
         {
@@ -161,15 +161,16 @@ int gameloop(SDL_Surface *screen)
             player_draw(p1, screen, cam1, -1, mode);
             player_draw(p2, screen, cam1, -1, mode);
             enemy_draw(urmom, screen, cam1, -1, mode);
-            SDL_BlitSurface(mm.img.image, NULL, screen, &dummy.pos);
         }
         // Dessine la minimap
-        SDL_SetClipRect(screen, &dummy.pos);
+        SDL_SetClipRect(screen, &mm.img.pos);
+        SDL_BlitSurface(mm.img.image, NULL, screen, &mm.img.pos);
         update_miniplayer(&mm, &mp, &p1, screen, cam);
         update_miniplayer(&mm, &mp2, &p2, screen, cam);
         update_minienemy(&mm, &me, &urmom, screen, cam);
         update_tiles(&mm,&minitile,size,tm,screen,cam);
         SDL_SetClipRect(screen, &scr);
+        SDL_BlitSurface(life.image, NULL, screen, &life.pos);
         update_time(0, &mm, &time, &timertxt, screen, savefile, starttime2);
         SDL_Flip(screen);
         endtime = SDL_GetTicks();
