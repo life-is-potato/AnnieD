@@ -12,6 +12,7 @@ void init_minimap(minimap *mm, char *path, SDL_Surface *screen)
         printf("Unable to load image %s \n", SDL_GetError());
     mm->img.pos.x = screen->w - mm->img.image->w;
     mm->img.pos.y = screen->w - mm->img.image->w;
+    SDL_SetAlpha(mm->img.image,SDL_SRCALPHA,128);
 }
 
 void init_miniplayer(miniplayer *mp, char *path)
