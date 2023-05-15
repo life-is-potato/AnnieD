@@ -223,3 +223,15 @@ void enemy_draw(enemy p, SDL_Surface *screen, camera cam, int a, int mode)
         SDL_BlitSurface(p.spritemirrored.image, &p.framepos, screen, &p.sprite.pos);
     }
 }
+
+int player_ennemy_colliding(player p, enemy e){
+    SDL_Rect pl = p.sprite.pos;
+    SDL_Rect el= e.sprite.pos;
+    pl.h = p.frame_height;
+    pl.w = p.frame_width;
+    el.h = e.frame_height;
+    el.w = e.frame_width;
+    if (rect_meeting(p.x_spd + p.sprite.pos.x, p.sprite.pos.y + p.y_spd, pl, el))
+        return 1;
+    return 0;
+}

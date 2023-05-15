@@ -35,3 +35,5 @@ void enemy_step(enemy *p, camera cam, player p1, player p2, img *tiles, int size
 void enemy_animate(enemy *p);
 
 void enemy_draw(enemy p, SDL_Surface *screen, camera cam,int a, int mode);
+
+int player_ennemy_colliding(player p, enemy e);

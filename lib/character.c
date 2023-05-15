@@ -4,8 +4,9 @@
 #include <math.h>
 #include <time.h>
 
-void update_camera(img img1, img img2, camera *cam, int *mode)
+void update_camera(img img1, img img2, camera *cam, int *mode, int room_width, int room_height, int side)
 {
+    if(side==2){
     if ((img1.pos.x > cam->x - SCREEN_W / 2 && img1.pos.x < cam->x + SCREEN_W / 2 && img1.pos.y > cam->y - SCREEN_H / 2 && img1.pos.y < cam->y + SCREEN_H / 2) && (img2.pos.x > cam->x - SCREEN_W / 2 && img2.pos.x < cam->x + SCREEN_W / 2 && img2.pos.y > cam->y - SCREEN_H / 2 && img2.pos.y < cam->y + SCREEN_H / 2))
     {
         if (mode != NULL)
@@ -16,10 +17,28 @@ void update_camera(img img1, img img2, camera *cam, int *mode)
         if (mode != NULL)
             *mode = 2;
     }
+   }
     cam->x += ((img1.pos.x + img2.pos.x + 50) / 2 - cam->x) / 20;
+    if(side==2){
+    if(cam->x < SCREEN_W/2) cam->x=SCREEN_W/2 ;
+    if(cam->x > room_width - SCREEN_W/2) cam->x= room_width - SCREEN_W/2;
+    }
+    else if(side==0){
+        if(cam->x < SCREEN_W/4) cam->x=SCREEN_W/4 ;
+    }
+    else if(side==1){
+        if(cam->x > room_width - SCREEN_W/4) cam->x= room_width - SCREEN_W/4;
+    }
     cam->y += ((img1.pos.y + img2.pos.y) / 2 - cam->y) / 20;
-    // cam->x=img.pos.x;
-    // cam->y=img.pos.y;
+    if(cam->y < SCREEN_H/2) cam->y=SCREEN_H/2;
+    if(cam->y > room_height - SCREEN_H/2) cam->y= room_height - SCREEN_H/2;
+    /*cam->x += ((img1.pos.x + img2.pos.x + 50) / 2 - cam->x) / 20;
+    if(cam->x < SCREEN_W/2/ *mode && side==2) cam->x=SCREEN_W/2 / *mode;
+    if(cam->x > room_width - SCREEN_W/2/ * mode && side==2) cam->x= room_width - SCREEN_W/2/ *mode;
+    cam->y += ((img1.pos.y + img2.pos.y) / 2 - cam->y) / 20;
+    printf("%d\n",cam->y);
+    if(cam->y < SCREEN_H/2) cam->y=SCREEN_H/2;
+    if(cam->y > room_height - SCREEN_H/2) cam->y= room_height - SCREEN_H/2;*/
 }
 
 void players_get_inputs(player *p1, player *p2, int *boucle)
@@ -496,7 +515,7 @@ void display_sprite_rect(SDL_Surface *screen, img i, camera cam, int mode, int p
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
-void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2)
+void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2, int* roomwidth, int* roomheight)
 {
     srand(time);
     int i = -1, j = 0;
@@ -570,44 +589,17 @@ void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2)
                 *size2 += 1;
                 break; 
             case 'q':
+                *roomwidth=i*52;
                 i = -1;
                 j++;
                 break;
             }
-            /*if (n == '1')
-            {
-                load_img(&tab[*size], "img/wall_middle.png", i * 52, j * 50);
-                *size += 1;
-            }
-            else if( n =='2'){
-                load_img(&tab[*size], "img/wall_left.png", i * 52, j * 50);
-                *size += 1;
-            }
-            else if( n =='3'){
-                load_img(&tab[*size], "img/wall_right.png", i * 52, j * 50);
-                *size += 1;
-            }
-            else if( n =='4'){
-                load_img(&decorations[*size2], "img/liquid_tube_bottom.png", i * 52, j * 50);
-                *size2 += 1;
-            }
-            else if( n =='5'){
-                load_img(&decorations[*size2], "img/liquid_tube_top.png", i * 52, j * 50);
-                *size2 += 1;
-            }*/
-            /*else if (n == '0' && random()%50==0){
-                *size += 1;
-                load_img(&tab[*size], "wall.png", i * 53, j * 50);
-            }
-            else if (n == 'q')
-            {
-                i = -1;
-                j++;
-            }*/
         }
+        *roomheight=j*50;
         fclose(f);
     }
 }
+
 
 void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size, int mode, int p)
 {
@@ -630,4 +622,64 @@ void display_sprite_parallax(SDL_Surface *screen, img i, camera cam, int mode, i
     i.pos.x -= cam.x/2 - (SCREEN_W + ((float)p / 2) * SCREEN_W) / 2 / mode;
     i.pos.y -= cam.y - SCREEN_H / 2;
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
+}
+
+void display_lives(player p, SDL_Surface* screen, img im){
+    for(int i=0;i<p.lives;i++){
+        im.pos.x+=80;
+        display_img(screen,im);
+    }
+}
+
+Uint32 SDL_GetPixel(SDL_Surface *surface, int x, int y) {
+  // Get the pixel format of the surface.
+  SDL_PixelFormat *format = surface->format;
+
+  // Get the offset of the pixel in the surface's data.
+  int offset = (y * surface->pitch) + (x * format->BytesPerPixel);
+
+  // Return the pixel value.
+  return *((Uint32 *)surface->pixels + offset);
+}
+
+void SDL_SetPixel(SDL_Surface *surface, int x, int y, Uint32 pixel) {
+  // Get the pixel format of the surface.
+  SDL_PixelFormat *format = surface->format;
+
+  // Get the offset of the pixel in the surface's data.
+  int offset = (y * surface->pitch) + (x * format->BytesPerPixel);
+
+  // Set the pixel value.
+  *((Uint32 *)surface->pixels + offset) = pixel;
+}
+
+int pixel_perfect_collision(player *p, img *i) {
+  // Get the player's and image's bounding boxes.
+  SDL_Rect player_rect = p->sprite.pos;
+  player_rect.w=p->frame_width;
+  player_rect.h=p->frame_height;
+  SDL_Rect image_rect = i->pos;
+
+  // Check if the bounding boxes intersect.
+
+  if (rect_meeting(player_rect.x,player_rect.y,player_rect,image_rect)) {
+    // Get the pixel data for the player and image.
+    Uint8 *player_pixels = (Uint8 *)p->sprite.image->pixels;
+    Uint8 *image_pixels = (Uint8 *)i->image->pixels;
+
+    // Loop through each pixel in the player's sprite.
+    for (int y = p->framepos.y; y < p->framepos.y+player_rect.h; y++) {
+      for (int x = p->framepos.x; x < p->framepos.x+player_rect.w; x++) {
+        // If the current pixel in the player's sprite is not transparent,
+        // and the same pixel in the image is not transparent,
+        // then there is a collision.
+        if (player_pixels[y * player_rect.w + x] != 0 &&
+            image_pixels[(y-p->framepos.y) * image_rect.w + (x-p->framepos.x)] != 0) {
+          return 1;
+        }
+      }
+    }
+  }
+
+  return 0;
 }

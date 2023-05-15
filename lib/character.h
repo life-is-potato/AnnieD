@@ -33,6 +33,7 @@ typedef struct
     button right, left, jump, down, up, dash, interact;
     float x_spd, y_spd;
     int canjump, direction;
+    int respawn_x,respawn_y;
     int jump_spd, wlk_spd, dash_spd;
     int jumping;
     int dashing;
@@ -50,7 +51,7 @@ int rect_meeting(int x, int y, SDL_Rect rect1, SDL_Rect rect2);
 
 int player_meeting(player p, img i);
 
-void update_camera(img img1, img img2, camera *cam, int* mode);
+void update_camera(img img1, img img2, camera *cam, int *mode, int room_width, int room_height, int side);
 
 void players_get_inputs(player *p1, player *p2, int *boucle);
 
@@ -74,10 +75,14 @@ void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode);
 
 void display_sprite(SDL_Surface *screen, img i, camera cam, int mode, int p);
 
-void parse_tiles(char *map, img *tab, int *size, img* decorations, int* size2);
+void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2, int* roomwidth, int* roomheight);
 
 void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size, int mode, int p);
 
 void display_dec(SDL_Surface *screen, img *tm, camera cam, int size, int mode,int p);
 
 void display_sprite_parallax(SDL_Surface *screen, img i, camera cam, int mode, int p);
+
+void display_lives(player p, SDL_Surface* screen, img im);
+
+int pixel_perfect_collision(player *p, img *i);
