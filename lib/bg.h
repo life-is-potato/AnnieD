@@ -5,6 +5,7 @@
 #include <SDL/SDL_mixer.h> 
 #include <SDL/SDL_ttf.h> 	
 #include "./img.h"
+#include "skander.h"
 typedef struct 
 {
     char *url;
@@ -15,13 +16,6 @@ typedef struct
     int level;
     SDL_Surface *img;
 }background;
-typedef struct
-{
-	SDL_Surface *txt;
-	SDL_Rect pos_txt;
-	SDL_Colour color_txt;
-	TTF_Font *police;
-}texte;
 typedef struct
 {
 	Mix_Music *music;
@@ -35,7 +29,6 @@ typedef struct
 }scoreinfo;
 
 void init_animerBack (background* image,SDL_Surface * screen);
-void initialiser_audio(Mix_Music *music);
 void initBack(background * b);
 void aficherBack(background b, SDL_Surface * screen);
 void scrolling (background * b, int direction ); 

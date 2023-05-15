@@ -515,7 +515,7 @@ void display_sprite_rect(SDL_Surface *screen, img i, camera cam, int mode, int p
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
-void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2, int* roomwidth, int* roomheight)
+void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2, img* enigmes, int* size3, int* roomwidth, int* roomheight)
 {
     srand(time);
     int i = -1, j = 0;
@@ -588,6 +588,12 @@ void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2, i
                 load_img(&decorations[*size2], "img/pipe_vertical.png", i * 52, j * 50);
                 *size2 += 1;
                 break; 
+            case 'k':
+                load_img(&enigmes[*size3],"img/enigme_objet.png",i*52,j*50);
+                enigmes[*size3].pos.w=15;
+                enigmes[*size3].pos.h=27;
+                *size3 += 1;
+                break;
             case 'q':
                 *roomwidth=i*52;
                 i = -1;
@@ -631,28 +637,6 @@ void display_lives(player p, SDL_Surface* screen, img im){
     }
 }
 
-Uint32 SDL_GetPixel(SDL_Surface *surface, int x, int y) {
-  // Get the pixel format of the surface.
-  SDL_PixelFormat *format = surface->format;
-
-  // Get the offset of the pixel in the surface's data.
-  int offset = (y * surface->pitch) + (x * format->BytesPerPixel);
-
-  // Return the pixel value.
-  return *((Uint32 *)surface->pixels + offset);
-}
-
-void SDL_SetPixel(SDL_Surface *surface, int x, int y, Uint32 pixel) {
-  // Get the pixel format of the surface.
-  SDL_PixelFormat *format = surface->format;
-
-  // Get the offset of the pixel in the surface's data.
-  int offset = (y * surface->pitch) + (x * format->BytesPerPixel);
-
-  // Set the pixel value.
-  *((Uint32 *)surface->pixels + offset) = pixel;
-}
-
 int pixel_perfect_collision(player *p, img *i) {
   // Get the player's and image's bounding boxes.
   SDL_Rect player_rect = p->sprite.pos;
@@ -680,6 +664,5 @@ int pixel_perfect_collision(player *p, img *i) {
       }
     }
   }
-
   return 0;
 }

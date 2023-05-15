@@ -22,16 +22,6 @@ void initBack(background * b)
     b->pos_ecran.h=SCREEN_H;
     b->pos_ecran.w=SCREEN_W;
 }
-void initialiser_audio(Mix_Music *music)
-{
-	if(Mix_OpenAudio(44100,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024)==-1)
-	{
-		printf("%s",SDL_GetError());
-	}
-	music=Mix_LoadMUS("../music/fond.mp3");
-	Mix_PlayMusic(music,-1);
-	Mix_VolumeMusic(MIX_MAX_VOLUME/3.5);
-	}
 void aficherBack(background b, SDL_Surface * screen)
 {
     SDL_BlitSurface(b.affichebackground,&(b.camera_pos),screen,&(b.pos_ecran));

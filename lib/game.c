@@ -8,7 +8,7 @@ int gameloop(SDL_Surface *screen)
     char *spritesheet2 = "img/Potato_walking-export.png";
     char *minimappath = "smol_bg.png";
     char *miniplayerpath = "smol.png";
-    int penalty=0;
+    int penalty = 0;
     SDL_Rect scr;
     scr.x = 0;
     scr.y = 0;
@@ -45,7 +45,7 @@ int gameloop(SDL_Surface *screen)
     savefile.y1 = 400;
     savefile.y2 = 400;
     savefile.e1 = 1;
-    savefile.lives=3;
+    savefile.lives = 3;
     FILE *f = fopen("save.bin", "rb");
     time = 0;
     if (f != NULL)
@@ -61,29 +61,30 @@ int gameloop(SDL_Surface *screen)
     load_txt(&timertxt, 10, 10, 0, 255, 0, "fonts/pixel_arial.ttf", 50);
     init_minimap(&mm, minimappath, screen);
     init_miniplayer(&mp, miniplayerpath);
-    SDL_SetAlpha(mp.img.image,SDL_SRCALPHA,128);
+    SDL_SetAlpha(mp.img.image, SDL_SRCALPHA, 128);
     init_miniplayer(&mp2, miniplayerpath);
-    SDL_SetAlpha(mp2.img.image,SDL_SRCALPHA,128);
+    SDL_SetAlpha(mp2.img.image, SDL_SRCALPHA, 128);
     init_miniplayer(&me, miniplayerpath);
-    SDL_SetAlpha(me.img.image,SDL_SRCALPHA,128);
+    SDL_SetAlpha(me.img.image, SDL_SRCALPHA, 128);
     init_miniplayer(&minitile, "img/wall_smol.png");
-    SDL_SetAlpha(minitile.img.image,SDL_SRCALPHA,128);
+    SDL_SetAlpha(minitile.img.image, SDL_SRCALPHA, 128);
     player_create(&p1, spritesheet1, savefile);
     p1.x_spd = 0;
-    //printf("%f\n", p1.x_spd);
+    // printf("%f\n", p1.x_spd);
     player_create2(&p2, spritesheet2, savefile);
     enemy urmom;
     img tm[1000];
     img dec[1000];
-    int size = 0, size2=0;
-    parse_tiles("map.txt", tm, &size, dec, &size2,&room_width,&room_height);
+    img eng[10];
+    int size = 0, size2 = 0, size3 = 0;
+    parse_tiles("map.txt", tm, &size, dec, &size2, eng, &size3, &room_width, &room_height);
     enemy_create(&urmom, spritesheet1);
     load_img(&bg, "img/bgexp.png", 0, 0);
-    //load_img(&dummy, "img/bgexp.png",-300, 0);
+    // load_img(&dummy, "img/bgexp.png",-300, 0);
     load_img(&nothing, "void.png", -1000, -1000);
-    load_img(&life,"img/lives.png", 0,20);
+    load_img(&life, "img/lives.png", 0, 20);
     load_img(&enigmeobj, "img/enigme_objet.png", 250, 510);
-    enigmeobj.pos.w=25;
+    enigmeobj.pos.w = 25;
     img car;
     load_img(&car, "img/object.png", 100, 100);
     int k = 0;
@@ -95,7 +96,12 @@ int gameloop(SDL_Surface *screen)
         return -1;
 
     while (boucle)
-    {
+    {  
+        if (p1.lives<=0){
+            system("rm -r save.bin");
+            return(1);
+        }
+        
         // commentaires en français pour Skander <3
 
         starttime = SDL_GetTicks();
@@ -106,63 +112,94 @@ int gameloop(SDL_Surface *screen)
         player_step(&p1, cam, tm, size);
         player_step(&p2, cam, tm, size);
         enemy_step(&urmom, cam, p1, p2, tm, size);
-        if(player_ennemy_colliding(p1,urmom)|| player_ennemy_colliding(p2,urmom))penalty++;
-        //if (savefile.e1 && (player_meeting(p1, enigmeobj) || player_meeting(p2, enigmeobj)))
-        if (savefile.e1 && (pixel_perfect_collision(&p1, &enigmeobj) || pixel_perfect_collision(&p2, &enigmeobj)))
+        if (player_ennemy_colliding(p1, urmom) || player_ennemy_colliding(p2, urmom))
+            penalty++;
+
+        // Handles enigmes
+        for (int counter = 0; counter < size3; counter++)
         {
-            SDL_Delay(100);
-            if(enigme_play(screen))savefile.e1 = 0;
-            else p1.lives-=1;
-            if(player_meeting(p1, enigmeobj)) {p1.sprite.pos.x=enigmeobj.pos.x-100;p1.x_spd=0;p1.facing=-p1.facing;p1.direction=-p1.direction;p1.right.pressed=0;p1.left.pressed=0;p1.dashing=0;}
-            else{p2.sprite.pos.x=enigmeobj.pos.x-100;p2.x_spd=0;p2.facing=-p2.facing;p2.direction=-p2.direction;p2.right.pressed=0;p2.left.pressed=0;p2.dashing=0;}
+            if (pixel_perfect_collision(&p1, &eng[counter]) || pixel_perfect_collision(&p2, &eng[counter]))
+            {
+                SDL_Delay(100);
+                if (enigme_play(screen))
+                {
+                    savefile.e1 = 0;
+                    for (int counter2 = counter; counter2 < size3 - 1; counter2++)
+                    {
+                        eng[counter2] = eng[counter2 + 1];
+                    }
+                    size3--;
+                }
+                else
+                    p1.lives -= 1;
+                if (player_meeting(p1, eng[counter]))
+                {
+                    p1.sprite.pos.x = eng[counter].pos.x - 100;
+                    p1.x_spd = 0;
+                    p1.facing = -p1.facing;
+                    p1.direction = -p1.direction;
+                    p1.right.pressed = 0;
+                    p1.left.pressed = 0;
+                    p1.dashing = 0;
+                }
+                else
+                {
+                    p2.sprite.pos.x = eng[counter].pos.x - 100;
+                    p2.x_spd = 0;
+                    p2.facing = -p2.facing;
+                    p2.direction = -p2.direction;
+                    p2.right.pressed = 0;
+                    p2.left.pressed = 0;
+                    p2.dashing = 0;
+                }
+                break;
+            }
         }
-        update_camera(p1.sprite, p2.sprite, &cam, &mode,room_width,room_height,2);
+
+        update_camera(p1.sprite, p2.sprite, &cam, &mode, room_width, room_height, 2);
         // Dessine les arrière-plans, les ennemis, les joueurs, et les objets
         if (mode == 1)
         {
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             display_sprite(screen, bg, cam, mode, 0);
-            //animerBack(&car, &k);
-            //display_sprite(screen, car, cam, mode, 0);
             display_tiles(screen, tm, cam, size, mode, 0);
             display_dec(screen, dec, cam, size2, mode, 0);
-            if(savefile.e1)display_sprite(screen, enigmeobj, cam, mode, 0);
+            display_tiles(screen, eng, cam, size3, mode, 0);
+            // if(savefile.e1)display_sprite(screen, enigmeobj, cam, mode, 0);
             player_draw(p1, screen, cam, 0, mode);
             player_draw(p2, screen, cam, 0, mode);
             enemy_draw(urmom, screen, cam, 0, mode);
-            //SDL_BlitSurface(mm.img.image, NULL, screen, &dummy.pos);
         }
         else
         {
-            mode=1;
+            mode = 1;
             if (p1.sprite.pos.x < p2.sprite.pos.x)
             {
-                update_camera(p1.sprite, p1.sprite, &cam1, &mode,room_width,room_height,0);
-                update_camera(p2.sprite, p2.sprite, &cam2, &mode,room_width,room_height,1);
+                update_camera(p1.sprite, p1.sprite, &cam1, &mode, room_width, room_height, 0);
+                update_camera(p2.sprite, p2.sprite, &cam2, &mode, room_width, room_height, 1);
             }
             else
             {
-                update_camera(p1.sprite, p1.sprite, &cam2, &mode,room_width,room_height,1);
-                update_camera(p2.sprite, p2.sprite, &cam1, &mode,room_width,room_height,0);
+                update_camera(p1.sprite, p1.sprite, &cam2, &mode, room_width, room_height, 1);
+                update_camera(p2.sprite, p2.sprite, &cam1, &mode, room_width, room_height, 0);
             }
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             SDL_SetClipRect(screen, &scr2);
             display_sprite(screen, bg, cam2, mode, 1);
-            //display_sprite(screen, car, cam2, mode, 1);
             display_tiles(screen, tm, cam2, size, mode, 1);
             display_dec(screen, dec, cam2, size2, mode, 1);
-            if(savefile.e1)display_sprite(screen, enigmeobj, cam2, mode, 1);
+            display_tiles(screen, eng, cam2, size3, mode, 1);
+            // if(savefile.e1)display_sprite(screen, enigmeobj, cam2, mode, 1);
             player_draw(p1, screen, cam2, 1, mode);
             player_draw(p2, screen, cam2, 1, mode);
             enemy_draw(urmom, screen, cam2, 1, mode);
             //
             SDL_SetClipRect(screen, &scr1);
             display_sprite(screen, bg, cam1, mode, -1);
-            //animerBack(&car, &k);
-            //display_sprite(screen, car, cam1, mode, -1);
             display_tiles(screen, tm, cam1, size, mode, -1);
             display_dec(screen, dec, cam1, size2, mode, -1);
-            if(savefile.e1)display_sprite(screen, enigmeobj, cam1, mode, -1);
+            display_tiles(screen, eng, cam1, size3, mode, -1);
+            // if(savefile.e1)display_sprite(screen, enigmeobj, cam1, mode, -1);
             player_draw(p1, screen, cam1, -1, mode);
             player_draw(p2, screen, cam1, -1, mode);
             enemy_draw(urmom, screen, cam1, -1, mode);
@@ -173,9 +210,9 @@ int gameloop(SDL_Surface *screen)
         update_miniplayer(&mm, &mp, &p1, screen, cam);
         update_miniplayer(&mm, &mp2, &p2, screen, cam);
         update_minienemy(&mm, &me, &urmom, screen, cam);
-        update_tiles(&mm,&minitile,size,tm,screen,cam);
+        update_tiles(&mm, &minitile, size, tm, screen, cam);
         SDL_SetClipRect(screen, &scr);
-        display_lives(p1,screen,life);
+        display_lives(p1, screen, life);
         update_time(0, &mm, &time, &timertxt, screen, savefile, starttime2);
         SDL_Flip(screen);
         endtime = SDL_GetTicks();
@@ -184,7 +221,7 @@ int gameloop(SDL_Surface *screen)
         if (wait > 0)
             SDL_Delay(1000 * wait);
     }
-    printf("\nlevel finished in %d seconds\n",penalty+(SDL_GetTicks() - starttime2)/1000);
+    printf("\nlevel finished in %d seconds\n", penalty + (SDL_GetTicks() - starttime2) / 1000);
     savefile.time = SDL_GetTicks() - starttime2 + savefile.time;
     savefile.x1 = p1.sprite.pos.x;
     savefile.x2 = p2.sprite.pos.x;
@@ -205,5 +242,5 @@ int gameloop(SDL_Surface *screen)
     free_img(dummy);
     free_img(nothing);
     free_txt(timertxt);
-    return (4);
+    return (1);
 }
