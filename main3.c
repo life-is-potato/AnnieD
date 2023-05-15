@@ -16,13 +16,17 @@
 
 int main()
 {
+	int change_counter=0;
 	SDL_Surface *screen;
 	image IMAGE, IMAGE2, IMAGE_BTN1, IMAGE_BTN2, IMAGE_BTN3, IMAGE_BTN4, IMAGE_BTN5, IMAGE_BTN6, IMAGE_BTN7, IMAGE_BTN8, IMAGE_BTN9, IMAGE_BTN10, GAME_LOGO, BOULE, BARRE, FULLSCREEN,WINDOW, BACK;
 	image SETTINGS_BACK;
 	Mix_Music *music;
+	FILE *f;
 	Mix_Chunk *mus;
-	texte txte,pourc,txte3,moins,moins2,plus,plus2,vol_set,start,fullscreen1,fullscreen2,window1,window2;
+	texte txte,pourc,txte3,moins,moins2,plus,plus2,vol_set,start,fullscreen1,fullscreen2,window1,window2,controls1,controls2;
 	SDL_Event event;
+	
+	texte player1,jump1,up1,down1,right1,left1,dash1;
 
 	int boucle=1;
 	int son=0;
@@ -86,7 +90,18 @@ int main()
 	initialiser_texte(&fullscreen2,"fonts/pixel_arial.ttf",35,255,0,0,488,420);
 	initialiser_texte(&window1,"fonts/pixel_arial.ttf",35,255,255,255,505,490);
 	initialiser_texte(&window2,"fonts/pixel_arial.ttf",35,255,0,0,505,490);
+	initialiser_texte(&controls1,"fonts/pixel_arial.ttf",35,255,255,255,490,670);
+	initialiser_texte(&controls2,"fonts/pixel_arial.ttf",35,255,0,0,490,670);
 		
+	initialiser_texte(&player1,"fonts/OriginTech personal use.ttf",75,255,255,255,415,90);		
+	initialiser_texte(&jump1,"fonts/OriginTech personal use.ttf",50,255,255,255,485,300);
+	initialiser_texte(&right1,"fonts/OriginTech personal use.ttf",75,255,255,255,485,300);
+	initialiser_texte(&left1,"fonts/OriginTech personal use.ttf",75,255,255,255,485,300);	
+	initialiser_texte(&dash1,"fonts/OriginTech personal use.ttf",75,255,255,255,485,300);	
+	initialiser_texte(&down1,"fonts/OriginTech personal use.ttf",75,255,255,255,485,300);
+	initialiser_texte(&up1,"fonts/OriginTech personal use.ttf",75,255,255,255,485,300);
+	
+
 	//Boucle Menu
 	
 	while(boucle)
@@ -239,6 +254,12 @@ int main()
 			else
 				afficher_texte(screen,fullscreen1,"FULLSCREEN MODE");
 				
+		
+			if (event.motion.y<=730 && event.motion.y>=670 && event.motion.x<=770 && event.motion.x>=490)
+				afficher_texte(screen,controls2,"CHANGE CONTROLS");
+			else
+				afficher_texte(screen,controls1,"CHANGE CONTROLS");
+				
 			if (event.motion.y<=530 && event.motion.y>=470 && event.motion.x<=740 && event.motion.x>=460)
 				afficher_texte(screen,window2,"WINDOW MODE");
 			else
@@ -277,6 +298,9 @@ int main()
 						
 						if(event.button.button==SDL_BUTTON_LEFT && (event.motion.y<=600 && event.motion.y>=550 && event.motion.x<=620 && event.motion.x>=570))
 							state=1;
+							
+						if(event.button.button==SDL_BUTTON_LEFT && (event.motion.y<=730 && event.motion.y>=670 && event.motion.x<=770 && event.motion.x>=490))
+							state=5;
 						
 						if(event.button.button==SDL_BUTTON_LEFT && (event.motion.y<=460 && event.motion.y>=400 && event.motion.x<=740 && event.motion.x>=460))
 							screen=SDL_SetVideoMode(SCREEN_W,SCREEN_H,32,SDL_FULLSCREEN|SDL_SWSURFACE|SDL_DOUBLEBUF);
@@ -475,6 +499,98 @@ int main()
             screen = SDL_SetVideoMode(1200, 800, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
 		}
 		
+		else if(state==5)
+		{
+			if(cpt1%30>=15)
+			{
+				afficher_imageBMP(screen,IMAGE2);
+				cpt1++;
+			}
+			else
+			{
+				afficher_imageBMP(screen,IMAGE);
+				cpt1++;
+			}
+			afficher_image(screen,SETTINGS_BACK);
+			
+			afficher_texte(screen,player1,"PLAYER 1");
+			
+			if(change_counter==0) f = fopen("keys1.txt", "w");
+			
+			if(f!=NULL)
+			{
+				if(change_counter==0)afficher_texte(screen,jump1,"JUMP ?");
+				if(change_counter==1)afficher_texte(screen,right1,"RIGHT ?");
+				if(change_counter==2)afficher_texte(screen,left1,"LEFT ?");
+				if(change_counter==3)afficher_texte(screen,dash1,"DASH ?");
+				if(change_counter==4)afficher_texte(screen,down1,"DOWN ?");
+				if(change_counter==5)afficher_texte(screen,up1,"UP ?");
+				if(change_counter==6){change_counter=0;state=6;fclose(f);}
+				else{
+				while(SDL_PollEvent(&event))
+				{
+				if (event.type == SDL_KEYDOWN)
+        			{
+						printf("%d\n",event.key.keysym.sym);
+         				fprintf(f,"%d ",event.key.keysym.sym);
+						change_counter++;
+					}
+      				else if (event.type == SDL_QUIT)
+      				{
+       				boucle=0;
+       			}
+       			}
+				}	
+    			
+			}
+		}
+		
+		else if(state==6)
+		{
+			if(cpt1%30>=15)
+			{
+				afficher_imageBMP(screen,IMAGE2);
+				cpt1++;
+			}
+			else
+			{
+				afficher_imageBMP(screen,IMAGE);
+				cpt1++;
+			}
+			afficher_image(screen,SETTINGS_BACK);
+			
+			afficher_texte(screen,player1,"PLAYER 2");
+			
+			if(change_counter==0) f = fopen("keys2.txt", "w");
+			
+			if(f!=NULL)
+			{
+				if(change_counter==0)afficher_texte(screen,jump1,"JUMP ?");
+				if(change_counter==1)afficher_texte(screen,right1,"RIGHT ?");
+				if(change_counter==2)afficher_texte(screen,left1,"LEFT ?");
+				if(change_counter==3)afficher_texte(screen,dash1,"DASH ?");
+				if(change_counter==4)afficher_texte(screen,down1,"DOWN ?");
+				if(change_counter==5)afficher_texte(screen,up1,"UP ?");
+				if(change_counter==6){change_counter=0;state=2;fclose(f);}
+				else{
+				while(SDL_PollEvent(&event))
+				{
+				if (event.type == SDL_KEYDOWN)
+        			{
+						printf("%d\n",event.key.keysym.sym);
+         				fprintf(f,"%d ",event.key.keysym.sym);
+						change_counter++;
+					}
+      				else if (event.type == SDL_QUIT)
+      				{
+       				boucle=0;
+       			}
+       			}
+				}	
+    			
+			}
+		}
+		
 		SDL_Flip(screen); //Raffraichir l'ecran
 	}
 	
@@ -513,6 +629,15 @@ int main()
 	liberer_texte(fullscreen2);
 	liberer_texte(window1);
 	liberer_texte(window2);
+	liberer_texte(jump1);
+	liberer_texte(left1);
+	liberer_texte(dash1);
+	liberer_texte(up1);
+	liberer_texte(down1);
+	liberer_texte(right1);
+	liberer_texte(controls1);
+	liberer_texte(controls2);
+	liberer_texte(player1);
 
 	return 0;
 }
