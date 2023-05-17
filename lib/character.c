@@ -638,19 +638,16 @@ void display_lives(player p, SDL_Surface* screen, img im){
 }
 
 int pixel_perfect_collision(player *p, img *i) {
-  // Get the player's and image's bounding boxes.
   SDL_Rect player_rect = p->sprite.pos;
   player_rect.w=p->frame_width;
   player_rect.h=p->frame_height;
   SDL_Rect image_rect = i->pos;
-
-  // Check if the bounding boxes intersect.
-
   if (rect_meeting(player_rect.x,player_rect.y,player_rect,image_rect)) {
+
     // Get the pixel data for the player and image.
+
     Uint8 *player_pixels = (Uint8 *)p->sprite.image->pixels;
     Uint8 *image_pixels = (Uint8 *)i->image->pixels;
-
     // Loop through each pixel in the player's sprite.
     for (int y = p->framepos.y; y < p->framepos.y+player_rect.h; y++) {
       for (int x = p->framepos.x; x < p->framepos.x+player_rect.w; x++) {
