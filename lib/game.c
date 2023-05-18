@@ -40,19 +40,8 @@ int gameloop(SDL_Surface *screen, char* level)
     Uint32 time = 0;
     save savefile;
     savefile.time = 0;
-    savefile.x1 = 100;
-    savefile.x2 = 200;
-    savefile.y1 = 400;
-    savefile.y2 = 400;
     savefile.e1 = 1;
     savefile.lives = 3;
-    FILE *f = fopen("save.bin", "rb");
-    time = 0;
-    if (f != NULL)
-    {
-        fread(&savefile, sizeof(save), 1, f);
-        fclose(f);
-    }
 
     // initializing camera
 
@@ -68,18 +57,32 @@ int gameloop(SDL_Surface *screen, char* level)
     SDL_SetAlpha(me.img.image, SDL_SRCALPHA, 128);
     init_miniplayer(&minitile, "img/wall_smol.png");
     SDL_SetAlpha(minitile.img.image, SDL_SRCALPHA, 128);
-    player_create(&p1, spritesheet1, savefile);
+    
     p1.x_spd = 0;
     // printf("%f\n", p1.x_spd);
-    player_create2(&p2, spritesheet2, savefile);
+    
     enemy urmom;
-    img spk[1000];
-    img tm[1000];
-    img dec[1000];
+    img spk[10000];
+    img tm[10000];
+    img dec[10000];
     img eng[10];
     int size = 0, size2 = 0, size3 = 0, size4=0;
-    parse_tiles(level, tm, &size, dec, &size2, eng, &size3, spk, &size4,  &room_width, &room_height);
-    enemy_create(&urmom, spritesheet1,500,500);
+    enemy_create(&urmom, spritesheet1,0,0);
+    parse_tiles(&p1, &p2, &urmom, level, tm, &size, dec, &size2, eng, &size3, spk, &size4,  &room_width, &room_height);
+    player_create(&p1, spritesheet1, "save.bin");
+    player_create2(&p2, spritesheet2, "save.bin");
+    p1.sprite.pos.x=p1.respawn_x;
+    p1.sprite.pos.y=p1.respawn_y;
+    p2.sprite.pos.x=p2.respawn_x;
+    p2.sprite.pos.y=p2.respawn_y;
+    printf("px=%d py=%d\n",p1.sprite.pos.x,p1.sprite.pos.y);
+    FILE *f = fopen("save.bin", "rb");
+    time = 0;
+    if (f != NULL)
+    {
+        fread(&savefile, sizeof(save), 1, f);
+        fclose(f);
+    }
     load_img(&bg, "img/bgexp.png", 0, 0);
     // load_img(&dummy, "img/bgexp.png",-300, 0);
     load_img(&nothing, "void.png", -1000, -1000);
@@ -142,18 +145,22 @@ int gameloop(SDL_Surface *screen, char* level)
                     p1.lives -= 1;
                 if (player_meeting(p1, eng[counter]))
                 {
-                    p1.sprite.pos.x = eng[counter].pos.x - 100;
+                    p1.sprite.pos.x = p1.respawn_x;
+                    p1.sprite.pos.y = p1.respawn_y;
                     p1.x_spd = 0;
+                    p1.y_spd = 0;
                     p1.facing = -p1.facing;
                     p1.direction = -p1.direction;
                     p1.right.pressed = 0;
                     p1.left.pressed = 0;
                     p1.dashing = 0;
                 }
-                else
+                else if (player_meeting(p2, eng[counter]))
                 {
-                    p2.sprite.pos.x = eng[counter].pos.x - 100;
+                    p2.sprite.pos.x = p2.respawn_x;
+                    p2.sprite.pos.y = p2.respawn_y;
                     p2.x_spd = 0;
+                    p2.y_spd = 0;
                     p2.facing = -p2.facing;
                     p2.direction = -p2.direction;
                     p2.right.pressed = 0;
@@ -234,10 +241,10 @@ int gameloop(SDL_Surface *screen, char* level)
     }
     printf("\nlevel finished in %d seconds\n", penalty + (SDL_GetTicks() - starttime2) / 1000);
     savefile.time = SDL_GetTicks() - starttime2 + savefile.time;
-    savefile.x1 = p1.sprite.pos.x;
-    savefile.x2 = p2.sprite.pos.x;
-    savefile.y1 = p1.sprite.pos.y;
-    savefile.y2 = p2.sprite.pos.y;
+    savefile.x1 = p1.respawn_x;
+    savefile.x2 = p2.respawn_x;
+    savefile.y1 = p1.respawn_y;
+    savefile.y2 = p2.respawn_y;
     f = fopen("save.bin", "wb");
     if (f != NULL)
     {

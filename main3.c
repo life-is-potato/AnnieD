@@ -17,9 +17,10 @@
 
 int main()
 {
+	char* filepath;
 	int change_counter=0;
 	SDL_Surface *screen;
-	image IMAGE, IMAGE2, IMAGE_BTN1, IMAGE_BTN2, IMAGE_BTN3, IMAGE_BTN4, IMAGE_BTN5, IMAGE_BTN6, IMAGE_BTN7, IMAGE_BTN8, IMAGE_BTN9, IMAGE_BTN10, GAME_LOGO, BOULE, BARRE, FULLSCREEN,WINDOW, BACK;
+	image IMAGEMAPMAKER,IMAGEMAPMAKER2,IMAGEPLAYMAP,IMAGEMPLAYMAP2, IMAGE, IMAGE2, IMAGE_BTN1, IMAGE_BTN2, IMAGE_BTN3, IMAGE_BTN4, IMAGE_BTN5, IMAGE_BTN6, IMAGE_BTN7, IMAGE_BTN8, IMAGE_BTN9, IMAGE_BTN10, GAME_LOGO, BOULE, BARRE, FULLSCREEN,WINDOW, BACK;
 	image SETTINGS_BACK;
 	Mix_Music *music;
 	FILE *f;
@@ -61,6 +62,11 @@ int main()
 	
 	initialiser_image(&IMAGE,"img/fond.png",0,0);
 	initialiser_image(&IMAGE2,"img/fond2.png",0,0);
+	initialiser_image(&IMAGEPLAYMAP,"img/PLAY_CUSTOM.png",50,400);
+	initialiser_image(&IMAGEMPLAYMAP2,"img/PLAY_CUSTOM_NS.png",50,400);
+	initialiser_image(&IMAGEMAPMAKER,"img/MAP_MAKER.png",850,400);
+	initialiser_image(&IMAGEMAPMAKER2,"img/MAP_MAKER_NS.png",850,400);
+	initialiser_image(&IMAGEMPLAYMAP2,"img/PLAY_CUSTOM_NS.png",50,400);
 	initialiser_image(&IMAGE_BTN1,"img/PLAY2_NS.png",450,170);
 	initialiser_image(&IMAGE_BTN2,"img/SETTINGS2_NS.png",450,310);
 	initialiser_image(&IMAGE_BTN3,"img/QUIT2_NS.png",450,430);
@@ -455,7 +461,17 @@ int main()
 				afficher_image(screen,IMAGE_BTN9); 
 			else
 				afficher_image(screen,IMAGE_BTN10); //Afficher Bouton NEW GAME
-		
+
+			if((event.motion.y<=500 && event.motion.y>=400 && event.motion.x<=350 && event.motion.x>=50))
+				afficher_image(screen,IMAGEMPLAYMAP2);
+			else
+				afficher_image(screen,IMAGEPLAYMAP);
+
+			if((event.motion.y<=500 && event.motion.y>=400 && event.motion.x<=1150 && event.motion.x>=850))
+				afficher_image(screen,IMAGEMAPMAKER2);
+			else
+				afficher_image(screen,IMAGEMAPMAKER);
+
 			if((event.motion.y<=412 && event.motion.y>=322 && event.motion.x<=750 && event.motion.x>=430))
 				afficher_image(screen,IMAGE_BTN7);
 			else
@@ -476,6 +492,12 @@ int main()
 							system("rm -r save.bin");
 							state=4;
 						}
+						if((event.motion.y<=500 && event.motion.y>=400 && event.motion.x<=350 && event.motion.x>=50)){
+							state=7;
+						}
+						if((event.motion.y<=500 && event.motion.y>=400 && event.motion.x<=1150 && event.motion.x>=850)){
+							state=8;
+						}	
 						else if((event.button.button==SDL_BUTTON_LEFT && event.motion.y<=412 && event.motion.y>=322 && event.motion.x<=750 && event.motion.x>=430))state=4;
 						break;
 						
@@ -491,7 +513,6 @@ int main()
 		else if(state==4){
 
 			screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
-			mapmaker(screen);
             //Mix_FadeOutMusic(1000);
             // SDL_FreeSurface(screen);
             state = gameloop(screen,"map1.txt");
@@ -594,6 +615,21 @@ int main()
 				}	
     			
 			}
+		}
+		else if (state==7){
+			screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
+			printf("give name of the file containing the level\n");
+			fopen("save.bin","w");
+			system("rm -r save.bin");
+			scanf("%s",filepath);
+			gameloop(screen,filepath);
+			state=1;
+			screen = SDL_SetVideoMode(1200, 800, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
+		}
+
+		else if (state==8){
+			mapmaker(screen);
+			state=1;
 		}
 		
 		SDL_Flip(screen); //Raffraichir l'ecran

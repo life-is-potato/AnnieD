@@ -33,7 +33,6 @@ void update_camera(img img1, img img2, camera *cam, int *mode, int room_width, i
     int var = (abs(img1.pos.x - img2.pos.x) < (SCREEN_W / 2)) && (abs(img1.pos.y - img2.pos.y) < (SCREEN_H / 2));
     if (side == 2)
     {
-        printf("distx=%d disty=%d\n", (img1.pos.x + img2.pos.x) / 2, (img1.pos.y + img2.pos.y) / 2);
         if (/*(RectInside(img1.pos,screen) && RectInside(img2.pos,screen)) || */ var)
         {
             if (mode != NULL)
@@ -86,7 +85,8 @@ void players_get_inputs(player *p1, player *p2, int *boucle)
             *boucle = 0;
         if (event.type == SDL_KEYDOWN)
         {
-
+            if (event.key.keysym.sym == SDLK_ESCAPE)
+                *boucle = 0;
             if (event.key.keysym.sym == p1->key.jump)
                 p1->jump.pressed = 1;
             if (event.key.keysym.sym == p1->key.right)
@@ -151,13 +151,9 @@ void players_get_inputs(player *p1, player *p2, int *boucle)
     }
 }
 
-void player_create(player *p, char *spritesheet, save savefile)
+void player_create(player *p, char *spritesheet, char* savefile)
 {
-    load_img(&p->sprite, spritesheet, savefile.x1, savefile.y1);
-    load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", savefile.x1, savefile.y1);
-    p->lives = savefile.lives;
-    p->jump_spd = -7;
-    p->canjump = 99999;
+    save s;
     FILE *f = fopen("keys1.txt", "r");
     if (f != NULL)
     {
@@ -178,8 +174,20 @@ void player_create(player *p, char *spritesheet, save savefile)
         p->key.down = SDLK_DOWN;
         p->key.dash = SDLK_KP2;
     }
-    p->respawn_x = 100;
-    p->respawn_y = 100;
+    load_img(&p->sprite, spritesheet,0,0);
+    load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", 0, 0);
+    f = fopen("save.bin", "rb");
+    p->lives=3;
+    if (f != NULL)
+    {
+        fread(&s, sizeof(save), 1, f);
+        p->lives = s.lives;
+        p->respawn_x = s.x1;
+        p->respawn_y = s.y1;
+        fclose(f);
+    }
+    p->jump_spd = -7;
+    p->canjump = 99999;
     p->facing = 1;
     p->jump.released = 1;
     p->dash.released = 1;
@@ -199,12 +207,9 @@ void player_create(player *p, char *spritesheet, save savefile)
     p->frames = 0;
 }
 
-void player_create2(player *p, char *spritesheet, save savefile)
+void player_create2(player *p, char *spritesheet, char* savefile)
 {
-    load_img(&p->sprite, spritesheet, savefile.x2, savefile.y2);
-    load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", savefile.x2, savefile.y2);
-    p->jump_spd = -7;
-    p->canjump = 99999;
+    save s;
     FILE *f = fopen("keys2.txt", "r");
     if (f != NULL)
     {
@@ -225,8 +230,19 @@ void player_create2(player *p, char *spritesheet, save savefile)
         p->key.down = SDLK_s;
         p->key.dash = SDLK_k;
     }
-    p->respawn_x = 100;
-    p->respawn_y = 100;
+    load_img(&p->sprite, spritesheet, 0, 0);
+    load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", 0, 0);
+    f = fopen("save.bin", "rb");
+    if (f != NULL)
+    {
+        fread(&s, sizeof(save), 1, f);
+        p->lives = s.lives;
+        p->respawn_x = s.x2;
+        p->respawn_y = s.y2;
+        fclose(f);
+    }
+    p->jump_spd = -7;
+    p->canjump = 99999;
     p->facing = 1;
     p->jump.released = 1;
     p->x_spd = 0;
@@ -584,12 +600,13 @@ void display_sprite_rect(SDL_Surface *screen, img i, camera cam, int mode, int p
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
-void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2, img *enigmes, int *size3, img *spk, int *size4, int *roomwidth, int *roomheight)
+void parse_tiles(player* p1, player *p2, enemy* e, char *map, img *tab, int *size, img *decorations, int *size2, img *enigmes, int *size3, img *spk, int *size4, int *roomwidth, int *roomheight)
 {
     srand(time);
     int i = -1, j = 0;
     char n;
     FILE *f = fopen(map, "r");
+    *roomwidth = 0;
     if (f != NULL)
     {
         for (; fscanf(f, "%c ", &n) == 1;)
@@ -598,81 +615,112 @@ void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2, i
             switch (n)
             {
             case '1':
+
                 load_img(&tab[*size], "img/wall_middle.png", i * 52, j * 50);
                 *size += 1;
                 break;
             case '2':
+
                 load_img(&tab[*size], "img/wall_left.png", i * 52, j * 50);
                 *size += 1;
                 break;
             case '3':
+
                 load_img(&tab[*size], "img/wall_right.png", i * 52, j * 50);
                 *size += 1;
                 break;
             case '4':
+
                 load_img(&decorations[*size2], "img/liquid_tube_bottom.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case '5':
+
                 load_img(&decorations[*size2], "img/liquid_tube_top.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'a':
+
                 load_img(&decorations[*size2], "img/pipe_bottom_left.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'b':
+
                 load_img(&decorations[*size2], "img/pipe_bottom_right.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'c':
+
                 load_img(&decorations[*size2], "img/pipe_top_left.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'd':
+
                 load_img(&decorations[*size2], "img/pipe_top_right.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'e':
+
                 load_img(&decorations[*size2], "img/pipe_head_top.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'f':
+
                 load_img(&decorations[*size2], "img/pipe_head_down.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'g':
+
                 load_img(&decorations[*size2], "img/pipe_head_left.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'h':
+
                 load_img(&decorations[*size2], "img/pipe_head_right.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'i':
+
                 load_img(&decorations[*size2], "img/pipe_horizontal.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'j':
+
                 load_img(&decorations[*size2], "img/pipe_vertical.png", i * 52, j * 50);
                 *size2 += 1;
                 break;
             case 'k':
+
                 load_img(&enigmes[*size3], "img/enigme_objet.png", i * 52, j * 50);
                 enigmes[*size3].pos.w = 34;
                 enigmes[*size3].pos.h = 58;
                 *size3 += 1;
                 break;
             case 'n':
+
                 load_img(&spk[*size4], "img/spike.png", i * 52, j * 50);
                 spk[*size4].pos.w = 52;
                 spk[*size4].pos.h = 50;
                 *size4 += 1;
                 break;
             case 'q':
-                *roomwidth = i * 52;
+                *roomwidth = (*roomwidth > i * 52) ? *roomwidth : i * 52;
                 i = -1;
                 j++;
+                break;
+            case 'p':
+                p1->respawn_x=i*52;
+                p1->x_spd=0;
+                p1->y_spd=0;
+                p2->respawn_x=i*52;
+                p1->respawn_y=j*50;
+                p2->respawn_y=j*50;
+                p2->x_spd=0;
+                p2->y_spd=0;
+                break;
+            case 'x':
+                e->sprite.pos.x=i*52;
+                e->sprite.pos.y=j*50;
                 break;
             }
         }
@@ -726,8 +774,10 @@ int pixel_perfect_collision(player *p, img *i)
 
         // Get the pixel data for the player and image.
         Uint8 *player_pixels;
-        if(p->facing==1)player_pixels = (Uint8 *)p->sprite.image->pixels;
-        else player_pixels= (Uint8 *)p->spritemirrored.image->pixels;
+        if (p->facing == 1)
+            player_pixels = (Uint8 *)p->sprite.image->pixels;
+        else
+            player_pixels = (Uint8 *)p->spritemirrored.image->pixels;
         Uint8 *image_pixels = (Uint8 *)i->image->pixels;
         // Loop through each pixel in the player's sprite.
         for (int y = p->framepos.y; y < p->framepos.y + player_rect.h; y++)
@@ -737,8 +787,8 @@ int pixel_perfect_collision(player *p, img *i)
                 // If the current pixel in the player's sprite is not transparent,
                 // and the same pixel in the image is not transparent,
                 // then there is a collision.
-                if (player_pixels[y * player_rect.w + x*p->sprite.image->format->BytesPerPixel] != 0 &&
-                    image_pixels [y * image_rect.w + x*p->sprite.image->format->BytesPerPixel] != 0)
+                if (player_pixels[y * player_rect.w + x * p->sprite.image->format->BytesPerPixel] != 0 &&
+                    image_pixels[y * image_rect.w + x * p->sprite.image->format->BytesPerPixel] != 0)
                 {
                     return 1;
                 }

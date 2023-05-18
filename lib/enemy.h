@@ -5,21 +5,6 @@
 #include "img.h"
 #include "character.h"
 
-typedef struct
-{
-    img sprite, spritemirrored;
-    float x_spd, y_spd;
-    int direction;
-    int wlk_spd;
-    int frame_width, frame_height;
-    int framestart;
-    int frames;
-    int facing;
-    int random;
-    int chasing;
-    SDL_Rect framepos;
-} enemy;
-
 void enemy_create(enemy *p, char *spritesheet,int x,int y);
 
 int enemy_calculate_direction(enemy *e,player p, player p2);

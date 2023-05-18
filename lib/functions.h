@@ -11,6 +11,7 @@
 #define SCREEN_W 1280
 #define GRV 1
 
+
 int init(void);
 
 int check_mouse_collision(img img);
