@@ -1,6 +1,6 @@
 #include "game.h"
 #include "enigme.h"
-int gameloop(SDL_Surface *screen)
+int gameloop(SDL_Surface *screen, char* level)
 {
     int room_width, room_height;
     int boucle = 1;
@@ -73,12 +73,13 @@ int gameloop(SDL_Surface *screen)
     // printf("%f\n", p1.x_spd);
     player_create2(&p2, spritesheet2, savefile);
     enemy urmom;
+    img spk[1000];
     img tm[1000];
     img dec[1000];
     img eng[10];
-    int size = 0, size2 = 0, size3 = 0;
-    parse_tiles("map.txt", tm, &size, dec, &size2, eng, &size3, &room_width, &room_height);
-    enemy_create(&urmom, spritesheet1);
+    int size = 0, size2 = 0, size3 = 0, size4=0;
+    parse_tiles(level, tm, &size, dec, &size2, eng, &size3, spk, &size4,  &room_width, &room_height);
+    enemy_create(&urmom, spritesheet1,500,500);
     load_img(&bg, "img/bgexp.png", 0, 0);
     // load_img(&dummy, "img/bgexp.png",-300, 0);
     load_img(&nothing, "void.png", -1000, -1000);
@@ -98,10 +99,17 @@ int gameloop(SDL_Surface *screen)
     while (boucle)
     {  
         if (p1.lives<=0){
+            f=fopen("save.bin","w");
+            fclose(f);
             system("rm -r save.bin");
             return(1);
         }
-        
+        if (size3<=0){ 
+            f=fopen("save.bin","w");
+            fclose(f);
+            system("rm -r save.bin");
+            return(2);
+        }
         // commentaires en français pour Skander <3
 
         starttime = SDL_GetTicks();
@@ -109,8 +117,8 @@ int gameloop(SDL_Surface *screen)
 
         // Execute la logique des joueurs et des ennemis, et met à jour la position de la camera
 
-        player_step(&p1, cam, tm, size);
-        player_step(&p2, cam, tm, size);
+        player_step(&p1, cam, tm, size,spk,size4);
+        player_step(&p2, cam, tm, size,spk,size4);
         enemy_step(&urmom, cam, p1, p2, tm, size);
         if (player_ennemy_colliding(p1, urmom) || player_ennemy_colliding(p2, urmom))
             penalty++;
@@ -165,6 +173,7 @@ int gameloop(SDL_Surface *screen)
             display_tiles(screen, tm, cam, size, mode, 0);
             display_dec(screen, dec, cam, size2, mode, 0);
             display_tiles(screen, eng, cam, size3, mode, 0);
+            display_tiles(screen, spk, cam, size4,mode,0);
             // if(savefile.e1)display_sprite(screen, enigmeobj, cam, mode, 0);
             player_draw(p1, screen, cam, 0, mode);
             player_draw(p2, screen, cam, 0, mode);
@@ -189,6 +198,7 @@ int gameloop(SDL_Surface *screen)
             display_tiles(screen, tm, cam2, size, mode, 1);
             display_dec(screen, dec, cam2, size2, mode, 1);
             display_tiles(screen, eng, cam2, size3, mode, 1);
+            display_tiles(screen, spk, cam2, size4, mode, 1);
             // if(savefile.e1)display_sprite(screen, enigmeobj, cam2, mode, 1);
             player_draw(p1, screen, cam2, 1, mode);
             player_draw(p2, screen, cam2, 1, mode);
@@ -199,6 +209,7 @@ int gameloop(SDL_Surface *screen)
             display_tiles(screen, tm, cam1, size, mode, -1);
             display_dec(screen, dec, cam1, size2, mode, -1);
             display_tiles(screen, eng, cam1, size3, mode, -1);
+            display_tiles(screen, spk, cam1, size4, mode, -1);
             // if(savefile.e1)display_sprite(screen, enigmeobj, cam1, mode, -1);
             player_draw(p1, screen, cam1, -1, mode);
             player_draw(p2, screen, cam1, -1, mode);

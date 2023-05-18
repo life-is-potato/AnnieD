@@ -219,7 +219,7 @@ int main()
             screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
             Mix_FadeOutMusic(1000);
             // SDL_FreeSurface(screen);
-            state = gameloop(screen);
+            state = gameloop(screen,"map1.txt");
             Mix_FreeMusic(maintheme);
             maintheme = Mix_LoadMUS("music/main_theme.mp3");
             Mix_PlayMusic(maintheme, -1);
