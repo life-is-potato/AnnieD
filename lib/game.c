@@ -251,14 +251,5 @@ int gameloop(SDL_Surface *screen, char* level)
         fwrite(&savefile, sizeof(save), 1, f);
         fclose(f);
     }
-    SDL_FreeSurface(screen);
-    free_img(bg);
-    free_img(p1.sprite);
-    free_img(p2.sprite);
-    free_img(mp.img);
-    free_img(mp2.img);
-    free_img(dummy);
-    free_img(nothing);
-    free_txt(timertxt);
     return (1);
 }

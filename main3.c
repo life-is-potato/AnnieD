@@ -628,7 +628,9 @@ int main()
 		}
 
 		else if (state==8){
+			screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
 			mapmaker(screen);
+			screen = SDL_SetVideoMode(1200, 800, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
 			state=1;
 		}
 		
