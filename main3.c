@@ -10,6 +10,7 @@
 #include "lib/xo_header.h"
 #include "lib/game.h"
 #include "lib/enigme.h"
+#include "lib/mapmaker.h"
 
 #define SCREEN_H 720
 #define SCREEN_W 1280
@@ -490,6 +491,7 @@ int main()
 		else if(state==4){
 
 			screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
+			mapmaker(screen);
             //Mix_FadeOutMusic(1000);
             // SDL_FreeSurface(screen);
             state = gameloop(screen,"map1.txt");
