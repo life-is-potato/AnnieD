@@ -1,4 +1,4 @@
 #include "game.h"
 
 
-int mapmaker(SDL_Surface screen);
+int mapmaker(SDL_Surface* screen);
