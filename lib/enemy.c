@@ -4,16 +4,16 @@
 #include <stdlib.h>
 #include <time.h>
 
-void enemy_create(enemy *p, char *spritesheet)
+void enemy_create(enemy *p, char *spritesheet,int x,int y)
 {
     srand(time(NULL));
-    load_img(&p->sprite, spritesheet, 100, 100);
-    load_img(&p->spritemirrored, "img/Potato_walking-mirrored-export.png", 100, 100);
+    load_img(&p->sprite, "img/skander_walking-export-sheet.png", x, y);
+    load_img(&p->spritemirrored, "img/skander_walking-export-sheet-mirrored.png", 100, 100);
     p->direction = 1;
     p->facing = 1;
     p->wlk_spd = 3;
-    p->frame_height = 48;
-    p->frame_width = 50;
+    p->frame_height = 62;
+    p->frame_width = 36;
     p->framepos.y = 0;
     p->framepos.x = 0;
     p->framepos.h = p->frame_height;
@@ -174,13 +174,8 @@ void enemy_animate(enemy *p)
 
     if (p->y_spd > 2)
     {
-        p->framepos.x = 300;
-        p->framepos.y = 48;
-    }
-    else if (p->y_spd > 4)
-    {
-        p->framepos.x = 350;
-        p->framepos.y = 48;
+        p->framepos.x = p->frame_width*5;
+        p->framepos.y = 0;
     }
     else
     {
@@ -193,8 +188,8 @@ void enemy_animate(enemy *p)
             }
             else
             {
-                p->framepos.y = 48;
-                p->framepos.x = 0;
+                p->framepos.y = 0;
+                p->framepos.x = p->frame_width*6;
             }
             p->frames++;
         }
@@ -203,7 +198,7 @@ void enemy_animate(enemy *p)
             if (p->frames - p->framestart >= 4)
             {
                 p->framepos.y = 0;
-                p->framepos.x = (p->framepos.x + p->frame_width) % 250;
+                p->framepos.x = (p->framepos.x + p->frame_width) % 5*p->frame_width;
                 p->frames = 0;
             }
             p->frames++;

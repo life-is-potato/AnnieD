@@ -20,7 +20,7 @@ typedef struct
     SDL_Rect framepos;
 } enemy;
 
-void enemy_create(enemy *p, char *spritesheet);
+void enemy_create(enemy *p, char *spritesheet,int x,int y);
 
 int enemy_calculate_direction(enemy *e,player p, player p2);
 

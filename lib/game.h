@@ -11,4 +11,4 @@
 #include "bg.h"
 #define MAX_FPS 60
 
-int gameloop(SDL_Surface* screen);
+int gameloop(SDL_Surface* screen, char* level);

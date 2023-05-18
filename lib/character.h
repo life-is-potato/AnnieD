@@ -63,11 +63,11 @@ void player_create2(player *p, char *spritesheet, save savefile);
 
 void player_calculate_speed(player *p);
 
-void player_check_collision(player *p, camera cam, img *tiles, int size);
+void player_check_collision(player *p, camera cam, img *tiles, int size, img* spikes, int size2);
 
 void player_pos_update(player *p);
 
-void player_step(player *p, camera cam, img *tiles, int size);
+void player_step(player *p, camera cam, img *tiles, int size, img* spikes, int size2);
 
 void player_animate(player *p);
 
@@ -75,7 +75,7 @@ void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode);
 
 void display_sprite(SDL_Surface *screen, img i, camera cam, int mode, int p);
 
-void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2, img* enigmes, int* size3, int* roomwidth, int* roomheight);
+void parse_tiles(char *map, img *tab, int *size, img *decorations, int *size2, img* enigmes, int* size3, img* spk, int* size4, int* roomwidth, int* roomheight);
 
 void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size, int mode, int p);
 
