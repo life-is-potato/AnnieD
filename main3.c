@@ -638,7 +638,6 @@ int main()
 	}
 	
 	//Libreation des surfaces
-	
 	SDL_FreeSurface(IMAGE.img);
 	SDL_FreeSurface(IMAGE2.img);
 	SDL_FreeSurface(IMAGE_BTN1.img);
@@ -657,30 +656,7 @@ int main()
 	SDL_FreeSurface(GAME_LOGO.img);
 	SDL_FreeSurface(SETTINGS_BACK.img);
 	SDL_FreeSurface(BARRE.img);
-	SDL_FreeSurface(BOULE.img);
 	//liberer_musique(music);
-	liberer_texte(txte);
-	liberer_texte(pourc);
-	liberer_texte(txte3);
-	liberer_texte(moins);
-	liberer_texte(moins2);
-	liberer_texte(plus);
-	liberer_texte(plus2);
-	liberer_texte(vol_set);
-	liberer_texte(start);
-	liberer_texte(fullscreen1);
-	liberer_texte(fullscreen2);
-	liberer_texte(window1);
-	liberer_texte(window2);
-	liberer_texte(jump1);
-	liberer_texte(left1);
-	liberer_texte(dash1);
-	liberer_texte(up1);
-	liberer_texte(down1);
-	liberer_texte(right1);
-	liberer_texte(controls1);
-	liberer_texte(controls2);
-	liberer_texte(player1);
 
 	return 0;
 }

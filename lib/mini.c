@@ -83,7 +83,7 @@ void update_time(int pause, minimap *mm, Uint32 *start_time, txt *timertxt, SDL_
     {
         Uint32 current_time = SDL_GetTicks()-starttime2;
         Uint32 elapsed_time = (savefile.time + (current_time - (*start_time))) / 1000;
-        sprintf(time_str, "%02d:%02d", elapsed_time / 60, elapsed_time % 60);
+        snprintf(time_str,6*sizeof(char),  "%02d:%02d", elapsed_time / 60, elapsed_time % 60);
         print_txt(screen, timertxt, time_str);
     }
     else

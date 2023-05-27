@@ -75,7 +75,6 @@ int gameloop(SDL_Surface *screen, char* level)
     p1.sprite.pos.y=p1.respawn_y;
     p2.sprite.pos.x=p2.respawn_x;
     p2.sprite.pos.y=p2.respawn_y;
-    printf("px=%d py=%d\n",p1.sprite.pos.x,p1.sprite.pos.y);
     FILE *f = fopen("save.bin", "rb");
     time = 0;
     if (f != NULL)

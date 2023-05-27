@@ -74,7 +74,7 @@ int create_matrix(img *tiles, int *exist, int size, char mat[50][50])
             break;
         }
     }
-    for (i = 0; i < 50; i++)
+    /*for (i = 0; i < 50; i++)
     {
         for (j = 0; j < 50; j++)
         {
@@ -82,6 +82,7 @@ int create_matrix(img *tiles, int *exist, int size, char mat[50][50])
         }
         printf("\n");
     }
+    */
 }
 
 int create_file(char mat[50][50], char *filename)
@@ -243,7 +244,7 @@ int mapmaker(SDL_Surface *screen)
     fflush(stdin);
     scanf("%s",filename);
     fflush(stdin);
-    int rc;
+    int rc=0;
     SDL_Rect fs;
     fs.x = 0;
     fs.y = 0;
@@ -311,13 +312,24 @@ int mapmaker(SDL_Surface *screen)
                 SDL_Quit();
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                if (event.button.button == SDL_BUTTON_RIGHT)
-                    rc = 1;
-                else
-                    rc = 0;
-                mouse.x = event.motion.x;
-                mouse.y = event.motion.y;
+                if (event.button.button == SDL_BUTTON_LEFT){
+                    rc=1;
+                    mouse.x = event.motion.x;
+                    mouse.y = event.motion.y;
+                }
                 break;
+            case SDL_MOUSEBUTTONUP:
+                rc=0;
+                mouse.x=-1;
+                mouse.y=-1;    
+                break;
+            case SDL_MOUSEMOTION:
+                if(rc==1){
+                    mouse.x = event.motion.x;
+                    mouse.y = event.motion.y;
+                }
+                break;
+            
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {

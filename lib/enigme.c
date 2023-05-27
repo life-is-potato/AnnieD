@@ -113,9 +113,9 @@ int enigme_play(SDL_Surface *screen)
     {
         SDL_BlitSurface(e.img, NULL, screen, &e.p);
         fflush(stdin);
-        //sprintf(cc, ":0%d", t);
+        snprintf(cc, 5, ":0%d", t);
 		SDL_BlitSurface(e.timer[t], NULL, screen, &e.pos_timer);
-		//displayText(tt, screen, cc);
+		displayText(tt, screen, cc);
 		SDL_Flip(screen);
 
 		end = clock();
