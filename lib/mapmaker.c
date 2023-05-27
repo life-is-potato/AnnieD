@@ -256,13 +256,14 @@ int mapmaker(SDL_Surface *screen)
     clip.w = SCREEN_W;
     clip.h = SCREEN_H - 100;
     int counter;
+    int page=0;
     button keys[4];
     for (int i = 0; i < 4; i++)
     {
         keys[i].pressed = 0;
         keys[i].released = 0;
     }
-    img selectable_tiles[20];
+    img selectable_tiles[30];
     img tiles[1000];
     int exist[1000];
     for (int i = 0; i < 1000; i++)
@@ -276,28 +277,32 @@ int mapmaker(SDL_Surface *screen)
     cam.x = SCREEN_W / 2;
     cam.y = SCREEN_H / 2 - 100;
     int boucle = 1;
-    img blackbar, bg;
+    img blackbar, bg, arrow_left, arrow_right;
     load_img(&blackbar, "img/topbar.png", 0, 0);
     load_img(&bg, "img/bgexp.png", 0, 0);
-    load_img(&selectable_tiles[0], "img/wall_left.png", 10, 10);
-    load_img(&selectable_tiles[1], "img/wall_middle.png", 70, 10);
-    load_img(&selectable_tiles[2], "img/wall_right.png", 130, 10);
-    load_img(&selectable_tiles[3], "img/liquid_tube_bottom.png", 190, 10);
-    load_img(&selectable_tiles[4], "img/liquid_tube_top.png", 250, 10);
-    load_img(&selectable_tiles[5], "img/pipe_bottom_left.png", 310, 10);
-    load_img(&selectable_tiles[6], "img/pipe_bottom_right.png", 370, 10);
-    load_img(&selectable_tiles[7], "img/pipe_top_left.png", 430, 10);
-    load_img(&selectable_tiles[8], "img/pipe_top_right.png", 490, 10);
-    load_img(&selectable_tiles[9], "img/pipe_head_top.png", 550, 10);
-    load_img(&selectable_tiles[10], "img/pipe_head_down.png", 610, 10);
-    load_img(&selectable_tiles[11], "img/pipe_head_left.png", 670, 10);
-    load_img(&selectable_tiles[12], "img/pipe_head_right.png", 730, 10);
-    load_img(&selectable_tiles[13], "img/pipe_horizontal.png", 790, 10);
-    load_img(&selectable_tiles[14], "img/pipe_vertical.png", 850, 10);
-    load_img(&selectable_tiles[15], "img/enigme_objet.png", 910, 10);
-    load_img(&selectable_tiles[16], "img/spike.png", 970, 10);
-    load_img(&selectable_tiles[17], "img/potato_maker.png", 1030, 10);
-    load_img(&selectable_tiles[18], "img/skander_maker.png", 1090, 10);
+    load_img(&arrow_left,"img/arrow_left.png",10,10);
+    load_img(&arrow_right,"img/arrow_right.png",1150+60,10);
+    load_img(&selectable_tiles[0], "img/wall_left.png", 60 +10, 10);
+    load_img(&selectable_tiles[1], "img/wall_middle.png", 60 +70, 10);
+    load_img(&selectable_tiles[2], "img/wall_right.png", 60 +130, 10);
+    load_img(&selectable_tiles[3], "img/liquid_tube_bottom.png", 60 +190, 10);
+    load_img(&selectable_tiles[4], "img/liquid_tube_top.png", 60 +250, 10);
+    load_img(&selectable_tiles[5], "img/pipe_bottom_left.png", 60 +310, 10);
+    load_img(&selectable_tiles[6], "img/pipe_bottom_right.png", 60 +370, 10);
+    load_img(&selectable_tiles[7], "img/pipe_top_left.png", 60 +430, 10);
+    load_img(&selectable_tiles[8], "img/pipe_top_right.png", 60 +490, 10);
+    load_img(&selectable_tiles[9], "img/pipe_head_top.png", 60 +550, 10);
+    load_img(&selectable_tiles[10], "img/pipe_head_down.png", 60 +610, 10);
+    load_img(&selectable_tiles[11], "img/pipe_head_left.png", 60 +670, 10);
+    load_img(&selectable_tiles[12], "img/pipe_head_right.png", 60 +730, 10);
+    load_img(&selectable_tiles[13], "img/pipe_horizontal.png", 60 +790, 10);
+    load_img(&selectable_tiles[14], "img/pipe_vertical.png", 60 +850, 10);
+    load_img(&selectable_tiles[15], "img/enigme_objet.png", 60 +910, 10);
+    load_img(&selectable_tiles[16], "img/spike.png",60 + 970, 10);
+    load_img(&selectable_tiles[17], "img/potato_maker.png", 60 +1030, 10);
+    load_img(&selectable_tiles[18], "img/skander_maker.png", 60 +1090, 10);
+    load_img(&selectable_tiles[19], "img/crate.png", 60 +10, 10);
+    load_img(&selectable_tiles[20], "img/locker.png", 60+70, 10);
     mapmaker_parser(tiles, exist, &size, filename);
     SDL_Event event;
     while (boucle)
@@ -399,17 +404,28 @@ int mapmaker(SDL_Surface *screen)
 
         if (mouse.x != -1 && mouse.y != -1)
         {
+            if (mouse.y < 100)selected = -1;
+            // checks page
+            if(event.type==SDL_MOUSEBUTTONDOWN){
+                if (check_point_collision(arrow_left, mouse.x, mouse.y)){
+                    page--;
+                }
+                else if (check_point_collision(arrow_right, mouse.x, mouse.y)){
+                    page++;
+                }
+                if (page>1)page=1;
+                else if(page<0)page=0;
+            }
+
+
             for (int i = 0; i < 19; i++)
             {
-                if (check_point_collision(selectable_tiles[i], mouse.x, mouse.y))
+                if(page==1 && i==2)break;
+                if (check_point_collision(selectable_tiles[i+page*19], mouse.x, mouse.y))
                 {
-                    selected = i;
+                    selected = i+page*19;
                     break;
                 }
-            }
-            if (mouse.x > 1090 + 52)
-            {
-                selected = -1;
             }
 
             camera mousecam;
@@ -498,6 +514,10 @@ int mapmaker(SDL_Surface *screen)
                     load_img(&tiles[counter], "img/potato_maker.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
                 else if (selected == 18)
                     load_img(&tiles[counter], "img/skander_maker.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                else if (selected == 19)
+                    load_img(&tiles[counter], "img/crate.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                else if (selected == 20)
+                    load_img(&tiles[counter], "img/locker.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);    
                 if (counter == size)
                     size++;
                 exist[counter] = selected;
@@ -510,9 +530,12 @@ int mapmaker(SDL_Surface *screen)
         display_tiles(screen, tiles, cam, size, 1, 0);
         SDL_SetClipRect(screen, NULL);
         display_img(screen, blackbar);
+        display_img(screen,arrow_left);
+        display_img(screen,arrow_right);
         for (int i = 0; i < 19; i++)
         {
-            display_img(screen, selectable_tiles[i]);
+            if(page==1 && i==2)break;
+            display_img(screen, selectable_tiles[i+page*19]);
         }
         SDL_Flip(screen);
     }

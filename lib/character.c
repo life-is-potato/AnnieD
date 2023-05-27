@@ -201,10 +201,12 @@ void player_create(player *p, char *spritesheet, char* savefile)
     p->sprite.pos.h = p->frame_height;
     p->framepos.y = 0;
     p->framepos.x = 0;
+    p->landing=0;
     p->framepos.h = p->frame_height;
     p->framepos.w = p->frame_width;
     p->framestart = 0;
     p->frames = 0;
+    p->wallgrab=0;
 }
 
 void player_create2(player *p, char *spritesheet, char* savefile)
@@ -252,6 +254,7 @@ void player_create2(player *p, char *spritesheet, char* savefile)
     p->wlk_spd = 4;
     p->jumping = 0;
     p->dashing = 0;
+    p->landing=0;
     p->frame_height = 48;
     p->frame_width = 50;
     p->framepos.y = 0;
@@ -260,13 +263,41 @@ void player_create2(player *p, char *spritesheet, char* savefile)
     p->framepos.w = p->frame_width;
     p->framestart = 0;
     p->frames = 0;
+    p->wallgrab=0;
 }
 
+int player_walljump(player* p){
+    if(p->wallgrab){
+    if ( p->jump.pressed && p->jump.released)
+    {
+
+        p->jump.pressed = 0;
+        p->jump.released = 0;
+        if (p->jump.released == 0)
+            p->jumping = 1;
+        p->canjump -= 1;
+        // p->y_spd=0;
+    }
+    if(p->jumping){
+        p->x_spd=5*p->facing;
+        p->y_spd = p->jump_spd;
+        p->jumping += 1;
+        if (p->jumping >= 12 || p->jump.released)
+            p->jumping = 0;
+        return (1);
+    }
+    }
+    else
+    {
+        p->wallgrab=0;
+       return (0);
+    }
+}
 int player_jump(player *p)
 {
     if (p->canjump >= 1 && p->jump.pressed && p->jump.released)
     {
-
+        printf("%d\n",p->canjump);
         p->jump.pressed = 0;
         p->jump.released = 0;
         if (p->jump.released == 0)
@@ -319,6 +350,8 @@ int player_dash(player *p)
 
 void player_calculate_speed(player *p)
 {
+    if (player_walljump(p));
+    else{
     if (p->dash.pressed && p->dash.released && p->candash && !p->dashing)
     {
         p->jumping = 0;
@@ -347,13 +380,21 @@ void player_calculate_speed(player *p)
         p->x_spd += (p->direction * p->wlk_spd) / 3;
         if (player_jump(p))
             ;
+        else if(p->wallgrab){
+            p->y_spd += GRV*0.6;
+        }
         else
             (p->y_spd += GRV);
+        if(p->wallgrab && p->y_spd>10)
+            p->y_spd=10;
         if (p->y_spd > 20)
             p->y_spd = 20;
         if (abs(p->x_spd) > p->wlk_spd)
             p->x_spd = p->direction * p->wlk_spd;
     }
+    p->wallgrab=0;
+    }
+    
 }
 
 int rect_meeting(int x, int y, SDL_Rect rect1, SDL_Rect rect2)
@@ -387,12 +428,16 @@ int player_collision_object(player *p, img tile)
     SDL_Rect pl = p->sprite.pos;
     pl.h = p->frame_height;
     pl.w = p->frame_width;
-    if (rect_meeting(p->x_spd + p->sprite.pos.x, p->sprite.pos.y, pl, tile.pos))
+    if (rect_meeting(p->x_spd + p->sprite.pos.x, p->sprite.pos.y, pl, tile.pos) && p->x_spd!=0)
     {
         if (p->dashing)
         {
             p->dashing = 0;
             p->candash = 0;
+        }
+        else if(p->y_spd>1){
+            p->wallgrab=1;
+            p->facing=-p->facing;
         }
         if (tile.pos.x > pl.x)
             p->sprite.pos.x = tile.pos.x - p->frame_width;
@@ -404,6 +449,7 @@ int player_collision_object(player *p, img tile)
     }
     if (rect_meeting(p->sprite.pos.x, p->y_spd + p->sprite.pos.y, pl, tile.pos))
     {
+        if(p->y_spd>0) p->wallgrab=0;
         if (p->dashing)
         {
             p->dashing = 0;
@@ -415,6 +461,10 @@ int player_collision_object(player *p, img tile)
             p->sprite.pos.y = tile.pos.y + tile.pos.h;
         if (p->y_spd > 0)
         {
+            if(p->canjump<2){
+            p->frames=1;
+            p->landing=1;
+            }
             p->canjump = 2;
             p->candash = 1;
         }
@@ -492,14 +542,19 @@ void player_step(player *p, camera cam, img *tiles, int size, img *spikes, int s
 
 void player_animate(player *p)
 {
-    if (p->dashing >= 4)
+    if (p->dashing >= 9 && p->dashing)
     {
-        p->framepos.x = 0;
-        p->framepos.y = 96;
+        p->framepos.x = 400;
+        p->framepos.y = 48;
     }
     else if (p->dashing > 0)
     {
-        p->framepos.x = 50;
+        p->framepos.y = 96;
+        p->framepos.x = 0;
+    }
+    else if (p->wallgrab && p->y_spd>0){
+        p->framepos.x=0;
+        p->framepos.y=48*3;
     }
     else
     {
@@ -537,6 +592,21 @@ void player_animate(player *p)
         {
             if (p->x_spd == 0 && p->y_spd == 0 && !p->jumping)
             {
+                if (p->landing==1){
+                    if(p->frames<=3){
+                        p->framepos.y=48;
+                        p->framepos.x=350;
+                    }
+                    else if (p->frames<=8){
+                        p->framepos.x=400;
+                    }
+                    p->frames+=1;
+                    if(p->frames>=9){
+                        p->frames=0;
+                        p->landing=0;
+                    }
+                }
+                else{
                 if (p->frames % 40 >= 19)
                 {
                     p->framepos.y = 0;
@@ -548,6 +618,7 @@ void player_animate(player *p)
                     p->framepos.x = 0;
                 }
                 p->frames++;
+                }
             }
             if (abs(p->x_spd) > 1 && p->y_spd == 0)
             {
@@ -571,7 +642,7 @@ void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode)
         SDL_BlitSurface(p.sprite.image, &p.framepos, screen, &p.sprite.pos);
     else if (p.x_spd < 0)
     {
-        p.sprite.pos.x -= 10;
+        //p.sprite.pos.x -= 10;
         SDL_BlitSurface(p.spritemirrored.image, &p.framepos, screen, &p.sprite.pos);
     }
     else
@@ -580,7 +651,7 @@ void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode)
             SDL_BlitSurface(p.sprite.image, &p.framepos, screen, &p.sprite.pos);
         else
         {
-            p.sprite.pos.x -= 10;
+            //p.sprite.pos.x -= 10;
             SDL_BlitSurface(p.spritemirrored.image, &p.framepos, screen, &p.sprite.pos);
         }
     }

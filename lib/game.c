@@ -172,7 +172,7 @@ int gameloop(SDL_Surface *screen, char* level)
 
         update_camera(p1.sprite, p2.sprite, &cam, &mode, room_width, room_height, 2);
         // Dessine les arrière-plans, les ennemis, les joueurs, et les objets
-        if (mode == 1)
+        /*if (mode == 1)
         {
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             display_sprite(screen, bg, cam, mode, 0);
@@ -185,19 +185,20 @@ int gameloop(SDL_Surface *screen, char* level)
             player_draw(p2, screen, cam, 0, mode);
             enemy_draw(urmom, screen, cam, 0, mode);
         }
-        else
+        else*/
+        if(1==1)
         {
             mode = 1;
-            if (p1.sprite.pos.x < p2.sprite.pos.x)
+            //if (p1.sprite.pos.x < p2.sprite.pos.x)
             {
                 update_camera(p1.sprite, p1.sprite, &cam1, &mode, room_width, room_height, 0);
                 update_camera(p2.sprite, p2.sprite, &cam2, &mode, room_width, room_height, 1);
             }
-            else
+            /*else
             {
                 update_camera(p1.sprite, p1.sprite, &cam2, &mode, room_width, room_height, 1);
                 update_camera(p2.sprite, p2.sprite, &cam1, &mode, room_width, room_height, 0);
-            }
+            }*/
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             SDL_SetClipRect(screen, &scr2);
             display_sprite(screen, bg, cam2, mode, 1);
@@ -234,7 +235,7 @@ int gameloop(SDL_Surface *screen, char* level)
         SDL_Flip(screen);
         endtime = SDL_GetTicks();
         deltat = (endtime - starttime) / (float)1000;
-        wait = ((float)1 / (float)MAX_FPS) - deltat;
+        wait = ((float)1 / (float)MAX_FPS)- deltat;
         if (wait > 0)
             SDL_Delay(1000 * wait);
     }

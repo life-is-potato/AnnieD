@@ -9,6 +9,6 @@
 #include "functions.h"
 #include "mini.h"
 #include "bg.h"
-#define MAX_FPS 60
+#define MAX_FPS 48
 
 int gameloop(SDL_Surface* screen, char* level);

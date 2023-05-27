@@ -59,6 +59,8 @@ typedef struct
     int facing;
     int lives;
     SDL_Rect framepos;
+    int landing;
+    int wallgrab;
 } player;
 
 int rect_meeting(int x, int y, SDL_Rect rect1, SDL_Rect rect2);
