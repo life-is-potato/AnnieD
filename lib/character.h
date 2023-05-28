@@ -73,13 +73,13 @@ void players_get_inputs(player *p1, player *p2, int *boucle);
 
 void player_import_controls(player *p, char *url);
 
-void player_create(player *p, char *spritesheet, char* savefile);
+void player_create(player *p, char *spritesheet/*, char* savefile*/);
 
-void player_create2(player *p, char *spritesheet, char* savefile);
+void player_create2(player *p, char *spritesheet/*, char* savefile*/);
 
 void player_calculate_speed(player *p);
 
-void player_check_collision(player *p, camera cam, img *tiles, int size, img* spikes, int size2);
+void player_check_collision(player *p, img *tiles, int size, img* spikes, int size2);
 
 void player_pos_update(player *p);
 
@@ -89,7 +89,7 @@ void player_animate(player *p);
 
 void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode);
 
-void display_sprite(SDL_Surface *screen, img i, camera cam, int mode, int p);
+void display_sprite(SDL_Surface *screen, img i, camera cam);
 
 void parse_tiles(player* p1, player *p2, enemy* e, char *map, img *tab, int *size, img *decorations, int *size2, img* enigmes, int* size3, img* spk, int* size4, int* roomwidth, int* roomheight);
 

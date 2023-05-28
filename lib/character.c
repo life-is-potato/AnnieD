@@ -25,11 +25,12 @@ float calculateDistance(SDL_Rect rect1, SDL_Rect rect2)
 
 void update_camera(img img1, img img2, camera *cam, int *mode, int room_width, int room_height, int side)
 {
-    SDL_Rect screen;
-    screen.w = SCREEN_W / 2;
-    screen.h = SCREEN_H / 2;
-    screen.x = cam->x - SCREEN_W / 4;
-    screen.y = cam->y - SCREEN_H / 4;
+    /*SDL_Rect screen = {
+    .x = cam->x - SCREEN_W / 4,
+    .y = cam->y - SCREEN_H / 4,
+    .w = SCREEN_W / 2,
+    .h = SCREEN_H / 2
+    };*/
     int var = (abs(img1.pos.x - img2.pos.x) < (SCREEN_W / 2)) && (abs(img1.pos.y - img2.pos.y) < (SCREEN_H / 2));
     if (side == 2)
     {
@@ -87,71 +88,71 @@ void players_get_inputs(player *p1, player *p2, int *boucle)
         {
             if (event.key.keysym.sym == SDLK_ESCAPE)
                 *boucle = 0;
-            if (event.key.keysym.sym == p1->key.jump)
+            if ((int)event.key.keysym.sym == p1->key.jump)
                 p1->jump.pressed = 1;
-            if (event.key.keysym.sym == p1->key.right)
+            if ((int)event.key.keysym.sym == p1->key.right)
                 p1->right.pressed = 1;
-            if (event.key.keysym.sym == p1->key.left)
+            if ((int)event.key.keysym.sym == p1->key.left)
                 p1->left.pressed = 1;
-            if (event.key.keysym.sym == p1->key.up)
+            if ((int)event.key.keysym.sym == p1->key.up)
                 p1->up.pressed = 1;
-            if (event.key.keysym.sym == p1->key.down)
+            if ((int)event.key.keysym.sym == p1->key.down)
                 p1->down.pressed = 1;
-            if (event.key.keysym.sym == p1->key.dash)
+            if ((int)event.key.keysym.sym == p1->key.dash)
                 p1->dash.pressed = 1;
-            if (event.key.keysym.sym == p2->key.jump)
+            if ((int)event.key.keysym.sym == p2->key.jump)
                 p2->jump.pressed = 1;
-            if (event.key.keysym.sym == p2->key.right)
+            if ((int)event.key.keysym.sym == p2->key.right)
                 p2->right.pressed = 1;
-            if (event.key.keysym.sym == p2->key.left)
+            if ((int)event.key.keysym.sym == p2->key.left)
                 p2->left.pressed = 1;
-            if (event.key.keysym.sym == p2->key.up)
+            if ((int)event.key.keysym.sym == p2->key.up)
                 p2->up.pressed = 1;
-            if (event.key.keysym.sym == p2->key.down)
+            if ((int)event.key.keysym.sym == p2->key.down)
                 p2->down.pressed = 1;
-            if (event.key.keysym.sym == p2->key.dash)
+            if ((int)event.key.keysym.sym == p2->key.dash)
                 p2->dash.pressed = 1;
         }
         else if (event.type == SDL_KEYUP)
         {
-            if (event.key.keysym.sym == p1->key.jump)
+            if ((int)event.key.keysym.sym == p1->key.jump)
             {
                 p1->jump.released = 1;
                 p1->jump.pressed = 0;
             }
-            if (event.key.keysym.sym == p1->key.right)
+            if ((int)event.key.keysym.sym == p1->key.right)
                 p1->right.pressed = 0;
-            if (event.key.keysym.sym == p1->key.left)
+            if ((int)event.key.keysym.sym == p1->key.left)
                 p1->left.pressed = 0;
-            if (event.key.keysym.sym == p1->key.dash)
+            if ((int)event.key.keysym.sym == p1->key.dash)
                 p1->dash.pressed = 0;
             p1->dash.released = 1;
-            if (event.key.keysym.sym == p1->key.up)
+            if ((int)event.key.keysym.sym == p1->key.up)
                 p1->up.pressed = 0;
-            if (event.key.keysym.sym == p1->key.down)
+            if ((int)event.key.keysym.sym == p1->key.down)
                 p1->down.pressed = 0;
 
-            if (event.key.keysym.sym == p2->key.jump)
+            if ((int)event.key.keysym.sym == p2->key.jump)
             {
                 p2->jump.released = 1;
                 p2->jump.pressed = 0;
             }
-            if (event.key.keysym.sym == p2->key.right)
+            if ((int)event.key.keysym.sym == p2->key.right)
                 p2->right.pressed = 0;
-            if (event.key.keysym.sym == p2->key.left)
+            if ((int)event.key.keysym.sym == p2->key.left)
                 p2->left.pressed = 0;
-            if (event.key.keysym.sym == p2->key.dash)
+            if ((int)event.key.keysym.sym == p2->key.dash)
                 p2->dash.pressed = 0;
             p2->dash.released = 1;
-            if (event.key.keysym.sym == p2->key.up)
+            if ((int)event.key.keysym.sym == p2->key.up)
                 p2->up.pressed = 0;
-            if (event.key.keysym.sym == p2->key.down)
+            if ((int)event.key.keysym.sym == p2->key.down)
                 p2->down.pressed = 0;
         }
     }
 }
 
-void player_create(player *p, char *spritesheet, char* savefile)
+void player_create(player *p, char *spritesheet/*, char* savefile*/)
 {
     save s;
     FILE *f = fopen("keys1.txt", "r");
@@ -209,7 +210,7 @@ void player_create(player *p, char *spritesheet, char* savefile)
     p->wallgrab=0;
 }
 
-void player_create2(player *p, char *spritesheet, char* savefile)
+void player_create2(player *p, char *spritesheet/*, char* savefile*/)
 {
     save s;
     FILE *f = fopen("keys2.txt", "r");
@@ -368,7 +369,7 @@ void player_calculate_speed(player *p)
         ;
     else
     {
-        if (abs(p->x_spd) > 0.1)
+        if (fabsf(p->x_spd) > 0.1)
             p->x_spd *= 0.8;
         else
         {
@@ -389,7 +390,7 @@ void player_calculate_speed(player *p)
             p->y_spd=10;
         if (p->y_spd > 20)
             p->y_spd = 20;
-        if (abs(p->x_spd) > p->wlk_spd)
+        if (fabsf(p->x_spd) > p->wlk_spd)
             p->x_spd = p->direction * p->wlk_spd;
     }
     p->wallgrab=0;
@@ -484,12 +485,12 @@ int player_collision_object(player *p, img tile)
     return (c);
 }
 
-void player_check_collision(player *p, camera cam, img *tiles, int size, img *spikes, int size2)
+void player_check_collision(player *p, img *tiles, int size, img *spikes, int size2)
 {
     int i = 0;
-    SDL_Rect pl = p->sprite.pos;
+    /*SDL_Rect pl = p->sprite.pos;
     pl.h = p->frame_height;
-    pl.w = p->frame_width;
+    pl.w = p->frame_width;*/
     for (i = 0; i < size; i++)
     {
         player_collision_object(p, tiles[i]);
@@ -620,7 +621,7 @@ void player_animate(player *p)
                 p->frames++;
                 }
             }
-            if (abs(p->x_spd) > 1 && p->y_spd == 0)
+            if (fabsf(p->x_spd) > 1 && p->y_spd == 0)
             {
                 if (p->frames - p->framestart >= 4)
                 {
@@ -664,7 +665,7 @@ void display_sprite(SDL_Surface *screen, img i, camera cam, int mode, int p)
     SDL_BlitSurface(i.image, NULL, screen, &i.pos);
 }
 
-void display_sprite_rect(SDL_Surface *screen, img i, camera cam, int mode, int p, SDL_Rect rect)
+void display_sprite_rect(SDL_Surface *screen, img i, camera cam, SDL_Rect rect)
 {
     i.pos.x -= cam.x - (rect.w) / 2 + rect.x;
     i.pos.y -= cam.y - (rect.h) / 2 + rect.y;
@@ -673,7 +674,7 @@ void display_sprite_rect(SDL_Surface *screen, img i, camera cam, int mode, int p
 
 void parse_tiles(player* p1, player *p2, enemy* e, char *map, img *tab, int *size, img *decorations, int *size2, img *enigmes, int *size3, img *spk, int *size4, int *roomwidth, int *roomheight)
 {
-    srand(time);
+    //srand(time);
     int i = -1, j = 0;
     char n;
     FILE *f = fopen(map, "r");

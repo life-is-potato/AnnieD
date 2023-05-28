@@ -45,7 +45,7 @@ void scrolling (background * b, int direction )
 			}	
 }
 
-void init_animerBack (background* image,SDL_Surface * screen)
+void init_animerBack (background* image)
 {
 	image->img=NULL;
     image->url="../img/object.png";

@@ -48,7 +48,7 @@ int gameloop(SDL_Surface *screen, char* level)
     cam.x = (savefile.x1 + savefile.x2) / 2;
     cam.y = (savefile.y1 + savefile.y2) / 2;
     load_txt(&timertxt, 10, 10, 0, 255, 0, "fonts/pixel_arial.ttf", 50);
-    init_minimap(&mm, minimappath, screen);
+    init_minimap(&mm, minimappath);
     init_miniplayer(&mp, miniplayerpath);
     SDL_SetAlpha(mp.img.image, SDL_SRCALPHA, 128);
     init_miniplayer(&mp2, miniplayerpath);
@@ -231,7 +231,7 @@ int gameloop(SDL_Surface *screen, char* level)
         update_tiles(&mm, &minitile, size, tm, screen, cam);
         SDL_SetClipRect(screen, &scr);
         display_lives(p1, screen, life);
-        update_time(0, &mm, &time, &timertxt, screen, savefile, starttime2);
+        update_time(0, &time, &timertxt, screen, savefile, starttime2);
         SDL_Flip(screen);
         endtime = SDL_GetTicks();
         deltat = (endtime - starttime) / (float)1000;

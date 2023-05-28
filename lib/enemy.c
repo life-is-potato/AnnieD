@@ -91,7 +91,7 @@ int enemy_calculate_direction(enemy *e,player p, player p2)
 void enemy_calculate_speed(enemy *p,player p1,player p2)
 {
     enemy_calculate_direction(p,p1,p2);
-    if (abs(p->x_spd) > 0.1)
+    if (fabsf(p->x_spd) > 0.1)
         p->x_spd *= 0.8;
     else
         p->x_spd = 0;
@@ -101,7 +101,7 @@ void enemy_calculate_speed(enemy *p,player p1,player p2)
     p->y_spd += GRV;
     if (p->y_spd > 20)
         p->y_spd = 20;
-    if (abs(p->x_spd) > p->wlk_spd)
+    if (fabsf(p->x_spd) > p->wlk_spd)
         p->x_spd = p->direction * p->wlk_spd;
 }
 
@@ -193,7 +193,7 @@ void enemy_animate(enemy *p)
             }
             p->frames++;
         }
-        if (abs(p->x_spd) > 1 && p->y_spd == 0)
+        if (fabsf(p->x_spd) > 1 && p->y_spd == 0)
         {
             if (p->frames - p->framestart >= 4)
             {

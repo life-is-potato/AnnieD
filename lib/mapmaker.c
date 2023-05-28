@@ -357,6 +357,9 @@ int mapmaker(SDL_Surface *screen)
                 case SDLK_RETURN:
                     boucle = 0;
                     break;
+                default:
+                    // ignore all other SDLK values
+                    break;
                 }
                 break;
             case SDL_KEYUP:
@@ -377,6 +380,9 @@ int mapmaker(SDL_Surface *screen)
                 case SDLK_DOWN:
                     keys[3].released = 1;
                     keys[3].pressed = 0;
+                    break;
+                default:
+                    // ignore all other SDLK values
                     break;
                 }
             }

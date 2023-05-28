@@ -185,6 +185,9 @@ int enigme_play(SDL_Surface *screen)
 					running = 0;
 					boucle = 0;
 					break;
+				default:
+					// ignore all other SDLK values
+					break;
 				}
 			}
 		}
