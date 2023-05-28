@@ -30,7 +30,7 @@ int gameloop(SDL_Surface *screen, char* level)
     minimap mm;
     miniplayer mp, mp2, me, minitile;
     player p1, p2;
-    img bg, dummy, nothing, enigmeobj, life;
+    img bg,/* dummy,*/ nothing, enigmeobj, life;
     txt timertxt;
     int mode = 1;
     int starttime;
@@ -67,10 +67,10 @@ int gameloop(SDL_Surface *screen, char* level)
     img dec[10000];
     img eng[10];
     int size = 0, size2 = 0, size3 = 0, size4=0;
-    enemy_create(&urmom, spritesheet1,0,0);
+    enemy_create(&urmom,0,0);
     parse_tiles(&p1, &p2, &urmom, level, tm, &size, dec, &size2, eng, &size3, spk, &size4,  &room_width, &room_height);
-    player_create(&p1, spritesheet1, "save.bin");
-    player_create2(&p2, spritesheet2, "save.bin");
+    player_create(&p1, spritesheet1);
+    player_create2(&p2, spritesheet2);
     p1.sprite.pos.x=p1.respawn_x;
     p1.sprite.pos.y=p1.respawn_y;
     p2.sprite.pos.x=p2.respawn_x;
@@ -90,7 +90,7 @@ int gameloop(SDL_Surface *screen, char* level)
     enigmeobj.pos.w = 25;
     img car;
     load_img(&car, "img/object.png", 100, 100);
-    int k = 0;
+    //int k = 0;
     cam1.x = cam.x;
     cam1.y = cam.y;
     cam2.x = cam.x;
@@ -119,9 +119,9 @@ int gameloop(SDL_Surface *screen, char* level)
 
         // Execute la logique des joueurs et des ennemis, et met à jour la position de la camera
 
-        player_step(&p1, cam, tm, size,spk,size4);
-        player_step(&p2, cam, tm, size,spk,size4);
-        enemy_step(&urmom, cam, p1, p2, tm, size);
+        player_step(&p1, tm, size,spk,size4);
+        player_step(&p2, tm, size,spk,size4);
+        enemy_step(&urmom, p1, p2, tm, size);
         if (player_ennemy_colliding(p1, urmom) || player_ennemy_colliding(p2, urmom))
             penalty++;
 

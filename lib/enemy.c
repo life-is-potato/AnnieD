@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-void enemy_create(enemy *p, char *spritesheet,int x,int y)
+void enemy_create(enemy *p,/*, char *spritesheet*/int x,int y)
 {
     srand(time(NULL));
     load_img(&p->sprite, "img/skander_walking-export-sheet.png", x, y);
@@ -105,7 +105,7 @@ void enemy_calculate_speed(enemy *p,player p1,player p2)
         p->x_spd = p->direction * p->wlk_spd;
 }
 
-int enemy_check_collision(enemy *p, camera cam, int size, img *tiles)
+void enemy_check_collision(enemy *p, int size, img *tiles)
 {
     int i = 0;
     SDL_Rect pl = p->sprite.pos;
@@ -161,10 +161,10 @@ void enemy_pos_update(enemy *p)
     p->sprite.pos.y += p->y_spd;
 }
 
-void enemy_step(enemy *p, camera cam, player p1, player p2, img *tiles, int size)
+void enemy_step(enemy *p, player p1, player p2, img *tiles, int size)
 {
     enemy_calculate_speed(p,p1,p2);
-    enemy_check_collision(p, cam, size, tiles);
+    enemy_check_collision(p, size, tiles);
     enemy_pos_update(p);
     enemy_animate(p);
 }

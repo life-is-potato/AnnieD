@@ -49,9 +49,9 @@ void generate_afficher(int *alea)
     } while (*alea == test);
 }
 
-void init_enigme(enigme *e, char *nomfichier)
+void init_enigme(enigme *e/*, char *nomfichier*/)
 {
-    int j, y;
+    //int j, y;
     int i = 1;
     char nomimage[20];
 
@@ -90,108 +90,111 @@ void init_enigme(enigme *e, char *nomfichier)
     e->pos_timer.y = 14;
 }
 
-int enigme_play(SDL_Surface *screen)
+int enigme_play(SDL_Surface* screen)
 {
     enigme e;
-	Mix_Music *music;
-	e.num_enigme = -1;
-	int s, r = 0;
-	int running = 0;
-	int alea;
-	int boucle = 1;
-	char image[30] = "";
-	SDL_Event event;
-	int t = 0,t0;
-	time_t start, end;
-	start = clock();
-	char cc[30]="0";
-	text tt;
+    //Mix_Music* music;
+    e.num_enigme = -1;
+    int r = 0;
+    int running = 0;
+    int boucle = 1;
+    char cc[30] = "0";
+    text tt;
 
-	init_enigme(&e, "lib/lot5/enigme.txt");
-	initexte(&tt);
+    init_enigme(&e);
+    initexte(&tt);
+    time_t start, end;
+    start = clock();
+    int t = 0;//, t0;
+
     while (boucle)
     {
         SDL_BlitSurface(e.img, NULL, screen, &e.p);
-        fflush(stdin);
         snprintf(cc, 5, ":0%d", t);
-		SDL_BlitSurface(e.timer[t], NULL, screen, &e.pos_timer);
-		displayText(tt, screen, cc);
-		SDL_Flip(screen);
+        SDL_BlitSurface(e.timer[t], NULL, screen, &e.pos_timer);
+        displayText(tt, screen, cc);
+        SDL_Flip(screen);
 
-		end = clock();
-        t0=t;
-		t = (end - start) / CLOCKS_PER_SEC;
-		if (t == 10)
-		{
-			running = 1;
-		}
-        /*else if(t>t0){
-            cc[0]+=1;
-        }*/
+        end = clock();
+        //t0 = t;
+        t = (end - start) / CLOCKS_PER_SEC;
+        if (t == 10)
+        {
+            running = 1;
+        }
 
-		SDL_PollEvent(&event);
-		switch (event.type)
-		{
-		case SDL_QUIT:
-			running = 0;
-			boucle = 0;
-			break;
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+            case SDL_QUIT:
+                running = 0;
+                boucle = 0;
+                break;
 
-		case SDL_KEYDOWN:
-			switch (event.key.keysym.sym)
-			{
-			case SDLK_a:
-				// Mix_PlayChannel( -1, son, 0 );
-				r = 1;
-				running = 1;
-				break;
-			case SDLK_z:
-				// Mix_PlayChannel( -1, son, 0 );
-				r = 2;
-				running = 1;
-				break;
-			case SDLK_e:
-				// Mix_PlayChannel( -1, son, 0 );
-				r = 3;
-				running = 1;
-				break;
-			case SDLK_r:
-				// Mix_PlayChannel( -1, son, 0 );
-				r = 4;
-				running = 1;
-				break;
-            default: break;
-			}
-			break;
-        default:  break;
-		}
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_a:
+                    // Mix_PlayChannel( -1, son, 0 );
+                    r = 1;
+                    running = 1;
+                    break;
+                case SDLK_z:
+                    // Mix_PlayChannel( -1, son, 0 );
+                    r = 2;
+                    running = 1;
+                    break;
+                case SDLK_e:
+                    // Mix_PlayChannel( -1, son, 0 );
+                    r = 3;
+                    running = 1;
+                    break;
+                case SDLK_r:
+                    // Mix_PlayChannel( -1, son, 0 );
+                    r = 4;
+                    running = 1;
+                    break;
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+        }
 
-		while (running)
-		{
-			afficher_resultat(screen, e.reponsevrai, r, &e);
+        while (running)
+        {
+            afficher_resultat(screen, e.reponsevrai, r, &e);
 
-			SDL_WaitEvent(&event);
-			switch (event.type)
-			{
-			case SDL_QUIT:
-				running = 0;
-				boucle = 0;
-				break;
+            SDL_Event event;
+            SDL_WaitEvent(&event);
+            switch (event.type)
+            {
+            case SDL_QUIT:
+                running = 0;
+                boucle = 0;
+                break;
 
-			case SDL_KEYDOWN:
-				switch (event.key.keysym.sym)
-				{
-				case SDLK_ESCAPE:
-					running = 0;
-					boucle = 0;
-					break;
-				default:
-					// ignore all other SDLK values
-					break;
-				}
-			}
-		}
-	}
-    if (r==e.reponsevrai)return (1);
-	else return(0);
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_ESCAPE:
+                    running = 0;
+                    boucle = 0;
+                    break;
+                default:
+                    // ignore all other SDLK values
+                    break;
+                }
+            }
+        }
+    }
+
+    if (r == e.reponsevrai)
+        return 1;
+    else
+        return 0;
 }

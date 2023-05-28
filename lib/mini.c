@@ -66,9 +66,9 @@ void update_time(int pause, Uint32 *start_time, txt *timertxt, SDL_Surface *scre
     char time_str[20];
     if (!pause)
     {
-        Uint32 current_time = SDL_GetTicks()-starttime2;
+        Uint32 current_time = SDL_GetTicks() - starttime2;
         Uint32 elapsed_time = (savefile.time + (current_time - (*start_time))) / 1000;
-        snprintf(time_str,6*sizeof(char),  "%02d:%02d", elapsed_time / 60, elapsed_time % 60);
+        snprintf(time_str, sizeof(time_str), "%02d:%02d", elapsed_time / 60, elapsed_time % 60);
         print_txt(screen, timertxt, time_str);
     }
     else

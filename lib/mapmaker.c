@@ -1,6 +1,6 @@
 #include "mapmaker.h"
 
-int create_matrix(img *tiles, int *exist, int size, char mat[50][50])
+void create_matrix(img *tiles, int *exist, int size, char mat[50][50])
 {
     int i, j;
     for (i = 0; i < 50; i++)
@@ -85,7 +85,7 @@ int create_matrix(img *tiles, int *exist, int size, char mat[50][50])
     */
 }
 
-int create_file(char mat[50][50], char *filename)
+void create_file(char mat[50][50], char *filename)
 {
     int i, j;
     FILE *f = fopen(filename, "w");
@@ -100,7 +100,7 @@ int create_file(char mat[50][50], char *filename)
     fclose(f);
 }
 
-int mapmaker_parser(img *tiles, int *exist, int *size, char *path)
+void mapmaker_parser(img *tiles, int *exist, int *size, char *path)
 {
     FILE *f = fopen(path, "r");
     if (f != NULL)
@@ -118,112 +118,112 @@ int mapmaker_parser(img *tiles, int *exist, int *size, char *path)
                 case '1':
 
                     load_img(&tiles[*size], "img/wall_middle.png", i * 52, j * 50);
-                    exist[*size]=1;
+                    exist[*size] = 1;
                     *size += 1;
                     break;
                 case '2':
 
                     load_img(&tiles[*size], "img/wall_left.png", i * 52, j * 50);
-                    exist[*size]=0;
+                    exist[*size] = 0;
                     *size += 1;
                     break;
                 case '3':
 
                     load_img(&tiles[*size], "img/wall_right.png", i * 52, j * 50);
-                    exist[*size]=2;
+                    exist[*size] = 2;
                     *size += 1;
                     break;
                 case '4':
 
                     load_img(&tiles[*size], "img/liquid_tube_bottom.png", i * 52, j * 50);
-                    exist[*size]=3;
+                    exist[*size] = 3;
                     *size += 1;
                     break;
                 case '5':
 
                     load_img(&tiles[*size], "img/liquid_tube_top.png", i * 52, j * 50);
-                    exist[*size]=4;
+                    exist[*size] = 4;
                     *size += 1;
                     break;
                 case 'a':
 
                     load_img(&tiles[*size], "img/pipe_bottom_left.png", i * 52, j * 50);
-                    exist[*size]=5;
+                    exist[*size] = 5;
                     *size += 1;
                     break;
                 case 'b':
 
                     load_img(&tiles[*size], "img/pipe_bottom_right.png", i * 52, j * 50);
-                    exist[*size]=6;
+                    exist[*size] = 6;
                     *size += 1;
                     break;
                 case 'c':
                     load_img(&tiles[*size], "img/pipe_top_left.png", i * 52, j * 50);
-                    exist[*size]=7;
+                    exist[*size] = 7;
                     *size += 1;
                     break;
                 case 'd':
 
                     load_img(&tiles[*size], "img/pipe_top_right.png", i * 52, j * 50);
-                    exist[*size]=8;
+                    exist[*size] = 8;
                     *size += 1;
                     break;
                 case 'e':
 
                     load_img(&tiles[*size], "img/pipe_head_top.png", i * 52, j * 50);
-                    exist[*size]=9;
+                    exist[*size] = 9;
                     *size += 1;
                     break;
                 case 'f':
 
                     load_img(&tiles[*size], "img/pipe_head_down.png", i * 52, j * 50);
-                    exist[*size]=10;
+                    exist[*size] = 10;
                     *size += 1;
                     break;
                 case 'g':
 
                     load_img(&tiles[*size], "img/pipe_head_left.png", i * 52, j * 50);
-                    exist[*size]=11;
+                    exist[*size] = 11;
                     *size += 1;
                     break;
                 case 'h':
 
                     load_img(&tiles[*size], "img/pipe_head_right.png", i * 52, j * 50);
-                    exist[*size]=12;
+                    exist[*size] = 12;
                     *size += 1;
                     break;
                 case 'i':
 
                     load_img(&tiles[*size], "img/pipe_horizontal.png", i * 52, j * 50);
-                    exist[*size]=13;
+                    exist[*size] = 13;
                     *size += 1;
                     break;
                 case 'j':
 
                     load_img(&tiles[*size], "img/pipe_vertical.png", i * 52, j * 50);
-                    exist[*size]=14;
+                    exist[*size] = 14;
                     *size += 1;
                     break;
                 case 'k':
 
                     load_img(&tiles[*size], "img/enigme_objet.png", i * 52, j * 50);
-                    exist[*size]=15;
+                    exist[*size] = 15;
                     *size += 1;
                     break;
                 case 'n':
 
                     load_img(&tiles[*size], "img/spike.png", i * 52, j * 50);
-                    exist[*size]=16;
+                    exist[*size] = 16;
                     *size += 1;
                     break;
                 case 'p':
                     load_img(&tiles[*size], "img/potato_maker.png", i * 52, j * 50);
-                    exist[*size]=17;
+                    exist[*size] = 17;
                     *size += 1;
                     break;
                 case 'x':
                     load_img(&tiles[*size], "img/skander_maker.png", i * 52, j * 50);
-                    exist[*size]=18;
+                    exist[*size] = 18;
                     *size += 1;
                     break;
                 case 'q':
@@ -242,21 +242,23 @@ int mapmaker(SDL_Surface *screen)
     char filename[30];
     printf("give me a filename\n");
     fflush(stdin);
-    scanf("%s",filename);
+    scanf("%s", filename);
     fflush(stdin);
-    int rc=0;
+    int rc = 0;
     SDL_Rect fs;
     fs.x = 0;
     fs.y = 0;
     fs.w = SCREEN_W;
     fs.h = SCREEN_H;
-    SDL_Rect clip;
-    clip.x = 0;
-    clip.y = 100;
-    clip.w = SCREEN_W;
-    clip.h = SCREEN_H - 100;
+    /*SDL_Rect clip
+    {
+        .x = 0;
+        .y = 100;
+        .w = SCREEN_W;
+        .h = SCREEN_H - 100;
+    };*/
     int counter;
-    int page=0;
+    int page = 0;
     button keys[4];
     for (int i = 0; i < 4; i++)
     {
@@ -280,29 +282,29 @@ int mapmaker(SDL_Surface *screen)
     img blackbar, bg, arrow_left, arrow_right;
     load_img(&blackbar, "img/topbar.png", 0, 0);
     load_img(&bg, "img/bgexp.png", 0, 0);
-    load_img(&arrow_left,"img/arrow_left.png",10,10);
-    load_img(&arrow_right,"img/arrow_right.png",1150+60,10);
-    load_img(&selectable_tiles[0], "img/wall_left.png", 60 +10, 10);
-    load_img(&selectable_tiles[1], "img/wall_middle.png", 60 +70, 10);
-    load_img(&selectable_tiles[2], "img/wall_right.png", 60 +130, 10);
-    load_img(&selectable_tiles[3], "img/liquid_tube_bottom.png", 60 +190, 10);
-    load_img(&selectable_tiles[4], "img/liquid_tube_top.png", 60 +250, 10);
-    load_img(&selectable_tiles[5], "img/pipe_bottom_left.png", 60 +310, 10);
-    load_img(&selectable_tiles[6], "img/pipe_bottom_right.png", 60 +370, 10);
-    load_img(&selectable_tiles[7], "img/pipe_top_left.png", 60 +430, 10);
-    load_img(&selectable_tiles[8], "img/pipe_top_right.png", 60 +490, 10);
-    load_img(&selectable_tiles[9], "img/pipe_head_top.png", 60 +550, 10);
-    load_img(&selectable_tiles[10], "img/pipe_head_down.png", 60 +610, 10);
-    load_img(&selectable_tiles[11], "img/pipe_head_left.png", 60 +670, 10);
-    load_img(&selectable_tiles[12], "img/pipe_head_right.png", 60 +730, 10);
-    load_img(&selectable_tiles[13], "img/pipe_horizontal.png", 60 +790, 10);
-    load_img(&selectable_tiles[14], "img/pipe_vertical.png", 60 +850, 10);
-    load_img(&selectable_tiles[15], "img/enigme_objet.png", 60 +910, 10);
-    load_img(&selectable_tiles[16], "img/spike.png",60 + 970, 10);
-    load_img(&selectable_tiles[17], "img/potato_maker.png", 60 +1030, 10);
-    load_img(&selectable_tiles[18], "img/skander_maker.png", 60 +1090, 10);
-    load_img(&selectable_tiles[19], "img/crate.png", 60 +10, 10);
-    load_img(&selectable_tiles[20], "img/locker.png", 60+70, 10);
+    load_img(&arrow_left, "img/arrow_left.png", 10, 10);
+    load_img(&arrow_right, "img/arrow_right.png", 1150 + 60, 10);
+    load_img(&selectable_tiles[0], "img/wall_left.png", 60 + 10, 10);
+    load_img(&selectable_tiles[1], "img/wall_middle.png", 60 + 70, 10);
+    load_img(&selectable_tiles[2], "img/wall_right.png", 60 + 130, 10);
+    load_img(&selectable_tiles[3], "img/liquid_tube_bottom.png", 60 + 190, 10);
+    load_img(&selectable_tiles[4], "img/liquid_tube_top.png", 60 + 250, 10);
+    load_img(&selectable_tiles[5], "img/pipe_bottom_left.png", 60 + 310, 10);
+    load_img(&selectable_tiles[6], "img/pipe_bottom_right.png", 60 + 370, 10);
+    load_img(&selectable_tiles[7], "img/pipe_top_left.png", 60 + 430, 10);
+    load_img(&selectable_tiles[8], "img/pipe_top_right.png", 60 + 490, 10);
+    load_img(&selectable_tiles[9], "img/pipe_head_top.png", 60 + 550, 10);
+    load_img(&selectable_tiles[10], "img/pipe_head_down.png", 60 + 610, 10);
+    load_img(&selectable_tiles[11], "img/pipe_head_left.png", 60 + 670, 10);
+    load_img(&selectable_tiles[12], "img/pipe_head_right.png", 60 + 730, 10);
+    load_img(&selectable_tiles[13], "img/pipe_horizontal.png", 60 + 790, 10);
+    load_img(&selectable_tiles[14], "img/pipe_vertical.png", 60 + 850, 10);
+    load_img(&selectable_tiles[15], "img/enigme_objet.png", 60 + 910, 10);
+    load_img(&selectable_tiles[16], "img/spike.png", 60 + 970, 10);
+    load_img(&selectable_tiles[17], "img/potato_maker.png", 60 + 1030, 10);
+    load_img(&selectable_tiles[18], "img/skander_maker.png", 60 + 1090, 10);
+    load_img(&selectable_tiles[19], "img/crate.png", 60 + 10, 10);
+    load_img(&selectable_tiles[20], "img/locker.png", 60 + 70, 10);
     mapmaker_parser(tiles, exist, &size, filename);
     SDL_Event event;
     while (boucle)
@@ -317,24 +319,26 @@ int mapmaker(SDL_Surface *screen)
                 SDL_Quit();
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                if (event.button.button == SDL_BUTTON_LEFT){
-                    rc=1;
+                if (event.button.button == SDL_BUTTON_LEFT)
+                {
+                    rc = 1;
                     mouse.x = event.motion.x;
                     mouse.y = event.motion.y;
                 }
                 break;
             case SDL_MOUSEBUTTONUP:
-                rc=0;
-                mouse.x=-1;
-                mouse.y=-1;    
+                rc = 0;
+                mouse.x = -1;
+                mouse.y = -1;
                 break;
             case SDL_MOUSEMOTION:
-                if(rc==1){
+                if (rc == 1)
+                {
                     mouse.x = event.motion.x;
                     mouse.y = event.motion.y;
                 }
                 break;
-            
+
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {
@@ -403,33 +407,39 @@ int mapmaker(SDL_Surface *screen)
             cam.x = SCREEN_W / 2;
         if (cam.y > bg.image->h - SCREEN_H / 2)
             cam.y = bg.image->h - SCREEN_H / 2;
-        else if (cam.y < (SCREEN_H / 2)-100)
-            cam.y = SCREEN_H / 2-100;
+        else if (cam.y < (SCREEN_H / 2) - 100)
+            cam.y = SCREEN_H / 2 - 100;
 
         // handling mouse clicks
 
         if (mouse.x != -1 && mouse.y != -1)
         {
-            if (mouse.y < 100)selected = -1;
+            if (mouse.y < 100)
+                selected = -1;
             // checks page
-            if(event.type==SDL_MOUSEBUTTONDOWN){
-                if (check_point_collision(arrow_left, mouse.x, mouse.y)){
+            if (event.type == SDL_MOUSEBUTTONDOWN)
+            {
+                if (check_point_collision(arrow_left, mouse.x, mouse.y))
+                {
                     page--;
                 }
-                else if (check_point_collision(arrow_right, mouse.x, mouse.y)){
+                else if (check_point_collision(arrow_right, mouse.x, mouse.y))
+                {
                     page++;
                 }
-                if (page>1)page=1;
-                else if(page<0)page=0;
+                if (page > 1)
+                    page = 1;
+                else if (page < 0)
+                    page = 0;
             }
-
 
             for (int i = 0; i < 19; i++)
             {
-                if(page==1 && i==2)break;
-                if (check_point_collision(selectable_tiles[i+page*19], mouse.x, mouse.y))
+                if (page == 1 && i == 2)
+                    break;
+                if (check_point_collision(selectable_tiles[i + page * 19], mouse.x, mouse.y))
                 {
-                    selected = i+page*19;
+                    selected = i + page * 19;
                     break;
                 }
             }
@@ -523,7 +533,7 @@ int mapmaker(SDL_Surface *screen)
                 else if (selected == 19)
                     load_img(&tiles[counter], "img/crate.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
                 else if (selected == 20)
-                    load_img(&tiles[counter], "img/locker.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);    
+                    load_img(&tiles[counter], "img/locker.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
                 if (counter == size)
                     size++;
                 exist[counter] = selected;
@@ -536,12 +546,13 @@ int mapmaker(SDL_Surface *screen)
         display_tiles(screen, tiles, cam, size, 1, 0);
         SDL_SetClipRect(screen, NULL);
         display_img(screen, blackbar);
-        display_img(screen,arrow_left);
-        display_img(screen,arrow_right);
+        display_img(screen, arrow_left);
+        display_img(screen, arrow_right);
         for (int i = 0; i < 19; i++)
         {
-            if(page==1 && i==2)break;
-            display_img(screen, selectable_tiles[i+page*19]);
+            if (page == 1 && i == 2)
+                break;
+            display_img(screen, selectable_tiles[i + page * 19]);
         }
         SDL_Flip(screen);
     }

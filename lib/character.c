@@ -267,33 +267,29 @@ void player_create2(player *p, char *spritesheet/*, char* savefile*/)
     p->wallgrab=0;
 }
 
-int player_walljump(player* p){
-    if(p->wallgrab){
-    if ( p->jump.pressed && p->jump.released)
-    {
+int player_walljump(player * p) {
+        if (p -> wallgrab) {
+                if (p -> jump.pressed && p -> jump.released) {
 
-        p->jump.pressed = 0;
-        p->jump.released = 0;
-        if (p->jump.released == 0)
-            p->jumping = 1;
-        p->canjump -= 1;
-        // p->y_spd=0;
-    }
-    if(p->jumping){
-        p->x_spd=5*p->facing;
-        p->y_spd = p->jump_spd;
-        p->jumping += 1;
-        if (p->jumping >= 12 || p->jump.released)
-            p->jumping = 0;
-        return (1);
-    }
-    }
-    else
-    {
-        p->wallgrab=0;
-       return (0);
-    }
+                        p -> jump.pressed = 0;
+                        p -> jump.released = 0;
+                        p -> jumping = 1;
+                        p -> canjump -= 1;
+                        // p->y_spd=0;
+                }
+                if (p -> jumping) {
+                        p -> x_spd = 5 * p -> facing;
+                        p -> y_spd = p -> jump_spd;
+                        p -> jumping += 1;
+                        if (p -> jumping >= 12 || p -> jump.released)
+                                p -> jumping = 0;
+                        return 1;
+                }
+        }
+        p -> wallgrab = 0;
+        return (0);
 }
+
 int player_jump(player *p)
 {
     if (p->canjump >= 1 && p->jump.pressed && p->jump.released)
@@ -533,10 +529,10 @@ void player_pos_update(player *p)
     p->sprite.pos.y += p->y_spd;
 }
 
-void player_step(player *p, camera cam, img *tiles, int size, img *spikes, int size2)
+void player_step(player *p, img *tiles, int size, img *spikes, int size2)
 {
     player_calculate_speed(p);
-    player_check_collision(p, cam, tiles, size, spikes, size2);
+    player_check_collision(p, tiles, size, spikes, size2);
     player_pos_update(p);
     player_animate(p);
 }
