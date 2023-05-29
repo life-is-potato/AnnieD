@@ -559,5 +559,5 @@ int mapmaker(SDL_Surface *screen)
     char mat[50][50];
     create_matrix(tiles, exist, size, mat);
     create_file(mat, filename);
-    return (1);
+    return (gameloop(screen,filename));
 }

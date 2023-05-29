@@ -620,7 +620,7 @@ int main()
 			screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
 			printf("give name of the file containing the level\n");
 			fopen("save.bin","w");
-			system("rm -r save.bin");
+			system("rm -rf save.bin");
 			scanf("%s",filepath);
 			gameloop(screen,filepath);
 			state=1;
@@ -629,6 +629,7 @@ int main()
 
 		else if (state==8){
 			screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
+			system("rm -rf save.bin");
 			mapmaker(screen);
 			screen = SDL_SetVideoMode(1200, 800, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
 			state=1;

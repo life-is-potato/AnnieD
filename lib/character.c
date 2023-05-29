@@ -294,7 +294,6 @@ int player_jump(player *p)
 {
     if (p->canjump >= 1 && p->jump.pressed && p->jump.released)
     {
-        printf("%d\n",p->canjump);
         p->jump.pressed = 0;
         p->jump.released = 0;
         if (p->jump.released == 0)
@@ -596,6 +595,7 @@ void player_animate(player *p)
                     }
                     else if (p->frames<=8){
                         p->framepos.x=400;
+                        p->framepos.x=350;
                     }
                     p->frames+=1;
                     if(p->frames>=9){
@@ -619,6 +619,7 @@ void player_animate(player *p)
             }
             if (fabsf(p->x_spd) > 1 && p->y_spd == 0)
             {
+                //p->landing=0;
                 if (p->frames - p->framestart >= 4)
                 {
                     p->framepos.y = 0;
