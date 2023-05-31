@@ -237,13 +237,8 @@ void mapmaker_parser(img *tiles, int *exist, int *size, char *path)
     }
 }
 
-int mapmaker(SDL_Surface *screen)
+int mapmaker(SDL_Surface *screen, char* filename)
 {
-    char filename[30];
-    printf("give me a filename\n");
-    fflush(stdin);
-    scanf("%s", filename);
-    fflush(stdin);
     int rc = 0;
     SDL_Rect fs;
     fs.x = 0;

@@ -286,7 +286,6 @@ int player_walljump(player * p) {
                         return 1;
                 }
         }
-        p -> wallgrab = 0;
         return (0);
 }
 
@@ -300,7 +299,7 @@ int player_jump(player *p)
             p->jumping = 1;
         p->canjump -= 1;
         // p->y_spd=0;
-    }
+    } 
 
     if (p->jumping)
     {
@@ -377,12 +376,12 @@ void player_calculate_speed(player *p)
         if (player_jump(p))
             ;
         else if(p->wallgrab){
-            p->y_spd += GRV*0.6;
+            p->y_spd += GRV*0.3;
         }
         else
             (p->y_spd += GRV);
-        if(p->wallgrab && p->y_spd>10)
-            p->y_spd=10;
+        if(p->wallgrab && p->y_spd>6)
+            p->y_spd=6;
         if (p->y_spd > 20)
             p->y_spd = 20;
         if (fabsf(p->x_spd) > p->wlk_spd)
