@@ -59,6 +59,8 @@ typedef struct
     int facing;
     int lives;
     SDL_Rect framepos;
+    int landing;
+    int wallgrab;
 } player;
 
 int rect_meeting(int x, int y, SDL_Rect rect1, SDL_Rect rect2);
@@ -71,17 +73,17 @@ void players_get_inputs(player *p1, player *p2, int *boucle);
 
 void player_import_controls(player *p, char *url);
 
-void player_create(player *p, char *spritesheet, char* savefile);
+void player_create(player *p, char *spritesheet/*, char* savefile*/);
 
-void player_create2(player *p, char *spritesheet, char* savefile);
+void player_create2(player *p, char *spritesheet/*, char* savefile*/);
 
 void player_calculate_speed(player *p);
 
-void player_check_collision(player *p, camera cam, img *tiles, int size, img* spikes, int size2);
+void player_check_collision(player *p, img *tiles, int size, img* spikes, int size2);
 
 void player_pos_update(player *p);
 
-void player_step(player *p, camera cam, img *tiles, int size, img* spikes, int size2);
+void player_step(player *p, img *tiles, int size, img* spikes, int size2);
 
 void player_animate(player *p);
 

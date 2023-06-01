@@ -4,7 +4,8 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_ttf.h>
-
+#define SCREEN_H 720
+#define SCREEN_W 1280
 typedef struct
 {
 

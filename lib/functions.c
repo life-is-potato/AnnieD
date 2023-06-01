@@ -7,7 +7,7 @@
 int init()
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) == -1)
-    {
+    { 
         printf("Could not initialize SDL : %s.\n", SDL_GetError());
         return -1;
     }

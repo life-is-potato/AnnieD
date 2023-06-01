@@ -30,7 +30,7 @@ int gameloop(SDL_Surface *screen, char* level)
     minimap mm;
     miniplayer mp, mp2, me, minitile;
     player p1, p2;
-    img bg, dummy, nothing, enigmeobj, life;
+    img bg,/* dummy,*/ nothing, enigmeobj, life;
     txt timertxt;
     int mode = 1;
     int starttime;
@@ -48,7 +48,7 @@ int gameloop(SDL_Surface *screen, char* level)
     cam.x = (savefile.x1 + savefile.x2) / 2;
     cam.y = (savefile.y1 + savefile.y2) / 2;
     load_txt(&timertxt, 10, 10, 0, 255, 0, "fonts/pixel_arial.ttf", 50);
-    init_minimap(&mm, minimappath, screen);
+    init_minimap(&mm, minimappath);
     init_miniplayer(&mp, miniplayerpath);
     SDL_SetAlpha(mp.img.image, SDL_SRCALPHA, 128);
     init_miniplayer(&mp2, miniplayerpath);
@@ -67,10 +67,10 @@ int gameloop(SDL_Surface *screen, char* level)
     img dec[10000];
     img eng[10];
     int size = 0, size2 = 0, size3 = 0, size4=0;
-    enemy_create(&urmom, spritesheet1,0,0);
+    enemy_create(&urmom,0,0);
     parse_tiles(&p1, &p2, &urmom, level, tm, &size, dec, &size2, eng, &size3, spk, &size4,  &room_width, &room_height);
-    player_create(&p1, spritesheet1, "save.bin");
-    player_create2(&p2, spritesheet2, "save.bin");
+    player_create(&p1, spritesheet1);
+    player_create2(&p2, spritesheet2);
     p1.sprite.pos.x=p1.respawn_x;
     p1.sprite.pos.y=p1.respawn_y;
     p2.sprite.pos.x=p2.respawn_x;
@@ -90,7 +90,7 @@ int gameloop(SDL_Surface *screen, char* level)
     enigmeobj.pos.w = 25;
     img car;
     load_img(&car, "img/object.png", 100, 100);
-    int k = 0;
+    //int k = 0;
     cam1.x = cam.x;
     cam1.y = cam.y;
     cam2.x = cam.x;
@@ -119,9 +119,9 @@ int gameloop(SDL_Surface *screen, char* level)
 
         // Execute la logique des joueurs et des ennemis, et met à jour la position de la camera
 
-        player_step(&p1, cam, tm, size,spk,size4);
-        player_step(&p2, cam, tm, size,spk,size4);
-        enemy_step(&urmom, cam, p1, p2, tm, size);
+        player_step(&p1, tm, size,spk,size4);
+        player_step(&p2, tm, size,spk,size4);
+        enemy_step(&urmom, p1, p2, tm, size);
         if (player_ennemy_colliding(p1, urmom) || player_ennemy_colliding(p2, urmom))
             penalty++;
 
@@ -172,7 +172,7 @@ int gameloop(SDL_Surface *screen, char* level)
 
         update_camera(p1.sprite, p2.sprite, &cam, &mode, room_width, room_height, 2);
         // Dessine les arrière-plans, les ennemis, les joueurs, et les objets
-        if (mode == 1)
+        /*if (mode == 1)
         {
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             display_sprite(screen, bg, cam, mode, 0);
@@ -185,19 +185,20 @@ int gameloop(SDL_Surface *screen, char* level)
             player_draw(p2, screen, cam, 0, mode);
             enemy_draw(urmom, screen, cam, 0, mode);
         }
-        else
+        else*/
+        if(1==1)
         {
             mode = 1;
-            if (p1.sprite.pos.x < p2.sprite.pos.x)
+            //if (p1.sprite.pos.x < p2.sprite.pos.x)
             {
                 update_camera(p1.sprite, p1.sprite, &cam1, &mode, room_width, room_height, 0);
                 update_camera(p2.sprite, p2.sprite, &cam2, &mode, room_width, room_height, 1);
             }
-            else
+            /*else
             {
                 update_camera(p1.sprite, p1.sprite, &cam2, &mode, room_width, room_height, 1);
                 update_camera(p2.sprite, p2.sprite, &cam1, &mode, room_width, room_height, 0);
-            }
+            }*/
             SDL_BlitSurface(nothing.image, NULL, screen, &nothing.pos);
             SDL_SetClipRect(screen, &scr2);
             display_sprite(screen, bg, cam2, mode, 1);
@@ -230,11 +231,11 @@ int gameloop(SDL_Surface *screen, char* level)
         update_tiles(&mm, &minitile, size, tm, screen, cam);
         SDL_SetClipRect(screen, &scr);
         display_lives(p1, screen, life);
-        update_time(0, &mm, &time, &timertxt, screen, savefile, starttime2);
+        update_time(0, &time, &timertxt, screen, savefile, starttime2);
         SDL_Flip(screen);
         endtime = SDL_GetTicks();
         deltat = (endtime - starttime) / (float)1000;
-        wait = ((float)1 / (float)MAX_FPS) - deltat;
+        wait = ((float)1 / (float)MAX_FPS)- deltat;
         if (wait > 0)
             SDL_Delay(1000 * wait);
     }

@@ -5,7 +5,7 @@
 #include "mini.h"
 #include "text.h"
 
-void init_minimap(minimap *mm, char *path, SDL_Surface *screen)
+void init_minimap(minimap *mm, char *path)
 {
     mm->img.image = IMG_Load(path);
     if (mm->img.image == NULL)
@@ -26,22 +26,26 @@ void init_miniplayer(miniplayer *mp, char *path)
 
 void update_miniplayer(minimap *mm, miniplayer *mp, player *player, SDL_Surface *screen, camera cam)
 {
-    float scale_factor = (float)mm->img.image->w / (float)screen->w;
-    // mp->img.pos.x = player->sprite.pos.x * scale_factor + mm->img.pos.x;
-    // mp->img.pos.y = player->sprite.pos.y * scale_factor + mm->img.pos.y;
-    mp->img.pos.x = mm->img.pos.x+(player->sprite.pos.x -(cam.x - SCREEN_W/2)) * scale_factor;
-    mp->img.pos.y = mm->img.pos.y+(player->sprite.pos.y -(cam.y - SCREEN_H/2)) * scale_factor;
-    SDL_BlitSurface(mp->img.image, NULL, screen, &mp->img.pos);
+    if (mm->img.image != NULL && player->sprite.image != NULL && mp->img.image != NULL && screen != NULL) {
+        float scale_factor = (float)mm->img.image->w / (float)screen->w;
+        // mp->img.pos.x = player->sprite.pos.x * scale_factor + mm->img.pos.x;
+        // mp->img.pos.y = player->sprite.pos.y * scale_factor + mm->img.pos.y;
+        mp->img.pos.x = mm->img.pos.x+(player->sprite.pos.x -(cam.x - SCREEN_W/2)) * scale_factor;
+        mp->img.pos.y = mm->img.pos.y+(player->sprite.pos.y -(cam.y - SCREEN_H/2)) * scale_factor;
+        SDL_BlitSurface(mp->img.image, NULL, screen, &mp->img.pos);
+    }
 }
 
 void update_minienemy(minimap *mm, miniplayer *mp, enemy *player, SDL_Surface *screen, camera cam)
 {
-    float scale_factor = (float)mm->img.image->w / (float)screen->w;
-    // mp->img.pos.x = player->sprite.pos.x * scale_factor + mm->img.pos.x;
-    // mp->img.pos.y = player->sprite.pos.y * scale_factor + mm->img.pos.y;
-    mp->img.pos.x = mm->img.pos.x+(player->sprite.pos.x-(cam.x - SCREEN_W/2)) * scale_factor;
-    mp->img.pos.y = mm->img.pos.y+(player->sprite.pos.y-(cam.y - SCREEN_H/2)) * scale_factor;
-    SDL_BlitSurface(mp->img.image, NULL, screen, &mp->img.pos);
+    if (mm->img.image != NULL && player->sprite.image != NULL && mp->img.image != NULL && screen != NULL) {
+        float scale_factor = (float)mm->img.image->w / (float)screen->w;
+        // mp->img.pos.x = player->sprite.pos.x * scale_factor + mm->img.pos.x;
+        // mp->img.pos.y = player->sprite.pos.y * scale_factor + mm->img.pos.y;
+        mp->img.pos.x = mm->img.pos.x+(player->sprite.pos.x-(cam.x - SCREEN_W/2)) * scale_factor;
+        mp->img.pos.y = mm->img.pos.y+(player->sprite.pos.y-(cam.y - SCREEN_H/2)) * scale_factor;
+        SDL_BlitSurface(mp->img.image, NULL, screen, &mp->img.pos);
+    }
 }
 
 
@@ -57,33 +61,14 @@ void update_tiles(minimap *mm, miniplayer* tile, int size, img* tm, SDL_Surface 
     }
 }
 
-/*void update_minienemy(minimap *mm, player *enemy, int NumEn, int pause, SDL_Surface *screen){
-    float scale_factor = (float) mm->img.image->w / (float) screen->w;
-    if(!pause){
-        SDL_Rect enemy_pos;
-        for (int i = 0; i < NumEn; i++) {
-            enemy_pos.x = (int)(enemy[i].sprite.pos.x / scale_factor);
-            enemy_pos.y = (int)(enemy[i].sprite.pos.y / scale_factor);
-            enemy_pos.w = (int)(enemy[i].sprite.image->w / scale_factor);
-            enemy_pos.h = (int)(enemy[i].sprite.image->h / scale_factor);
-
-            SDL_Surface* minimap_surf = mm->img.image;
-            Uint32 red_color = SDL_MapRGB(minimap_surf->format, 255, 0, 0);
-            filledCircleColor(minimap_surf, enemy_pos.x + enemy_pos.w / 2, enemy_pos.y + enemy_pos.h / 2, enemy_pos.w / 2, red_color);
-        }
-
-        SDL_BlitSurface(mm->img.image, NULL, screen, &mm->img.pos);
-    }
-}*/
-
-void update_time(int pause, minimap *mm, Uint32 *start_time, txt *timertxt, SDL_Surface *screen, save savefile, Uint32 starttime2)
+void update_time(int pause, Uint32 *start_time, txt *timertxt, SDL_Surface *screen, save savefile, Uint32 starttime2)
 {
     char time_str[20];
     if (!pause)
     {
-        Uint32 current_time = SDL_GetTicks()-starttime2;
+        Uint32 current_time = SDL_GetTicks() - starttime2;
         Uint32 elapsed_time = (savefile.time + (current_time - (*start_time))) / 1000;
-        snprintf(time_str,6*sizeof(char),  "%02d:%02d", elapsed_time / 60, elapsed_time % 60);
+        snprintf(time_str, sizeof(time_str), "%02d:%02d", elapsed_time / 60, elapsed_time % 60);
         print_txt(screen, timertxt, time_str);
     }
     else

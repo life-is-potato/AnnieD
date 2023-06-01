@@ -28,7 +28,7 @@ typedef struct
 	char playername[30];
 }scoreinfo;
 
-void init_animerBack (background* image,SDL_Surface * screen);
+void init_animerBack (background* image);
 void initBack(background * b);
 void aficherBack(background b, SDL_Surface * screen);
 void scrolling (background * b, int direction ); 

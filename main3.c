@@ -11,20 +11,21 @@
 #include "lib/game.h"
 #include "lib/enigme.h"
 #include "lib/mapmaker.h"
+#include "lib/half_a_gui.h"
 
 #define SCREEN_H 720
 #define SCREEN_W 1280
 
 int main()
 {
-	char* filepath;
+	char* filepath=NULL;
 	int change_counter=0;
 	SDL_Surface *screen;
 	image IMAGEMAPMAKER,IMAGEMAPMAKER2,IMAGEPLAYMAP,IMAGEMPLAYMAP2, IMAGE, IMAGE2, IMAGE_BTN1, IMAGE_BTN2, IMAGE_BTN3, IMAGE_BTN4, IMAGE_BTN5, IMAGE_BTN6, IMAGE_BTN7, IMAGE_BTN8, IMAGE_BTN9, IMAGE_BTN10, GAME_LOGO, BOULE, BARRE, FULLSCREEN,WINDOW, BACK;
 	image SETTINGS_BACK;
-	Mix_Music *music;
-	FILE *f;
-	Mix_Chunk *mus;
+	Mix_Music *music=NULL;
+	FILE *f=NULL;
+	Mix_Chunk *mus=NULL;
 	texte txte,pourc,txte3,moins,moins2,plus,plus2,vol_set,start,fullscreen1,fullscreen2,window1,window2,controls1,controls2;
 	SDL_Event event;
 	
@@ -39,7 +40,7 @@ int main()
 	int k=0;
 	int cpt1=0;
 	int keyb=0;
-	int max_volume=730, min_volume=440,pos_boule=730;
+	int /*max_volume=730, min_volume=440,*/pos_boule=730;
 	
 
 
@@ -620,8 +621,9 @@ int main()
 			screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
 			printf("give name of the file containing the level\n");
 			fopen("save.bin","w");
-			system("rm -r save.bin");
-			scanf("%s",filepath);
+			system("rm -rf save.bin");
+			//scanf("%s",filepath);
+			filepath=textgui(screen);
 			gameloop(screen,filepath);
 			state=1;
 			screen = SDL_SetVideoMode(1200, 800, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
@@ -629,7 +631,9 @@ int main()
 
 		else if (state==8){
 			screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
-			mapmaker(screen);
+			system("rm -rf save.bin");
+			filepath=textgui(screen);
+			mapmaker(screen,filepath);
 			screen = SDL_SetVideoMode(1200, 800, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
 			state=1;
 		}

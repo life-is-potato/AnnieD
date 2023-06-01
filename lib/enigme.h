@@ -19,7 +19,7 @@ SDL_Rect position;
 	char texte [50];
 }text;
 
-void init_enigme(enigme * e, char *nomfichier); 
+void init_enigme(enigme * e/*, char *nomfichier*/); 
 
 void afficherEnigme(enigme e, SDL_Surface * screen); 
 
