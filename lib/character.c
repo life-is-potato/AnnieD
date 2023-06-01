@@ -807,9 +807,9 @@ void parse_tiles(player* p1, player *p2, enemy* e, char *map, img *tab, int *siz
                 *size2 += 1;
                 break;
             case 'u':
-
-                load_img(&decorations[*size2], "img/crate.png", i * 50, j * 50);
-                *size2 += 1;
+            
+                load_img(&tab[*size], "img/crate.png", i * 50, j * 50);
+                *size += 1;
                 break;
             case 'q':
                 *roomwidth = (*roomwidth > i * 50) ? *roomwidth : i * 50;
