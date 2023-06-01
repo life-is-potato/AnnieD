@@ -251,5 +251,5 @@ int gameloop(SDL_Surface *screen, char* level)
         fwrite(&savefile, sizeof(save), 1, f);
         fclose(f);
     }
-    return (1);
+    return (0);
 }

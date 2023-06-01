@@ -517,8 +517,9 @@ int main()
             //Mix_FadeOutMusic(1000);
             // SDL_FreeSurface(screen);
             state = gameloop(screen,"map1.txt");
-			if (state==2) gameloop(screen,"map2.txt");
-			if (state==2) gameloop(screen,"map3.txt");
+			if (state==2) state=gameloop(screen,"map2.txt");
+			if (state==2) state=gameloop(screen,"map3.txt");
+			if (state==2) state=gameloop(screen,"map4.txt");
 			state=1;
             //Mix_FreeMusic(music);
             //music = Mix_LoadMUS("music/main_theme.mp3");
