@@ -1,23 +1,6 @@
-CFLAGS = -Wall -Wextra -g `sdl-config --cflags`
-LIBS = -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf -lm
-CONF = `sdl-config --libs` 
-CC = gcc
-LDFLAGS = $(CONF) $(LIBS)
+all: compile_app debug_app
 
-$(shell mkdir -p build)
-$(shell mkdir -p build/obj)
-
-all: AnnieD
-
-build/obj/%.o: lib/%.c
-	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
-
-build/obj/main3.o: main3.c
-	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
-
-AnnieD: build/obj/main3.o $(patsubst lib/%.c, build/obj/%.o, $(wildcard lib/*.c))
-	$(CC) $(CFLAGS) $^ -o AnnieD $(LDFLAGS)
-
-# Clean object files
-clean:
-	rm -f -r build
+compile_app:
+	gcc -D_FORTIFY_SOURCE=2 -fsanitize=address lib/*.c *.c -o run.exe -L"C:\MinGW\lib\SDL*" -lSDL -lSDL_ttf -lSDL_image -lSDL_mixer -g
+debug_app:
+	gdb ./run

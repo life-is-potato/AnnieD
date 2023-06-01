@@ -1,0 +1,266 @@
+gcc -D_FORTIFY_SOURCE=2 -fsanitize=address lib/*.c *.c -o run.exe -L"C:\MinGW\lib\SDL*" -lSDL -lSDL_ttf -lSDL_image -lSDL_mixer -g
+main1.c: In function ‘main’:
+main1.c:58:5: error: too many arguments to function ‘init_minimap’
+   58 |     init_minimap(&mm, minimappath, screen);
+      |     ^~~~~~~~~~~~
+In file included from main1.c:10:
+lib/mini.h:16:6: note: declared here
+   16 | void init_minimap(minimap *mm, char *path);
+      |      ^~~~~~~~~~~~
+main1.c:62:5: error: too many arguments to function ‘player_create’
+   62 |     player_create(&p1, spritesheet1,savefile);
+      |     ^~~~~~~~~~~~~
+In file included from lib/enemy.h:6,
+                 from lib/mini.h:6:
+lib/character.h:76:6: note: declared here
+   76 | void player_create(player *p, char *spritesheet/*, char* savefile*/);
+      |      ^~~~~~~~~~~~~
+main1.c:63:5: error: too many arguments to function ‘player_create2’
+   63 |     player_create2(&p2, spritesheet2,savefile);
+      |     ^~~~~~~~~~~~~~
+lib/character.h:78:6: note: declared here
+   78 | void player_create2(player *p, char *spritesheet/*, char* savefile*/);
+      |      ^~~~~~~~~~~~~~
+main1.c:67:17: warning: passing argument 1 of ‘parse_tiles’ from incompatible pointer type [-Wincompatible-pointer-types]
+   67 |     parse_tiles("map.txt", tm, &size);
+      |                 ^~~~~~~~~
+      |                 |
+      |                 char *
+lib/character.h:94:26: note: expected ‘player *’ but argument is of type ‘char *’
+   94 | void parse_tiles(player* p1, player *p2, enemy* e, char *map, img *tab, int *size, img *decorations, int *size2, img* enigmes, int* size3, img* spk, int* size4, int* roomwidth, int* roomheight);
+      |                  ~~~~~~~~^~
+main1.c:67:28: warning: passing argument 2 of ‘parse_tiles’ from incompatible pointer type [-Wincompatible-pointer-types]
+   67 |     parse_tiles("map.txt", tm, &size);
+      |                            ^~
+      |                            |
+      |                            img *
+lib/character.h:94:38: note: expected ‘player *’ but argument is of type ‘img *’
+   94 | void parse_tiles(player* p1, player *p2, enemy* e, char *map, img *tab, int *size, img *decorations, int *size2, img* enigmes, int* size3, img* spk, int* size4, int* roomwidth, int* roomheight);
+      |                              ~~~~~~~~^~
+main1.c:67:32: warning: passing argument 3 of ‘parse_tiles’ from incompatible pointer type [-Wincompatible-pointer-types]
+   67 |     parse_tiles("map.txt", tm, &size);
+      |                                ^~~~~
+      |                                |
+      |                                int *
+lib/character.h:94:49: note: expected ‘enemy *’ but argument is of type ‘int *’
+   94 | void parse_tiles(player* p1, player *p2, enemy* e, char *map, img *tab, int *size, img *decorations, int *size2, img* enigmes, int* size3, img* spk, int* size4, int* roomwidth, int* roomheight);
+      |                                          ~~~~~~~^
+main1.c:67:5: error: too few arguments to function ‘parse_tiles’
+   67 |     parse_tiles("map.txt", tm, &size);
+      |     ^~~~~~~~~~~
+lib/character.h:94:6: note: declared here
+   94 | void parse_tiles(player* p1, player *p2, enemy* e, char *map, img *tab, int *size, img *decorations, int *size2, img* enigmes, int* size3, img* spk, int* size4, int* roomwidth, int* roomheight);
+      |      ^~~~~~~~~~~
+main1.c:68:26: warning: passing argument 2 of ‘enemy_create’ makes integer from pointer without a cast [-Wint-conversion]
+   68 |     enemy_create(&urmom, spritesheet1);
+      |                          ^~~~~~~~~~~~
+      |                          |
+      |                          char *
+lib/enemy.h:8:54: note: expected ‘int’ but argument is of type ‘char *’
+    8 | void enemy_create(enemy *p, /*char *spritesheet*/int x,int y);
+      |                                                  ~~~~^
+main1.c:68:5: error: too few arguments to function ‘enemy_create’
+   68 |     enemy_create(&urmom, spritesheet1);
+      |     ^~~~~~~~~~~~
+lib/enemy.h:8:6: note: declared here
+    8 | void enemy_create(enemy *p, /*char *spritesheet*/int x,int y);
+      |      ^~~~~~~~~~~~
+main1.c:88:26: error: incompatible type for argument 2 of ‘player_step’
+   88 |         player_step(&p1, cam, tm, size);
+      |                          ^~~
+      |                          |
+      |                          camera
+lib/character.h:86:34: note: expected ‘img *’ but argument is of type ‘camera’
+   86 | void player_step(player *p, img *tiles, int size, img* spikes, int size2);
+      |                             ~~~~~^~~~~
+main1.c:88:31: warning: passing argument 3 of ‘player_step’ makes integer from pointer without a cast [-Wint-conversion]
+   88 |         player_step(&p1, cam, tm, size);
+      |                               ^~
+      |                               |
+      |                               img *
+lib/character.h:86:45: note: expected ‘int’ but argument is of type ‘img *’
+   86 | void player_step(player *p, img *tiles, int size, img* spikes, int size2);
+      |                                         ~~~~^~~~
+main1.c:88:35: warning: passing argument 4 of ‘player_step’ makes pointer from integer without a cast [-Wint-conversion]
+   88 |         player_step(&p1, cam, tm, size);
+      |                                   ^~~~
+      |                                   |
+      |                                   int
+lib/character.h:86:56: note: expected ‘img *’ but argument is of type ‘int’
+   86 | void player_step(player *p, img *tiles, int size, img* spikes, int size2);
+      |                                                   ~~~~~^~~~~~
+main1.c:88:9: error: too few arguments to function ‘player_step’
+   88 |         player_step(&p1, cam, tm, size);
+      |         ^~~~~~~~~~~
+lib/character.h:86:6: note: declared here
+   86 | void player_step(player *p, img *tiles, int size, img* spikes, int size2);
+      |      ^~~~~~~~~~~
+main1.c:89:26: error: incompatible type for argument 2 of ‘player_step’
+   89 |         player_step(&p2, cam, tm, size);
+      |                          ^~~
+      |                          |
+      |                          camera
+lib/character.h:86:34: note: expected ‘img *’ but argument is of type ‘camera’
+   86 | void player_step(player *p, img *tiles, int size, img* spikes, int size2);
+      |                             ~~~~~^~~~~
+main1.c:89:31: warning: passing argument 3 of ‘player_step’ makes integer from pointer without a cast [-Wint-conversion]
+   89 |         player_step(&p2, cam, tm, size);
+      |                               ^~
+      |                               |
+      |                               img *
+lib/character.h:86:45: note: expected ‘int’ but argument is of type ‘img *’
+   86 | void player_step(player *p, img *tiles, int size, img* spikes, int size2);
+      |                                         ~~~~^~~~
+main1.c:89:35: warning: passing argument 4 of ‘player_step’ makes pointer from integer without a cast [-Wint-conversion]
+   89 |         player_step(&p2, cam, tm, size);
+      |                                   ^~~~
+      |                                   |
+      |                                   int
+lib/character.h:86:56: note: expected ‘img *’ but argument is of type ‘int’
+   86 | void player_step(player *p, img *tiles, int size, img* spikes, int size2);
+      |                                                   ~~~~~^~~~~~
+main1.c:89:9: error: too few arguments to function ‘player_step’
+   89 |         player_step(&p2, cam, tm, size);
+      |         ^~~~~~~~~~~
+lib/character.h:86:6: note: declared here
+   86 | void player_step(player *p, img *tiles, int size, img* spikes, int size2);
+      |      ^~~~~~~~~~~
+main1.c:90:28: error: incompatible type for argument 2 of ‘enemy_step’
+   90 |         enemy_step(&urmom, cam, tm, size);
+      |                            ^~~
+      |                            |
+      |                            camera
+lib/enemy.h:18:34: note: expected ‘player’ but argument is of type ‘camera’
+   18 | void enemy_step(enemy *p, player p1, player p2, img *tiles, int size);
+      |                           ~~~~~~~^~
+main1.c:90:33: error: incompatible type for argument 3 of ‘enemy_step’
+   90 |         enemy_step(&urmom, cam, tm, size);
+      |                                 ^~
+      |                                 |
+      |                                 img *
+lib/enemy.h:18:45: note: expected ‘player’ but argument is of type ‘img *’
+   18 | void enemy_step(enemy *p, player p1, player p2, img *tiles, int size);
+      |                                      ~~~~~~~^~
+main1.c:90:37: warning: passing argument 4 of ‘enemy_step’ makes pointer from integer without a cast [-Wint-conversion]
+   90 |         enemy_step(&urmom, cam, tm, size);
+      |                                     ^~~~
+      |                                     |
+      |                                     int
+lib/enemy.h:18:54: note: expected ‘img *’ but argument is of type ‘int’
+   18 | void enemy_step(enemy *p, player p1, player p2, img *tiles, int size);
+      |                                                 ~~~~~^~~~~
+main1.c:90:9: error: too few arguments to function ‘enemy_step’
+   90 |         enemy_step(&urmom, cam, tm, size);
+      |         ^~~~~~~~~~
+lib/enemy.h:18:6: note: declared here
+   18 | void enemy_step(enemy *p, player p1, player p2, img *tiles, int size);
+      |      ^~~~~~~~~~
+main1.c:91:9: error: too few arguments to function ‘update_camera’
+   91 |         update_camera(p1.sprite, p2.sprite, &cam);
+      |         ^~~~~~~~~~~~~
+lib/character.h:70:6: note: declared here
+   70 | void update_camera(img img1, img img2, camera *cam, int *mode, int room_width, int room_height, int side);
+      |      ^~~~~~~~~~~~~
+main1.c:100:9: error: too few arguments to function ‘display_sprite’
+  100 |         display_sprite(screen, car, cam);
+      |         ^~~~~~~~~~~~~~
+lib/character.h:92:6: note: declared here
+   92 | void display_sprite(SDL_Surface *screen, img i, camera cam, int mode, int p);
+      |      ^~~~~~~~~~~~~~
+main1.c:101:9: error: too few arguments to function ‘display_tiles’
+  101 |         display_tiles(screen, tm, cam, size);
+      |         ^~~~~~~~~~~~~
+lib/character.h:96:6: note: declared here
+   96 | void display_tiles(SDL_Surface *screen, img *tm, camera cam, int size, int mode, int p);
+      |      ^~~~~~~~~~~~~
+main1.c:102:9: error: too few arguments to function ‘player_draw’
+  102 |         player_draw(p1, screen, cam);
+      |         ^~~~~~~~~~~
+lib/character.h:90:6: note: declared here
+   90 | void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode);
+      |      ^~~~~~~~~~~
+main1.c:103:9: error: too few arguments to function ‘player_draw’
+  103 |         player_draw(p2, screen, cam);
+      |         ^~~~~~~~~~~
+lib/character.h:90:6: note: declared here
+   90 | void player_draw(player p, SDL_Surface *screen, camera cam, int a, int mode);
+      |      ^~~~~~~~~~~
+main1.c:104:9: error: too few arguments to function ‘enemy_draw’
+  104 |         enemy_draw(urmom, screen, cam);
+      |         ^~~~~~~~~~
+lib/enemy.h:22:6: note: declared here
+   22 | void enemy_draw(enemy p, SDL_Surface *screen, camera cam,int a, int mode);
+      |      ^~~~~~~~~~
+main1.c:109:9: error: too few arguments to function ‘update_miniplayer’
+  109 |         update_miniplayer(&mm, &mp, &p1, screen);
+      |         ^~~~~~~~~~~~~~~~~
+lib/mini.h:18:6: note: declared here
+   18 | void update_miniplayer(minimap *mm, miniplayer *mp, player *player, SDL_Surface *screen, camera cam);
+      |      ^~~~~~~~~~~~~~~~~
+main1.c:110:9: error: too few arguments to function ‘update_miniplayer’
+  110 |         update_miniplayer(&mm, &mp2, &p2, screen);
+      |         ^~~~~~~~~~~~~~~~~
+lib/mini.h:18:6: note: declared here
+   18 | void update_miniplayer(minimap *mm, miniplayer *mp, player *player, SDL_Surface *screen, camera cam);
+      |      ^~~~~~~~~~~~~~~~~
+main1.c:111:9: error: too few arguments to function ‘update_minienemy’
+  111 |         update_minienemy(&mm, &me, &urmom, screen);
+      |         ^~~~~~~~~~~~~~~~
+lib/mini.h:20:6: note: declared here
+   20 | void update_minienemy(minimap *mm, miniplayer *mp, enemy *player, SDL_Surface *screen, camera cam);
+      |      ^~~~~~~~~~~~~~~~
+main1.c:112:24: warning: passing argument 2 of ‘update_time’ from incompatible pointer type [-Wincompatible-pointer-types]
+  112 |         update_time(0, &mm, &time, &timertxt, screen, savefile);
+      |                        ^~~
+      |                        |
+      |                        minimap *
+lib/mini.h:19:37: note: expected ‘Uint32 *’ {aka ‘unsigned int *’} but argument is of type ‘minimap *’
+   19 | void update_time(int pause, Uint32 *start_time, txt *timertxt, SDL_Surface *screen, save savefile, Uint32 starttime2);
+      |                             ~~~~~~~~^~~~~~~~~~
+main1.c:112:29: warning: passing argument 3 of ‘update_time’ from incompatible pointer type [-Wincompatible-pointer-types]
+  112 |         update_time(0, &mm, &time, &timertxt, screen, savefile);
+      |                             ^~~~~
+      |                             |
+      |                             Uint32 * {aka unsigned int *}
+lib/mini.h:19:54: note: expected ‘txt *’ but argument is of type ‘Uint32 *’ {aka ‘unsigned int *’}
+   19 | void update_time(int pause, Uint32 *start_time, txt *timertxt, SDL_Surface *screen, save savefile, Uint32 starttime2);
+      |                                                 ~~~~~^~~~~~~~
+main1.c:112:36: warning: passing argument 4 of ‘update_time’ from incompatible pointer type [-Wincompatible-pointer-types]
+  112 |         update_time(0, &mm, &time, &timertxt, screen, savefile);
+      |                                    ^~~~~~~~~
+      |                                    |
+      |                                    txt *
+lib/mini.h:19:77: note: expected ‘SDL_Surface *’ but argument is of type ‘txt *’
+   19 | void update_time(int pause, Uint32 *start_time, txt *timertxt, SDL_Surface *screen, save savefile, Uint32 starttime2);
+      |                                                                ~~~~~~~~~~~~~^~~~~~
+main1.c:112:47: error: incompatible type for argument 5 of ‘update_time’
+  112 |         update_time(0, &mm, &time, &timertxt, screen, savefile);
+      |                                               ^~~~~~
+      |                                               |
+      |                                               SDL_Surface *
+lib/mini.h:19:90: note: expected ‘save’ but argument is of type ‘SDL_Surface *’
+   19 | void update_time(int pause, Uint32 *start_time, txt *timertxt, SDL_Surface *screen, save savefile, Uint32 starttime2);
+      |                                                                                     ~~~~~^~~~~~~~
+main1.c:112:55: error: incompatible type for argument 6 of ‘update_time’
+  112 |         update_time(0, &mm, &time, &timertxt, screen, savefile);
+      |                                                       ^~~~~~~~
+      |                                                       |
+      |                                                       save
+lib/mini.h:19:107: note: expected ‘Uint32’ {aka ‘unsigned int’} but argument is of type ‘save’
+   19 | void update_time(int pause, Uint32 *start_time, txt *timertxt, SDL_Surface *screen, save savefile, Uint32 starttime2);
+      |                                                                                                    ~~~~~~~^~~~~~~~~~
+main2.c:14: warning: "MAX_FPS" redefined
+   14 | #define MAX_FPS 60
+      | 
+In file included from main2.c:12:
+lib/game.h:12: note: this is the location of the previous definition
+   12 | #define MAX_FPS 48
+      | 
+main2.c: In function ‘main’:
+main2.c:24:5: error: too few arguments to function ‘gameloop’
+   24 |     gameloop(screen);
+      |     ^~~~~~~~
+lib/game.h:14:5: note: declared here
+   14 | int gameloop(SDL_Surface* screen, char* level);
+      |     ^~~~~~~~
+make: *** [Makefile:4: compile_app] Error 1

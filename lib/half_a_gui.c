@@ -9,9 +9,19 @@
 #define TEXT_SIZE 24
 
 void cleanup(SDL_Surface* screen, SDL_Surface* textSurface, TTF_Font* font) {
-    SDL_FreeSurface(textSurface);
-    TTF_CloseFont(font);
+    if (textSurface != NULL) {
+        SDL_FreeSurface(textSurface);
+    }
+    if (font != NULL) {
+        TTF_CloseFont(font);
+    }
+    if (screen != NULL) {
+        SDL_FreeSurface(screen);
+    }
+    SDL_Quit();
+    TTF_Quit();
 }
+
 
 void renderText(SDL_Surface* screen,SDL_Surface* textSurface, TTF_Font* font,int textLength, char* text) {
     SDL_Color textColor = { 255, 255, 255 , 0}; // White color
