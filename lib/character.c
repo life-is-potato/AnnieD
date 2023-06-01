@@ -684,110 +684,150 @@ void parse_tiles(player* p1, player *p2, enemy* e, char *map, img *tab, int *siz
             {
             case '1':
 
-                load_img(&tab[*size], "img/wall_middle.png", i * 52, j * 50);
+                load_img(&tab[*size], "img/wall1.png", i * 50, j * 50);
                 *size += 1;
                 break;
             case '2':
 
-                load_img(&tab[*size], "img/wall_left.png", i * 52, j * 50);
+                load_img(&tab[*size], "img/wall2.png", i * 50, j * 50);
                 *size += 1;
                 break;
             case '3':
 
-                load_img(&tab[*size], "img/wall_right.png", i * 52, j * 50);
+                load_img(&tab[*size], "img/wall3.png", i * 50, j * 50);
                 *size += 1;
                 break;
             case '4':
 
-                load_img(&decorations[*size2], "img/liquid_tube_bottom.png", i * 52, j * 50);
-                *size2 += 1;
+                load_img(&tab[*size], "img/wall4.png", i * 50, j * 50);
+                *size += 1;
                 break;
             case '5':
 
-                load_img(&decorations[*size2], "img/liquid_tube_top.png", i * 52, j * 50);
+                load_img(&tab[*size], "img/wall5.png", i * 50, j * 50);
+                *size += 1;
+                break;
+            case '6':
+
+                load_img(&tab[*size], "img/wall6.png", i * 50, j * 50);
+                *size += 1;
+                break;
+            case '7':
+
+                load_img(&tab[*size], "img/wall7.png", i * 50, j * 50);
+                *size += 1;
+                break;
+            case '8':
+
+                load_img(&tab[*size], "img/wall8.png", i * 50, j * 50);
+                *size += 1;
+                break;
+            case '9':
+
+                load_img(&tab[*size], "img/wall9.png", i * 50, j * 50);
+                *size += 1;
+                break;
+            case 'r':
+
+                load_img(&decorations[*size2], "img/liquid_tube_bottom.png", i * 50, j * 50);
+                *size2 += 1;
+                break;
+            case 's':
+
+                load_img(&decorations[*size2], "img/liquid_tube_top.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'a':
 
-                load_img(&decorations[*size2], "img/pipe_bottom_left.png", i * 52, j * 50);
+                load_img(&decorations[*size2], "img/pipe_bottom_left.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'b':
 
-                load_img(&decorations[*size2], "img/pipe_bottom_right.png", i * 52, j * 50);
+                load_img(&decorations[*size2], "img/pipe_bottom_right.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'c':
 
-                load_img(&decorations[*size2], "img/pipe_top_left.png", i * 52, j * 50);
+                load_img(&decorations[*size2], "img/pipe_top_left.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'd':
 
-                load_img(&decorations[*size2], "img/pipe_top_right.png", i * 52, j * 50);
+                load_img(&decorations[*size2], "img/pipe_top_right.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'e':
 
-                load_img(&decorations[*size2], "img/pipe_head_top.png", i * 52, j * 50);
+                load_img(&decorations[*size2], "img/pipe_head_top.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'f':
 
-                load_img(&decorations[*size2], "img/pipe_head_down.png", i * 52, j * 50);
+                load_img(&decorations[*size2], "img/pipe_head_down.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'g':
 
-                load_img(&decorations[*size2], "img/pipe_head_left.png", i * 52, j * 50);
+                load_img(&decorations[*size2], "img/pipe_head_left.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'h':
 
-                load_img(&decorations[*size2], "img/pipe_head_right.png", i * 52, j * 50);
+                load_img(&decorations[*size2], "img/pipe_head_right.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'i':
 
-                load_img(&decorations[*size2], "img/pipe_horizontal.png", i * 52, j * 50);
+                load_img(&decorations[*size2], "img/pipe_horizontal.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'j':
 
-                load_img(&decorations[*size2], "img/pipe_vertical.png", i * 52, j * 50);
+                load_img(&decorations[*size2], "img/pipe_vertical.png", i * 50, j * 50);
                 *size2 += 1;
                 break;
             case 'k':
 
-                load_img(&enigmes[*size3], "img/enigme_objet.png", i * 52, j * 50);
+                load_img(&enigmes[*size3], "img/enigme_objet.png", i * 50, j * 50);
                 enigmes[*size3].pos.w = 34;
                 enigmes[*size3].pos.h = 58;
                 *size3 += 1;
                 break;
             case 'n':
 
-                load_img(&spk[*size4], "img/spike.png", i * 52, j * 50);
-                spk[*size4].pos.w = 52;
+                load_img(&spk[*size4], "img/spike.png", i * 50, j * 50);
+                spk[*size4].pos.w = 50;
                 spk[*size4].pos.h = 50;
                 *size4 += 1;
                 break;
+            case 't':
+
+                load_img(&decorations[*size2], "img/locker.png", i * 50, j * 50);
+                *size2 += 1;
+                break;
+            case 'u':
+
+                load_img(&decorations[*size2], "img/crate.png", i * 50, j * 50);
+                *size2 += 1;
+                break;
             case 'q':
-                *roomwidth = (*roomwidth > i * 52) ? *roomwidth : i * 52;
+                *roomwidth = (*roomwidth > i * 50) ? *roomwidth : i * 50;
                 i = -1;
                 j++;
                 break;
             case 'p':
-                p1->respawn_x=i*52;
+                p1->respawn_x=i*50;
                 p1->x_spd=0;
                 p1->y_spd=0;
-                p2->respawn_x=i*52;
+                p2->respawn_x=i*50;
                 p1->respawn_y=j*50;
                 p2->respawn_y=j*50;
                 p2->x_spd=0;
                 p2->y_spd=0;
                 break;
             case 'x':
-                e->sprite.pos.x=i*52;
+                e->sprite.pos.x=i*50;
                 e->sprite.pos.y=j*50;
                 break;
             }

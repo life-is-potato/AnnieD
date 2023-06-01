@@ -16,61 +16,85 @@ void create_matrix(img *tiles, int *exist, int size, char mat[50][50])
         switch (exist[i])
         {
         case 0:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = '2';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = '1';
             break;
         case 1:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = '1';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = '2';
             break;
         case 2:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = '3';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = '3';
             break;
         case 3:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = '4';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = '4';
             break;
         case 4:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = '5';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = '5';
             break;
         case 5:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'a';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = '6';
             break;
         case 6:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'b';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = '7';
             break;
         case 7:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'c';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = '8';
             break;
         case 8:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'd';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = '9';
             break;
         case 9:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'e';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 't';
             break;
         case 10:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'f';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'r';
             break;
         case 11:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'g';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 's';
             break;
         case 12:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'h';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'a';
             break;
         case 13:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'i';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'b';
             break;
         case 14:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'j';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'c';
             break;
         case 15:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'k';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'd';
             break;
         case 16:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'n';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'e';
             break;
         case 17:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'p';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'f';
             break;
         case 18:
-            mat[tiles[i].pos.x / 52][tiles[i].pos.y / 50] = 'x';
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'g';
+            break;
+        case 19:
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'h';
+            break;
+        case 20:
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'i';
+            break;
+        case 21:
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'j';
+            break;
+        case 22:
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'k';
+            break;
+        case 23:
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'n';
+            break;
+        case 24:
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'p';
+            break;
+        case 25:
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'x';
+            break;
+        case 26:
+            mat[tiles[i].pos.x / 50][tiles[i].pos.y / 50] = 'u';
             break;
         }
     }
@@ -117,113 +141,159 @@ void mapmaker_parser(img *tiles, int *exist, int *size, char *path)
                 {
                 case '1':
 
-                    load_img(&tiles[*size], "img/wall_middle.png", i * 52, j * 50);
-                    exist[*size] = 1;
+                    load_img(&tiles[*size], "img/wall1.png", i * 50, j * 50);
+                    exist[*size] = 0;
                     *size += 1;
                     break;
                 case '2':
 
-                    load_img(&tiles[*size], "img/wall_left.png", i * 52, j * 50);
-                    exist[*size] = 0;
+                    load_img(&tiles[*size], "img/wall2.png", i * 50, j * 50);
+                    exist[*size] = 1;
                     *size += 1;
                     break;
                 case '3':
 
-                    load_img(&tiles[*size], "img/wall_right.png", i * 52, j * 50);
+                    load_img(&tiles[*size], "img/wall3.png", i * 50, j * 50);
                     exist[*size] = 2;
                     *size += 1;
                     break;
                 case '4':
 
-                    load_img(&tiles[*size], "img/liquid_tube_bottom.png", i * 52, j * 50);
+                    load_img(&tiles[*size], "img/wall4.png", i * 50, j * 50);
                     exist[*size] = 3;
                     *size += 1;
                     break;
                 case '5':
 
-                    load_img(&tiles[*size], "img/liquid_tube_top.png", i * 52, j * 50);
+                    load_img(&tiles[*size], "img/wall5.png", i * 50, j * 50);
                     exist[*size] = 4;
+                    *size += 1;
+                    break;
+                case '6':
+
+                    load_img(&tiles[*size], "img/wall6.png", i * 50, j * 50);
+                    exist[*size] = 5;
+                    *size += 1;
+                    break;
+                case '7':
+
+                    load_img(&tiles[*size], "img/wall7.png", i * 50, j * 50);
+                    exist[*size] = 6;
+                    *size += 1;
+                    break;
+                case '8':
+
+                    load_img(&tiles[*size], "img/wall8.png", i * 50, j * 50);
+                    exist[*size] = 7;
+                    *size += 1;
+                    break;
+                case '9':
+
+                    load_img(&tiles[*size], "img/wall9.png", i * 50, j * 50);
+                    exist[*size] = 8;
+                    *size += 1;
+                    break;
+                case 'r':
+
+                    load_img(&tiles[*size], "img/liquid_tube_bottom.png", i * 50, j * 50);
+                    exist[*size] = 10;
+                    *size += 1;
+                    break;
+                case 's':
+
+                    load_img(&tiles[*size], "img/liquid_tube_top.png", i * 50, j * 50);
+                    exist[*size] = 11;
                     *size += 1;
                     break;
                 case 'a':
 
-                    load_img(&tiles[*size], "img/pipe_bottom_left.png", i * 52, j * 50);
-                    exist[*size] = 5;
+                    load_img(&tiles[*size], "img/pipe_bottom_left.png", i * 50, j * 50);
+                    exist[*size] = 12;
                     *size += 1;
                     break;
                 case 'b':
 
-                    load_img(&tiles[*size], "img/pipe_bottom_right.png", i * 52, j * 50);
-                    exist[*size] = 6;
+                    load_img(&tiles[*size], "img/pipe_bottom_right.png", i * 50, j * 50);
+                    exist[*size] = 13;
                     *size += 1;
                     break;
                 case 'c':
-                    load_img(&tiles[*size], "img/pipe_top_left.png", i * 52, j * 50);
-                    exist[*size] = 7;
+                    load_img(&tiles[*size], "img/pipe_top_left.png", i * 50, j * 50);
+                    exist[*size] = 14;
                     *size += 1;
                     break;
                 case 'd':
 
-                    load_img(&tiles[*size], "img/pipe_top_right.png", i * 52, j * 50);
-                    exist[*size] = 8;
+                    load_img(&tiles[*size], "img/pipe_top_right.png", i * 50, j * 50);
+                    exist[*size] = 15;
                     *size += 1;
                     break;
                 case 'e':
 
-                    load_img(&tiles[*size], "img/pipe_head_top.png", i * 52, j * 50);
-                    exist[*size] = 9;
+                    load_img(&tiles[*size], "img/pipe_head_top.png", i * 50, j * 50);
+                    exist[*size] = 16;
                     *size += 1;
                     break;
                 case 'f':
 
-                    load_img(&tiles[*size], "img/pipe_head_down.png", i * 52, j * 50);
-                    exist[*size] = 10;
+                    load_img(&tiles[*size], "img/pipe_head_down.png", i * 50, j * 50);
+                    exist[*size] = 17;
                     *size += 1;
                     break;
                 case 'g':
 
-                    load_img(&tiles[*size], "img/pipe_head_left.png", i * 52, j * 50);
-                    exist[*size] = 11;
+                    load_img(&tiles[*size], "img/pipe_head_left.png", i * 50, j * 50);
+                    exist[*size] = 18;
                     *size += 1;
                     break;
                 case 'h':
 
-                    load_img(&tiles[*size], "img/pipe_head_right.png", i * 52, j * 50);
-                    exist[*size] = 12;
+                    load_img(&tiles[*size], "img/pipe_head_right.png", i * 50, j * 50);
+                    exist[*size] = 19;
                     *size += 1;
                     break;
                 case 'i':
 
-                    load_img(&tiles[*size], "img/pipe_horizontal.png", i * 52, j * 50);
-                    exist[*size] = 13;
+                    load_img(&tiles[*size], "img/pipe_horizontal.png", i * 50, j * 50);
+                    exist[*size] = 20;
                     *size += 1;
                     break;
                 case 'j':
 
-                    load_img(&tiles[*size], "img/pipe_vertical.png", i * 52, j * 50);
-                    exist[*size] = 14;
+                    load_img(&tiles[*size], "img/pipe_vertical.png", i * 50, j * 50);
+                    exist[*size] = 21;
                     *size += 1;
                     break;
                 case 'k':
 
-                    load_img(&tiles[*size], "img/enigme_objet.png", i * 52, j * 50);
-                    exist[*size] = 15;
+                    load_img(&tiles[*size], "img/enigme_objet.png", i * 50, j * 50);
+                    exist[*size] = 22;
                     *size += 1;
                     break;
                 case 'n':
 
-                    load_img(&tiles[*size], "img/spike.png", i * 52, j * 50);
-                    exist[*size] = 16;
+                    load_img(&tiles[*size], "img/spike.png", i * 50, j * 50);
+                    exist[*size] = 23;
                     *size += 1;
                     break;
                 case 'p':
-                    load_img(&tiles[*size], "img/potato_maker.png", i * 52, j * 50);
-                    exist[*size] = 17;
+                    load_img(&tiles[*size], "img/potato_maker.png", i * 50, j * 50);
+                    exist[*size] = 24;
+                    *size += 1;
+                    break;
+                case 't':
+                    load_img(&tiles[*size], "img/locker.png", i * 50, j * 50);
+                    exist[*size] = 9;
+                    *size += 1;
+                    break;
+                case 'u':
+                    load_img(&tiles[*size], "img/crate.png", i * 50, j * 50);
+                    exist[*size] = 26;
                     *size += 1;
                     break;
                 case 'x':
-                    load_img(&tiles[*size], "img/skander_maker.png", i * 52, j * 50);
-                    exist[*size] = 18;
+                    load_img(&tiles[*size], "img/skander_maker.png", i * 50, j * 50);
+                    exist[*size] = 25;
                     *size += 1;
                     break;
                 case 'q':
@@ -279,27 +349,33 @@ int mapmaker(SDL_Surface *screen, char* filename)
     load_img(&bg, "img/bgexp.png", 0, 0);
     load_img(&arrow_left, "img/arrow_left.png", 10, 10);
     load_img(&arrow_right, "img/arrow_right.png", 1150 + 60, 10);
-    load_img(&selectable_tiles[0], "img/wall_left.png", 60 + 10, 10);
-    load_img(&selectable_tiles[1], "img/wall_middle.png", 60 + 70, 10);
-    load_img(&selectable_tiles[2], "img/wall_right.png", 60 + 130, 10);
-    load_img(&selectable_tiles[3], "img/liquid_tube_bottom.png", 60 + 190, 10);
-    load_img(&selectable_tiles[4], "img/liquid_tube_top.png", 60 + 250, 10);
-    load_img(&selectable_tiles[5], "img/pipe_bottom_left.png", 60 + 310, 10);
-    load_img(&selectable_tiles[6], "img/pipe_bottom_right.png", 60 + 370, 10);
-    load_img(&selectable_tiles[7], "img/pipe_top_left.png", 60 + 430, 10);
-    load_img(&selectable_tiles[8], "img/pipe_top_right.png", 60 + 490, 10);
-    load_img(&selectable_tiles[9], "img/pipe_head_top.png", 60 + 550, 10);
-    load_img(&selectable_tiles[10], "img/pipe_head_down.png", 60 + 610, 10);
-    load_img(&selectable_tiles[11], "img/pipe_head_left.png", 60 + 670, 10);
-    load_img(&selectable_tiles[12], "img/pipe_head_right.png", 60 + 730, 10);
-    load_img(&selectable_tiles[13], "img/pipe_horizontal.png", 60 + 790, 10);
-    load_img(&selectable_tiles[14], "img/pipe_vertical.png", 60 + 850, 10);
-    load_img(&selectable_tiles[15], "img/enigme_objet.png", 60 + 910, 10);
-    load_img(&selectable_tiles[16], "img/spike.png", 60 + 970, 10);
-    load_img(&selectable_tiles[17], "img/potato_maker.png", 60 + 1030, 10);
-    load_img(&selectable_tiles[18], "img/skander_maker.png", 60 + 1090, 10);
-    load_img(&selectable_tiles[19], "img/crate.png", 60 + 10, 10);
-    load_img(&selectable_tiles[20], "img/locker.png", 60 + 70, 10);
+    load_img(&selectable_tiles[0], "img/wall1.png", 60 + 10, 10);
+    load_img(&selectable_tiles[1], "img/wall2.png", 60 + 70, 10);
+    load_img(&selectable_tiles[2], "img/wall3.png", 60 + 130, 10);
+    load_img(&selectable_tiles[3], "img/wall4.png", 60 + 190, 10);
+    load_img(&selectable_tiles[4], "img/wall5.png", 60 + 250, 10);
+    load_img(&selectable_tiles[5], "img/wall6.png", 60 + 310, 10);
+    load_img(&selectable_tiles[6], "img/wall7.png", 60 + 370, 10);
+    load_img(&selectable_tiles[7], "img/wall8.png", 60 + 430, 10);
+    load_img(&selectable_tiles[8], "img/wall9.png", 60 + 490, 10);
+    load_img(&selectable_tiles[9], "img/locker.png", 60 + 550, 10);
+    load_img(&selectable_tiles[10], "img/liquid_tube_bottom.png", 60 + 610, 10);
+    load_img(&selectable_tiles[11], "img/liquid_tube_top.png", 60 + 670, 10);
+    load_img(&selectable_tiles[12], "img/pipe_bottom_left.png", 60 + 730, 10);
+    load_img(&selectable_tiles[13], "img/pipe_bottom_right.png", 60 + 790, 10);
+    load_img(&selectable_tiles[14], "img/pipe_top_left.png", 60 + 850, 10);
+    load_img(&selectable_tiles[15], "img/pipe_top_right.png", 60 + 910, 10);
+    load_img(&selectable_tiles[16], "img/pipe_head_top.png", 60 + 970, 10);
+    load_img(&selectable_tiles[17], "img/pipe_head_down.png", 60 + 1030, 10);
+    load_img(&selectable_tiles[18], "img/pipe_head_left.png", 60 + 1090, 10);
+    load_img(&selectable_tiles[19], "img/pipe_head_right.png", 60 + 10, 10);
+    load_img(&selectable_tiles[20], "img/pipe_horizontal.png", 60 + 70, 10);
+    load_img(&selectable_tiles[21], "img/pipe_vertical.png", 60 + 130, 10);
+    load_img(&selectable_tiles[22], "img/enigme_objet.png", 60 + 190, 10);
+    load_img(&selectable_tiles[23], "img/spike.png", 60 + 250, 10);
+    load_img(&selectable_tiles[24], "img/potato_maker.png", 60 + 310, 10);
+    load_img(&selectable_tiles[25], "img/skander_maker.png", 60 + 370, 10);
+    load_img(&selectable_tiles[26], "img/crate.png", 60 + 430, 10);
     mapmaker_parser(tiles, exist, &size, filename);
     SDL_Event event;
     while (boucle)
@@ -428,9 +504,9 @@ int mapmaker(SDL_Surface *screen, char* filename)
                     page = 0;
             }
 
-            for (int i = 0; i < 19; i++)
+            for (int i = 0; i < 27; i++)
             {
-                if (page == 1 && i == 2)
+                if(page==1 && i==8)
                     break;
                 if (check_point_collision(selectable_tiles[i + page * 19], mouse.x, mouse.y))
                 {
@@ -442,7 +518,7 @@ int mapmaker(SDL_Surface *screen, char* filename)
             camera mousecam;
             mousecam.x = mouse.x + cam.x - SCREEN_W / 2;
             mousecam.y = mouse.y + cam.y - SCREEN_H / 2;
-            mousecam.x = (mousecam.x / 52) * 52;
+            mousecam.x = (mousecam.x / 50) * 50;
             mousecam.y = (mousecam.y / 50) * 50;
             if (mouse.y > 100 && selected == -1)
             {
@@ -462,7 +538,7 @@ int mapmaker(SDL_Surface *screen, char* filename)
             }
             else if (mouse.y > 100 && selected != -1)
             {
-                if (selected == 17 || selected == 18)
+                if (selected == 24 || selected == 25)
                 {
                     for (int i = 0; i < size; i++)
                     {
@@ -485,50 +561,63 @@ int mapmaker(SDL_Surface *screen, char* filename)
                         break;
                     }
                 }
-                // load_img(&tiles[counter],"img/wall_left.png",(mousecam.x/52)*52,(mousecam.y/50)*50);
+                // load_img(&tiles[counter],"img/wall_left.png",(mousecam.x/50)*50,(mousecam.y/50)*50);
                 // free_img(tiles[counter]);
                 if (selected == 0)
-                    load_img(&tiles[counter], "img/wall_left.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/wall1.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 1)
-                    load_img(&tiles[counter], "img/wall_middle.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/wall2.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 2)
-                    load_img(&tiles[counter], "img/wall_right.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/wall3.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 3)
-                    load_img(&tiles[counter], "img/liquid_tube_bottom.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/wall4.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 4)
-                    load_img(&tiles[counter], "img/liquid_tube_top.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/wall5.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 5)
-                    load_img(&tiles[counter], "img/pipe_bottom_left.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/wall6.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 6)
-                    load_img(&tiles[counter], "img/pipe_bottom_right.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/wall7.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 7)
-                    load_img(&tiles[counter], "img/pipe_top_left.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/wall8.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 8)
-                    load_img(&tiles[counter], "img/pipe_top_right.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/wall9.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 9)
-                    load_img(&tiles[counter], "img/pipe_head_top.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/locker.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
+                
                 else if (selected == 10)
-                    load_img(&tiles[counter], "img/pipe_head_down.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/liquid_tube_bottom.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 11)
-                    load_img(&tiles[counter], "img/pipe_head_left.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/liquid_tube_top.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 12)
-                    load_img(&tiles[counter], "img/pipe_head_right.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/pipe_bottom_left.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 13)
-                    load_img(&tiles[counter], "img/pipe_horizontal.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/pipe_bottom_right.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 14)
-                    load_img(&tiles[counter], "img/pipe_vertical.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/pipe_top_left.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 15)
-                    load_img(&tiles[counter], "img/enigme_objet.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/pipe_top_right.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 16)
-                    load_img(&tiles[counter], "img/spike.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/pipe_head_top.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 17)
-                    load_img(&tiles[counter], "img/potato_maker.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/pipe_head_down.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 18)
-                    load_img(&tiles[counter], "img/skander_maker.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/pipe_head_left.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 19)
-                    load_img(&tiles[counter], "img/crate.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/pipe_head_right.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 else if (selected == 20)
-                    load_img(&tiles[counter], "img/locker.png", (mousecam.x / 52) * 52, (mousecam.y / 50) * 50);
+                    load_img(&tiles[counter], "img/pipe_horizontal.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
+                else if (selected == 21)
+                    load_img(&tiles[counter], "img/pipe_vertical.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
+                else if (selected == 22)
+                    load_img(&tiles[counter], "img/enigme_objet.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
+                else if (selected == 23)
+                    load_img(&tiles[counter], "img/spike.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
+                else if (selected == 24)
+                    load_img(&tiles[counter], "img/potato_maker.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
+                else if (selected == 25)
+                    load_img(&tiles[counter], "img/skander_maker.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
+                else if (selected == 26)
+                    load_img(&tiles[counter], "img/crate.png", (mousecam.x / 50) * 50, (mousecam.y / 50) * 50);
                 if (counter == size)
                     size++;
                 exist[counter] = selected;
@@ -545,8 +634,8 @@ int mapmaker(SDL_Surface *screen, char* filename)
         display_img(screen, arrow_right);
         for (int i = 0; i < 19; i++)
         {
-            if (page == 1 && i == 2)
-                break;
+            if(page==1 && i==8)
+                    break;
             display_img(screen, selectable_tiles[i + page * 19]);
         }
         SDL_Flip(screen);
