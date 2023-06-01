@@ -48,7 +48,7 @@ int main()
         return -1;
     }
 
-    TTF_Init();
+    //TTF_Init(); ttf already initialized in init();
     txt frm, frm2, frm3;
     load_txt(&frm, 100, 100, 0, 0, 0, "fonts/pixel_arial.ttf", 20);
     load_txt(&frm2, 100, 150, 0, 0, 0, "fonts/pixel_arial.ttf", 20);
