@@ -8,7 +8,7 @@
 #define SCREEN_HEIGHT 720
 #define TEXT_SIZE 24
 
-void cleanup(SDL_Surface* screen, SDL_Surface* textSurface, TTF_Font* font) {
+void cleanup(SDL_Surface* textSurface, TTF_Font* font) {
     SDL_FreeSurface(textSurface);
     TTF_CloseFont(font);
 }
@@ -25,7 +25,7 @@ void renderText(SDL_Surface* screen,SDL_Surface* textSurface, TTF_Font* font,int
         textSurface = TTF_RenderText_Solid(font, text, textColor);
         if (!textSurface) {
             printf("Error rendering text: %s\n", TTF_GetError());
-            cleanup(screen,textSurface,font);
+            cleanup(textSurface,font);
             exit(1);
         }
     }
@@ -53,14 +53,14 @@ char* textgui(SDL_Surface* screen) {
     font = TTF_OpenFont("fonts/pixel_arial.ttf", TEXT_SIZE);
     if (!font) {
         printf("Error loading font: %s\n", TTF_GetError());
-        cleanup(screen,textSurface,font);
+        cleanup(textSurface,font);
         return NULL;
     }
 
     text = (char*)malloc(sizeof(char) * (textLength + 1));
     if (!text) {
         printf("Error allocating memory for text.\n");
-        cleanup(screen,textSurface,font);
+        cleanup(textSurface,font);
         return NULL;
     }
     text[0] = '\0'; // Initialize as empty string
@@ -89,7 +89,7 @@ char* textgui(SDL_Surface* screen) {
                         text = (char*)realloc(text, sizeof(char) * (textLength + 1));
                         if (!text) {
                             printf("Error reallocating memory for text.\n");
-                            cleanup(screen,textSurface,font);
+                            cleanup(textSurface,font);
                             return NULL;
                         }
                         strncat(text, (char*)&event.key.keysym.sym, 1);
@@ -102,7 +102,7 @@ char* textgui(SDL_Surface* screen) {
                         text = (char*)realloc(text, sizeof(char) * (textLength + 1));
                         if (!text) {
                             printf("Error reallocating memory for text.\n");
-                            cleanup(screen,textSurface,font);
+                            cleanup(textSurface,font);
                             return NULL;
                         }
                         temp='0'+event.key.keysym.sym-SDLK_KP0;
@@ -116,7 +116,7 @@ char* textgui(SDL_Surface* screen) {
                         text = (char*)realloc(text, sizeof(char) * (textLength + 1));
                         if (!text) {
                             printf("Error reallocating memory for text.\n");
-                            cleanup(screen,textSurface,font);
+                            cleanup(textSurface,font);
                             return NULL;
                         }
                         temp='.';
@@ -127,7 +127,7 @@ char* textgui(SDL_Surface* screen) {
             }
         }
     }
-    cleanup(screen,textSurface,font);
+    cleanup(textSurface,font);
     return(text);
     return 0;
 }
