@@ -49,6 +49,7 @@ char* textgui(SDL_Surface* screen) {
     bool running = true;
     char* text = NULL;
     int textLength = 0;
+    int temp;
     font = TTF_OpenFont("fonts/pixel_arial.ttf", TEXT_SIZE);
     if (!font) {
         printf("Error loading font: %s\n", TTF_GetError());
@@ -92,6 +93,34 @@ char* textgui(SDL_Surface* screen) {
                             return NULL;
                         }
                         strncat(text, (char*)&event.key.keysym.sym, 1);
+                        renderText(screen,textSurface,font,textLength,text);
+                    }
+                }
+                else if (event.key.keysym.sym>= SDLK_KP0 && event.key.keysym.sym<=SDLK_KP9){
+                    if (textLength < SCREEN_WIDTH / (TEXT_SIZE / 2)) {
+                        textLength++;
+                        text = (char*)realloc(text, sizeof(char) * (textLength + 1));
+                        if (!text) {
+                            printf("Error reallocating memory for text.\n");
+                            cleanup(screen,textSurface,font);
+                            return NULL;
+                        }
+                        temp='0'+event.key.keysym.sym-SDLK_KP0;
+                        strncat(text,  (char*) &temp, 1);
+                        renderText(screen,textSurface,font,textLength,text);
+                    }
+                }
+                else if (event.key.keysym.sym== SDLK_KP_PERIOD){
+                    if (textLength < SCREEN_WIDTH / (TEXT_SIZE / 2)) {
+                        textLength++;
+                        text = (char*)realloc(text, sizeof(char) * (textLength + 1));
+                        if (!text) {
+                            printf("Error reallocating memory for text.\n");
+                            cleanup(screen,textSurface,font);
+                            return NULL;
+                        }
+                        temp='.';
+                        strncat(text,  (char*) &temp, 1);
                         renderText(screen,textSurface,font,textLength,text);
                     }
                 }
